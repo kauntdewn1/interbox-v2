@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CERRADO INTERBØX 2025 - Offline</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .offline-container {
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .offline-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .retry-button {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .retry-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .retry-button:active {
+            transform: translateY(0);
+        }
+
+        .status {
+            margin-top: 20px;
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        .features {
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .features h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #feca57;
+        }
+
+        .features ul {
+            list-style: none;
+        }
+
+        .features li {
+            padding: 8px 0;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .features li:before {
+            content: "✓";
+            color: #4ecdc4;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .logo {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">🏆</div>
+    
+    <div class="offline-container">
+        <div class="offline-icon">📡</div>
+        
+        <h1>Sem Conexão</h1>
+        
+        <p>
+            Parece que você está offline. Mas não se preocupe! 
+            O CERRADO INTERBØX 2025 funciona mesmo sem internet.
+        </p>
+
+        <button class="retry-button" onclick="retryConnection()">
+            🔄 Tentar Novamente
+        </button>
+
+        <div class="status" id="status">
+            Verificando conexão...
+        </div>
+
+        <div class="features">
+            <h3>🎯 Funcionalidades Offline:</h3>
+            <ul>
+                <li>Visualizar perfil e dados salvos</li>
+                <li>Acessar conteúdo em cache</li>
+                <li>Ver rankings e estatísticas</li>
+                <li>Navegar pelo app</li>
+                <li>Sincronizar quando voltar online</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        let retryCount = 0;
+        const maxRetries = 5;
+
+        function updateStatus(message) {
+            document.getElementById('status').textContent = message;
+        }
+
+        function retryConnection() {
+            retryCount++;
+            
+            if (retryCount > maxRetries) {
+                updateStatus('Muitas tentativas. Tente mais tarde.');
+                return;
+            }
+
+            updateStatus(`Tentativa ${retryCount}/${maxRetries}...`);
+            
+            // Simular verificação de conexão
+            setTimeout(() => {
+                if (navigator.onLine) {
+                    updateStatus('Conectado! Redirecionando...');
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                } else {
+                    updateStatus('Ainda offline. Tente novamente.');
+                }
+            }, 2000);
+        }
+
+        // Monitorar mudanças de conectividade
+        window.addEventListener('online', () => {
+            updateStatus('Conectado! Redirecionando...');
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        });
+
+        window.addEventListener('offline', () => {
+            updateStatus('Conexão perdida.');
+        });
+
+        // Verificar status inicial
+        if (navigator.onLine) {
+            updateStatus('Conectado! Redirecionando...');
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        } else {
+            updateStatus('Offline. Clique em "Tentar Novamente" para verificar.');
+        }
+
+        // Auto-retry a cada 30 segundos
+        setInterval(() => {
+            if (!navigator.onLine && retryCount < maxRetries) {
+                retryConnection();
+            }
+        }, 30000);
+    </script>
+</body>
+</html> 

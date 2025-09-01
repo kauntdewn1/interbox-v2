@@ -1,0 +1,4 @@
+{
+    "migrationNote": "Estamos na Fase 1 da migração do Firebase para Clerk e Supabase. A autenticação está sendo feita com Clerk e já foi implementada no main.tsx usando ClerkProvider. A IA do Cursor App deve respeitar essa estrutura, evitar uso de Firebase Auth, e utilizar os hooks e componentes da Clerk: SignedIn, SignedOut, UserButton, SignInButton. Toda nova feature de login, rota protegida ou sessão deve seguir esse modelo. Os dados do usuário autenticado serão sincronizados com Supabase em fases futuras."
+  }
+  
