@@ -31,6 +31,18 @@ const parceiros: Parceiro[] = [
     nome: 'Moari Training',
     logo: '/logos/parceiros/moari.png',
     url: 'https://www.instagram.com/moaritraining/'
+  },
+  {
+    id: 'puro_acai',
+    nome: 'Puro Açaí',
+    logo: '/logos/parceiros/puro_acai.png',
+    url: 'https://www.instagram.com/puroacaibr/'
+  },
+  {
+    id: 'saga_seguros',
+    nome: 'Saga Seguros',
+    logo: '/logos/parceiros/saga.png',
+    url: 'https://www.segurosaga.com.br/'
   }
   // Adicionar mais parceiros conforme necessário
 ];

@@ -83,7 +83,20 @@ export default function Header() {
               >
                 Audiovisual
               </a>
-              <a href="/#EcommerceSimulation" className="text-pink-400 hover:text-pink-300 font-medium text-sm">Loja</a>
+              <button 
+                onClick={() => {
+                  window.location.href = '/';
+                  setTimeout(() => {
+                    const element = document.getElementById('EcommerceSimulation');
+                    if (element) {
+                      element.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }, 100);
+                }}
+                className="text-pink-400 hover:text-pink-300 font-medium text-sm cursor-pointer"
+              >
+                Loja
+              </button>
               <a 
                 href="https://interbox-captacao.netlify.app/captacao/judge-staff" 
                 target="_blank" 
@@ -171,7 +184,21 @@ export default function Header() {
                 >
                   Audiovisual
                 </a>
-                <a href="/#EcommerceSimulation" className="text-white hover:text-pink-400">Loja</a>
+                <button 
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    window.location.href = '/';
+                    setTimeout(() => {
+                      const element = document.getElementById('EcommerceSimulation');
+                      if (element) {
+                        element.scrollIntoView({ behavior: 'smooth' });
+                      }
+                    }, 100);
+                  }}
+                  className="text-white hover:text-pink-400 cursor-pointer text-left"
+                >
+                  Loja
+                </button>
                 <a 
                   href="https://interbox-captacao.netlify.app/captacao/judge-staff" 
                   target="_blank" 
