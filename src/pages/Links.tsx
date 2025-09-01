@@ -1,6 +1,7 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import SEOHead from '../components/SEOHead';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 interface LinkItem {
   id: string;
@@ -71,14 +72,13 @@ const CATEGORIES = {
 };
 
 export default function LinksPage() {
-
   const handleLinkClick = (link: LinkItem) => {
     // Não executar se o link estiver inativo
     if (link.inactive) {
       return;
     }
     
-    // Analytics tracking
+    // Analytics tracking (simples)
     console.log(`Link clicked: ${link.id} -> ${link.url}`);
     
     if (link.external) {
@@ -103,6 +103,8 @@ export default function LinksPage() {
         description="Todos os links importantes em um só lugar. Encontre inscrições, redes sociais, contato e muito mais do INTERBØX 2025."
       />
       
+      <Header />
+      
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900">
         {/* Hero Section */}
         <section className="relative pt-32 pb-16 overflow-hidden">
@@ -114,23 +116,17 @@ export default function LinksPage() {
           </div>
 
           <div className="relative z-10 max-w-6xl mx-auto px-4 text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <div className="mb-6 flex justify-center">
-                <img 
-                  src="/logos/nome_hrz.png" 
-                  alt="CERRADO INTERBØX" 
-                  className="h-24 md:h-32 w-auto object-contain"
-                />
-              </div>
-              <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
-                Todos os links importantes em um só lugar. Encontre inscrições, redes sociais, 
-                contato e muito mais do INTERBØX 2025.
-              </p>
-            </motion.div>
+            <div className="mb-6 flex justify-center">
+              <img 
+                src="/logos/nome_hrz.png" 
+                alt="CERRADO INTERBØX" 
+                className="h-24 md:h-32 w-auto object-contain"
+              />
+            </div>
+            <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
+              Todos os links importantes em um só lugar. Encontre inscrições, redes sociais, 
+              contato e muito mais do INTERBØX 2025.
+            </p>
           </div>
         </section>
 
@@ -138,11 +134,8 @@ export default function LinksPage() {
         <section className="relative z-10 max-w-7xl mx-auto px-4 pb-20">
           <div className="space-y-12">
             {Object.entries(groupedLinks).map(([category, links], categoryIndex) => (
-              <motion.div
+              <div
                 key={category}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: categoryIndex * 0.1 }}
                 className="space-y-6"
               >
                 <div className="text-center">
@@ -154,16 +147,9 @@ export default function LinksPage() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {links.map((link, linkIndex) => (
-                    <motion.div
+                    <div
                       key={link.id}
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ 
-                        duration: 0.4, 
-                        delay: categoryIndex * 0.1 + linkIndex * 0.05 
-                      }}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
+                      className="transition-all duration-300"
                     >
                       <button
                         onClick={() => handleLinkClick(link)}
@@ -213,16 +199,16 @@ export default function LinksPage() {
                           )}
                         </div>
                       </button>
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </section>
-
-        
       </div>
+      
+      <Footer />
     </>
   );
 } 

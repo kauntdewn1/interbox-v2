@@ -13,6 +13,7 @@ const Login = lazy(() => import('./pages/Login'));
 const Patrocinadores = lazy(() => import('./pages/patrocinadores'));
 const Sobre = lazy(() => import('./pages/sobre'));
 const SelecaoTipoCadastro = lazy(() => import('./pages/SelecaoTipoCadastro'));
+const Links = lazy(() => import('./pages/Links'));
 
 // Páginas de perfil
 const PerfilAtleta = lazy(() => import('./pages/perfil/atleta'));
@@ -59,6 +60,9 @@ export default function App() {
 
           {/* Página de Patrocinadores */}
           <Route path="/patrocinadores" element={<Patrocinadores />} />
+
+          {/* Página de Links */}
+          <Route path="/links" element={<Links />} />
 
           {/* Seleção de Tipo de Cadastro */}
           <Route
