@@ -1,6 +1,6 @@
 import Header from '../components/Header'
 import Hero from '../components/Hero';
-import CallToAction from '../components/CallToAction';
+
 import GamifiedLeaderboard from '../components/GamifiedLeaderboard';
 import Liner from '../components/Liner';
 import Footer from '../components/Footer';
@@ -33,13 +33,6 @@ export default function Home() {
               </div>
             )}
           </div>
-        </section>
-
-        <Liner />
-
-        {/* Call to Action */}
-        <section>
-          <CallToAction />
         </section>
 
         <Liner />
