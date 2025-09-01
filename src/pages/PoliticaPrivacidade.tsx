@@ -40,7 +40,7 @@ export default function PoliticaPrivacidade() {
 
           <h3 className="text-lg font-bold mb-2 text-pink-400">3. 🔐 Segurança dos Dados</h3>
           <ul className="mb-4 list-disc pl-6 text-gray-200 space-y-2">
-            <li>Utilizamos <b>Firebase</b> (Google) para armazenamento seguro</li>
+            <li>Utilizamos <b>Supabase</b> para armazenamento seguro</li>
             <li>Dados criptografados em trânsito e em repouso</li>
             <li>Acesso restrito apenas a pessoal autorizado</li>
             <li>Monitoramento contínuo de segurança</li>
@@ -48,7 +48,7 @@ export default function PoliticaPrivacidade() {
 
           <h3 className="text-lg font-bold mb-2 text-pink-400">4. 📤 Compartilhamento de Dados</h3>
           <ul className="mb-4 list-disc pl-6 text-gray-200 space-y-2">
-            <li><b>Google Firebase:</b> armazenamento e autenticação</li>
+                          <li><b>Supabase:</b> armazenamento de dados</li>
             <li><b>FlowPay:</b> processamento de pagamentos</li>
             <li><b>Parceiros do evento:</b> apenas dados necessários para organização</li>
             <li><b>Autoridades:</b> quando exigido por lei</li>
