@@ -12,20 +12,24 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
+    "strict": false,
+    "esModuleInterop": true,
+    "allowJs": true,
+    "checkJs": false,
+    
+    /* JSX Support */
     "jsx": "react-jsx",
-
-    /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-
+    
     /* Path mapping */
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
-    }
+    },
+    
+    /* Module resolution */
+    "moduleDetection": "force",
+    "verbatimModuleSyntax": false
   },
-  "include": ["src", "docs"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }

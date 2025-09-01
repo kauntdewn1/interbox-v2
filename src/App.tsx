@@ -11,7 +11,7 @@ import Home from './pages/Home';
 const SetupProfile = lazy(() => import('./pages/SetupProfile'));
 const Login = lazy(() => import('./pages/Login'));
 const Patrocinadores = lazy(() => import('./pages/patrocinadores'));
-const Sobre = lazy(() => import('./pages/Sobre'));
+const Sobre = lazy(() => import('./pages/sobre'));
 const SelecaoTipoCadastro = lazy(() => import('./pages/SelecaoTipoCadastro'));
 
 // Páginas de perfil

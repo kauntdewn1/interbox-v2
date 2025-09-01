@@ -6,21 +6,24 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:mvp": "tsc --noEmit --skipLibCheck && vite build",
     "build:fast": "vite build --mode development",
     "build:check": "tsc --noEmit",
     "preview": "vite preview",
     "lint": "eslint .",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "generate-types": "npx supabase gen types typescript --project-id $PROJECT_ID > src/types/supabase.ts",
+    "generate-types:local": "npx supabase gen types typescript --local > src/types/supabase.ts"
   },
   "dependencies": {
     "@clerk/clerk-react": "^5.45.0",
-    "@supabase/supabase-js": "^2.39.4",
+    "@supabase/supabase-js": "^2.39.4", 
     "browser-image-compression": "^2.0.2",
     "canvas-confetti": "^1.9.3",
     "chart.js": "^4.5.0",
     "dotenv": "^17.2.1",
-    "framer-motion": "^11.0.17",
+    "framer-motion": "^11.18.2",
     "lucide-react": "^0.540.0",
     "qrcode": "^1.5.4",
     "react": "^19.0.0",

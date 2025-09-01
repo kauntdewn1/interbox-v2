@@ -63,14 +63,11 @@ export default function ProfileSettings() {
   const handleSave = async () => {
     if (!clerkUser) return
 
-    const updates: UpdateUser = {
-      id: form.id,
-      clerk_id: form.clerk_id,
+    const updates = {
       email: form.email,
       display_name: form.display_name,
       role: form.role,
-      photo_url: form.photo_url,
-      updated_at: new Date().toISOString()
+      photo_url: form.photo_url
     }
 
     const { error } = await supabase

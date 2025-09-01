@@ -9,7 +9,7 @@ import Footer from '../components/Footer';
 interface UserData {
   id: string;
   email: string;
-  display_name: string;
+  display_name: string | null;
   role: string;
   photo_url?: string;
   whatsapp?: string;

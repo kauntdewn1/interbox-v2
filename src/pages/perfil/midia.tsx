@@ -1,15 +1,16 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { useUser } from '@clerk/clerk-react';
-import { supabase } from '../../lib/supabase';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+import { supabase } from '@/lib/supabase';
+
 
 // Tipos
 interface UserData {
   id: string;
   email: string;
-  display_name: string;
+  display_name: string | null;
   role: string;
   photo_url?: string;
   whatsapp?: string;
@@ -71,7 +72,7 @@ export default function PerfilMidia() {
       setUserData(userData);
 
       // Carregar dados de gamificação
-      if (userData.gamification?.tokens?.box?.balance) {
+      if (userData && userData.gamification?.tokens?.box?.balance) {
         setUserBoxes(userData.gamification.tokens.box.balance);
       }
 

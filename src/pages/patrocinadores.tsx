@@ -6,6 +6,8 @@ import Footer from '../components/Footer';
 import SEOHead from '../components/SEOHead';
 import { supabase } from '../lib/supabase';
 
+
+
 interface PatrocinadorFormData {
   nome: string;
   empresa: string;

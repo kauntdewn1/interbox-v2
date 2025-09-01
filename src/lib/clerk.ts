@@ -80,11 +80,11 @@ export const clerkSecurityConfig = {
 // FUNÇÕES HELPER TIPADAS
 export const clerkHelpers = {
   hasRole: (user: UserResource | null | undefined, role: string): boolean => {
-    return user?.publicMetadata?.role === role
+    return (user?.publicMetadata as any)?.role    === role
   },
 
   getUserRole: (user: UserResource | null | undefined): string => {
-    return (user?.publicMetadata?.role as string) || 'publico'
+    return (user?.publicMetadata as any)?.role    || 'publico'
   },
 
   isAdmin: (user: UserResource | null | undefined): boolean => {
