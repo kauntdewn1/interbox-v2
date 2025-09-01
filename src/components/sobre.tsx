@@ -9,7 +9,7 @@ export default function Sobre() {
           backgroundSize: "cover",
           backgroundPosition: "center",
           backdropFilter: "blur(4px)",
-          WebkitBackdropFilter: "blur(4px)", // Fallback para Safari
+          WebkitBackdropFilter: "blur(4px)",
         }}
       >
         <div className="max-w-6xl mx-auto">
