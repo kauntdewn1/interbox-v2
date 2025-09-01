@@ -1,21 +1,15 @@
 import Header from '../components/Header'
 import Hero from '../components/Hero';
-
 import CallToAction from '../components/CallToAction';
 import GamifiedLeaderboard from '../components/GamifiedLeaderboard';
-
-
 import Liner from '../components/Liner';
 import Footer from '../components/Footer';
 import EcommerceSimulation from '../components/EcommerceSimulation';
 import useAuth from '../hooks/useAuth';
 import Parceiros from '../components/Parceiros'; 
 
-
 export default function Home() {
-    const { user } = useAuth();
-
-
+  const { user } = useAuth();
 
   return (
     <div className="min-h-screen bg-black">
@@ -26,7 +20,7 @@ export default function Home() {
         {/* Hero Section */}
         <Hero />
 
-        {/* 🏆 ARENA DOS CONSAGRADOS - Gamificação Unificada (MOVIDA PARA CIMA) */}
+        {/* 🏆 ARENA DOS CONSAGRADOS - Gamificação Unificada */}
         <section className="bg-gradient-to-br from-black via-[#0a0a1a] to-[#0038d0] relative overflow-hidden">
           {/* Background Pattern da INTERBØX */}
           <div className="absolute inset-0 bg-[url('/images/bg_main.png')] bg-cover bg-center opacity-20"></div>
@@ -43,16 +37,11 @@ export default function Home() {
 
         <Liner />
 
-    
-        {/* Liner */}
-        <Liner />
-
         {/* Call to Action */}
         <section>
           <CallToAction />
         </section>
 
-        {/* Liner */}
         <Liner />
 
         {/* E-commerce Simulation Section */}

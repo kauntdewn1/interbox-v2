@@ -1,17 +1,24 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { UserButton, SignInButton, SignedIn, SignedOut, useUser } from '@clerk/clerk-react'
+import { Link, useLocation } from 'react-router-dom'
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const { user: authUser } = useUser()
+  const location = useLocation()
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50)
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  // Fechar menu mobile quando a rota mudar
+  useEffect(() => {
+    setIsMenuOpen(false)
+  }, [location.pathname])
 
   useEffect(() => {
     const prevOverflow = document.body.style.overflow
@@ -66,12 +73,26 @@ export default function Header() {
 
             {/* NAV DESKTOP */}
             <nav className="hidden md:flex items-center space-x-6">
-              <a href="/" className="text-white hover:text-pink-400 font-medium text-sm">Home</a>
-              <a href="/sobre" className="text-white hover:text-pink-400 font-medium text-sm">Sobre</a>
-              <a href="/audiovisual" className="text-pink-400 hover:text-pink-300 font-medium text-sm">Audiovisual</a>
-              <a href="/loja" className="text-pink-400 hover:text-pink-300 font-medium text-sm">Loja</a>
-              <a href="/captacao/judge-staff" className="text-pink-400 hover:text-pink-300 font-medium text-sm">Judges e Staff</a>
-              <a href="/patrocinadores" className="text-pink-400 hover:text-pink-300 font-medium text-sm">Seja um Patrocinador</a>
+              <Link to="/" className="text-white hover:text-pink-400 font-medium text-sm">Home</Link>
+              <Link to="/sobre" className="text-white hover:text-pink-400 font-medium text-sm">Sobre</Link>
+              <a 
+                href="https://interbox-captacao.netlify.app/audiovisual" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-pink-400 hover:text-pink-300 font-medium text-sm"
+              >
+                Audiovisual
+              </a>
+              <a href="/#EcommerceSimulation" className="text-pink-400 hover:text-pink-300 font-medium text-sm">Loja</a>
+              <a 
+                href="https://interbox-captacao.netlify.app/captacao/judge-staff" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-pink-400 hover:text-pink-300 font-medium text-sm"
+              >
+                Judges e Staff
+              </a>
+              <Link to="/patrocinadores" className="text-pink-400 hover:text-pink-300 font-medium text-sm">Seja um Patrocinador</Link>
 
               <SignedOut>
                 <SignInButton mode="modal">
@@ -140,12 +161,26 @@ export default function Header() {
             >
               <h2 className="text-lg font-bold text-pink-400 mb-6">Menu</h2>
               <nav className="flex flex-col space-y-4">
-                <a href="/" className="text-white hover:text-pink-400">Home</a>
-                <a href="/sobre" className="text-white hover:text-pink-400">Sobre</a>
-                <a href="/audiovisual" className="text-white hover:text-pink-400">Audiovisual</a>
-                <a href="/loja" className="text-white hover:text-pink-400">Loja</a>
-                <a href="/captacao/judge-staff" className="text-white hover:text-pink-400">Judges e Staff</a>
-                <a href="/patrocinadores" className="text-white hover:text-pink-400">Seja um Patrocinador</a>
+                <Link to="/" className="text-white hover:text-pink-400">Home</Link>
+                <Link to="/sobre" className="text-white hover:text-pink-400">Sobre</Link>
+                <a 
+                  href="https://interbox-captacao.netlify.app/audiovisual" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-white hover:text-pink-400"
+                >
+                  Audiovisual
+                </a>
+                <a href="/#EcommerceSimulation" className="text-white hover:text-pink-400">Loja</a>
+                <a 
+                  href="https://interbox-captacao.netlify.app/captacao/judge-staff" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-white hover:text-pink-400"
+                >
+                  Judges e Staff
+                </a>
+                <Link to="/patrocinadores" className="text-white hover:text-pink-400">Seja um Patrocinador</Link>
 
                 {authUser ? (
                   <>

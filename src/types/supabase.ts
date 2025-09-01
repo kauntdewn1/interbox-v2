@@ -476,6 +476,48 @@ export interface Database {
         }
         Relationships: []
       }
+      patrocinadores: {
+        Row: {
+          id: string
+          nome: string
+          empresa: string
+          categoria: string
+          telefone: string
+          email: string
+          promessa: string
+          observacoes: string | null
+          logomarca_url: string | null
+          status: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          nome: string
+          empresa: string
+          categoria: string
+          telefone: string
+          email: string
+          promessa: string
+          observacoes?: string | null
+          logomarca_url?: string | null
+          status?: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          nome?: string
+          empresa?: string
+          categoria?: string
+          telefone?: string
+          email?: string
+          promessa?: string
+          observacoes?: string | null
+          logomarca_url?: string | null
+          status?: string
+          created_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -540,6 +582,10 @@ export type AnalyticsEventUpdate = Database['public']['Tables']['analytics_event
 export type AppConfig = Database['public']['Tables']['app_config']['Row']
 export type AppConfigInsert = Database['public']['Tables']['app_config']['Insert']
 export type AppConfigUpdate = Database['public']['Tables']['app_config']['Update']
+
+export type Patrocinador = Database['public']['Tables']['patrocinadores']['Row']
+export type PatrocinadorInsert = Database['public']['Tables']['patrocinadores']['Insert']
+export type PatrocinadorUpdate = Database['public']['Tables']['patrocinadores']['Update']
 
 // ============================================================================
 // TIPOS DE RESPOSTA PARA FUNÇÕES

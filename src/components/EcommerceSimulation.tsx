@@ -18,7 +18,7 @@ const products = [
 
 export default function EcommerceSimulation() {
   return (
-    <section className="py-16 bg-gradient-to-br from-black via-[#0a0a1a] to-[#0038d0] relative">
+    <section id="EcommerceSimulation" className="py-16 bg-gradient-to-br from-black via-[#0a0a1a] to-[#0038d0] relative">
       {/* Overlay de "Em Breve" */}
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm z-10 flex items-center justify-center">
         <div className="text-center">

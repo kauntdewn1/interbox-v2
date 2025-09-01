@@ -4,14 +4,19 @@ import { SignedIn, UserButton } from '@clerk/clerk-react';
 
 import LoadingScreen from './components/LoadingScreen';
 import ProtectedRoute from './components/ProtectedRoute';
+import PWAInstallBanner from './components/PWAInstallBanner';
 import Home from './pages/Home';
 
 const SetupProfile = lazy(() => import('./pages/SetupProfile'));
 const Login = lazy(() => import('./pages/Login'));
+const Patrocinadores = lazy(() => import('./pages/patrocinadores'));
+const Sobre = lazy(() => import('./pages/Sobre'));
 
 export default function App() {
   return (
     <BrowserRouter>
+      <PWAInstallBanner />
+      
       <header className="p-4 flex justify-end gap-4 bg-black border-b border-gray-800">
         <SignedIn>
           <UserButton afterSignOutUrl="/login" />
@@ -35,6 +40,12 @@ export default function App() {
 
           {/* Login público */}
           <Route path="/login" element={<Login />} />
+
+          {/* Página Sobre */}
+          <Route path="/sobre" element={<Sobre />} />
+
+          {/* Página de Patrocinadores */}
+          <Route path="/patrocinadores" element={<Patrocinadores />} />
 
           {/* TODO: Ativar rotas protegidas futuras */}
           {/*

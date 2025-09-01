@@ -1,4 +1,39 @@
 {
-    "migrationNote": "Estamos na Fase 1 da migração do Firebase para Clerk e Supabase. A autenticação está sendo feita com Clerk e já foi implementada no main.tsx usando ClerkProvider. A IA do Cursor App deve respeitar essa estrutura, evitar uso de Firebase Auth, e utilizar os hooks e componentes da Clerk: SignedIn, SignedOut, UserButton, SignInButton. Toda nova feature de login, rota protegida ou sessão deve seguir esse modelo. Os dados do usuário autenticado serão sincronizados com Supabase em fases futuras."
-  }
-  
+  "name": "Interbox V2",
+  "description": "Plataforma de gamificação e gestão de usuários para o Interbox 2025. Desenvolvida com React, Vite, Clerk, Supabase e foco mobile/PWA.",
+  "goals": [
+    "Verificar se todas as rotas públicas e protegidas estão funcionando conforme esperado.",
+    "Assegurar que usuários estão autenticados via Clerk e que suas roles estão sendo usadas corretamente.",
+    "Validar que a navegação principal está funcional: sobre, loja (#EcommerceSimulation), audiovisual (link externo), judge/staff (link externo), patrocinador (nova página).",
+    "Confirmar que componentes que dependem de Supabase buscam os dados corretamente e possuem tipos consistentes.",
+    "Sugerir a criação de páginas ausentes: Patrocinadores, PerfilAtleta, DashboardEvento.",
+    "Assegurar que o app é responsivo, especialmente em mobile, e possui características PWA.",
+    "Alertar sobre imports não utilizados, variáveis não lidas, e problemas de casing em arquivos (Sobre.tsx vs sobre.tsx).",
+    "Sugerir conversão de strings para boolean no status de patrocinadores e validar persistência correta no Supabase.",
+    "Sugerir organização de hooks e componentes que se misturam com lógica de autenticação, como useAuth e useUserRanking.",
+    "Garantir fallback loading adequado em todas as rotas lazy-loaded.",
+    "Validar presença de manifest, icons e service worker para funcionamento PWA, especialmente no iOS."
+  ],
+  "style": {
+    "language": "pt-BR",
+    "tone": "amigável e objetivo",
+    "preferences": {
+      "framework": "React",
+      "styling": "TailwindCSS",
+      "routing": "React Router v6",
+      "data": "Supabase",
+      "auth": "Clerk"
+    }
+  },
+  "tasks": [
+    "Apontar quando páginas ou arquivos referenciados estão faltando ou comentados.",
+    "Sugerir correções para erros comuns de tipagem e imports.",
+    "Identificar chamadas ao Supabase ou Clerk mal tipadas ou quebradas.",
+    "Indicar uso incorreto de metadados do Clerk, como role e profile_complete.",
+    "Sugerir remoção de variáveis não utilizadas.",
+    "Sugerir melhoria no uso de useEffect e useCallback para evitar chamadas desnecessárias.",
+    "Detectar e sugerir estrutura de PWA: manifest, icons, plugin do Vite.",
+    "Sugerir uso de fallback adequado para loading de páginas.",
+    "Detectar problemas de casing em sistemas Unix (ex: Sobre.tsx vs sobre.tsx)."
+  ]
+}
