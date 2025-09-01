@@ -7,10 +7,23 @@ import ProtectedRoute from './components/ProtectedRoute';
 import PWAInstallBanner from './components/PWAInstallBanner';
 import Home from './pages/Home';
 
+// Lazy imports para todas as páginas
 const SetupProfile = lazy(() => import('./pages/SetupProfile'));
 const Login = lazy(() => import('./pages/Login'));
 const Patrocinadores = lazy(() => import('./pages/patrocinadores'));
 const Sobre = lazy(() => import('./pages/Sobre'));
+const SelecaoTipoCadastro = lazy(() => import('./pages/SelecaoTipoCadastro'));
+
+// Páginas de perfil
+const PerfilAtleta = lazy(() => import('./pages/perfil/atleta'));
+const PerfilJudge = lazy(() => import('./pages/perfil/judge'));
+const PerfilMidia = lazy(() => import('./pages/perfil/midia'));
+const PerfilEspectador = lazy(() => import('./pages/perfil/espectador'));
+
+// Páginas administrativas
+const Marketing = lazy(() => import('./pages/marketing'));
+const Admin = lazy(() => import('./pages/admin'));
+const Dev = lazy(() => import('./pages/dev'));
 
 export default function App() {
   return (
@@ -47,17 +60,75 @@ export default function App() {
           {/* Página de Patrocinadores */}
           <Route path="/patrocinadores" element={<Patrocinadores />} />
 
-          {/* TODO: Ativar rotas protegidas futuras */}
-          {/*
+          {/* Seleção de Tipo de Cadastro */}
           <Route
-            path="/dashboard"
+            path="/selecao-tipo-cadastro"
             element={
-              <ProtectedRoute requiredRole="admin">
-                <DashboardEvento />
+              <ProtectedRoute>
+                <SelecaoTipoCadastro />
               </ProtectedRoute>
             }
           />
-          */}
+
+          {/* Páginas de Perfil */}
+          <Route
+            path="/perfil/atleta"
+            element={
+              <ProtectedRoute>
+                <PerfilAtleta />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/perfil/judge"
+            element={
+              <ProtectedRoute>
+                <PerfilJudge />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/perfil/midia"
+            element={
+              <ProtectedRoute>
+                <PerfilMidia />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/perfil/espectador"
+            element={
+              <ProtectedRoute>
+                <PerfilEspectador />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Páginas Administrativas */}
+          <Route
+            path="/marketing"
+            element={
+              <ProtectedRoute>
+                <Marketing />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <Admin />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dev"
+            element={
+              <ProtectedRoute>
+                <Dev />
+              </ProtectedRoute>
+            }
+          />
 
           {/* Fallback para qualquer rota desconhecida */}
           <Route path="*" element={<Navigate to="/" replace />} />
