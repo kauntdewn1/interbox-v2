@@ -122,7 +122,7 @@ export default function LinksPage() {
               className="w-full h-full object-cover"
             />
             {/* Overlay escuro para melhor legibilidade */}
-            <div className="absolute inset-0 bg-black/20" />
+            <div className="absolute inset-0 bg-black/60" />
           </div>
 
           {/* Conteúdo do Hero - Ultra compacto para iOS */}
@@ -141,9 +141,6 @@ export default function LinksPage() {
                   <h3 className="text-white font-semibold text-sm">INTERBØX 2025</h3>
                   <p className="text-gray-300 text-xs">Maior Evento de Times da América Latina</p>
                 </div>
-                <button className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center hover:bg-blue-600 transition-colors">
-                  <span className="text-white text-xs">↗</span>
-                </button>
               </div>
             </div>
 
@@ -221,13 +218,6 @@ export default function LinksPage() {
                   </div>
                 </div>
               ))}
-            </div>
-
-            {/* Botão Call-to-Action Principal - Compacto */}
-            <div className="text-center">
-              <button className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold text-sm py-2 px-4 rounded-lg transition-colors duration-300 transform hover:scale-105">
-                Acessar Todos os Links
-              </button>
             </div>
           </div>
         </section>
