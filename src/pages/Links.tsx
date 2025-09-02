@@ -1,7 +1,5 @@
 import React from 'react';
 import SEOHead from '../components/SEOHead';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
 
 interface LinkItem {
   id: string;
@@ -113,11 +111,9 @@ export default function LinksPage() {
         description="Todos os links importantes em um só lugar. Encontre inscrições, redes sociais, contato e muito mais do INTERBØX 2025."
       />
       
-      <Header />
-      
       <div className="min-h-screen bg-black">
-        {/* Hero Section - Ocupa 2/3 da tela */}
-        <section className="relative h-[66vh] overflow-hidden">
+        {/* Hero Section - Otimizado para iOS */}
+        <section className="relative h-[40vh] overflow-hidden">
           {/* Background Image */}
           <div className="absolute inset-0">
             <img
@@ -129,100 +125,100 @@ export default function LinksPage() {
             <div className="absolute inset-0 bg-black/40" />
           </div>
 
-          {/* Conteúdo do Hero */}
-          <div className="relative z-10 h-full flex flex-col justify-end p-6">
-            {/* Card de perfil sobreposto */}
-            <div className="bg-black/80 backdrop-blur-sm rounded-2xl p-4 mb-6 max-w-xs">
-              <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 rounded-full overflow-hidden bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center">
+          {/* Conteúdo do Hero - Ultra compacto para iOS */}
+          <div className="relative z-10 h-full flex flex-col justify-end p-3">
+            {/* Card de perfil sobreposto - Mínimo */}
+            <div className="bg-black/80 backdrop-blur-sm rounded-lg p-2 mb-2 max-w-xs">
+              <div className="flex items-center space-x-2">
+                <div className="w-8 h-8 rounded-full overflow-hidden bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center">
                   <img
                     src="/logos/oficial_logo.png"
                     alt="INTERBØX"
-                    className="w-8 h-8 object-contain"
+                    className="w-5 h-5 object-contain"
                   />
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-white font-semibold text-lg">INTERBØX 2025</h3>
-                  <p className="text-gray-300 text-sm">Maior Evento de Times da América Latina</p>
+                  <h3 className="text-white font-semibold text-sm">INTERBØX 2025</h3>
+                  <p className="text-gray-300 text-xs">Maior Evento de Times da América Latina</p>
                 </div>
-                <button className="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center hover:bg-orange-600 transition-colors">
-                  <span className="text-white text-lg">↗</span>
+                <button className="w-6 h-6 rounded-full bg-orange-500 flex items-center justify-center hover:bg-orange-600 transition-colors">
+                  <span className="text-white text-xs">↗</span>
                 </button>
               </div>
             </div>
 
-            {/* Slogan motivacional */}
-            <div className="mb-8">
-              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 leading-tight">
+            {/* Slogan motivacional - Ultra compacto */}
+            <div className="mb-2">
+              <h1 className="text-2xl md:text-3xl font-bold text-white mb-1 leading-tight">
                 Faça seu Corpo
                 <br />
                 <span className="text-orange-500">Mais Forte</span>
               </h1>
-              <p className="text-xl text-gray-200 max-w-2xl">
+              <p className="text-base text-gray-200 max-w-2xl">
                 Conecte-se com a comunidade fitness mais vibrante da América Latina
               </p>
             </div>
           </div>
         </section>
 
-        {/* Links Section - Ocupa 1/3 da tela */}
-        <section className="bg-black p-6">
+        {/* Links Section - Máximo aproveitamento do espaço iOS */}
+        <section className="bg-black p-3">
           <div className="max-w-4xl mx-auto">
-            {/* Título da seção */}
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-white mb-2">
+            {/* Título da seção - Mínimo */}
+            <div className="text-center mb-2">
+              <h2 className="text-xl font-bold text-white mb-1">
                 Links Importantes
               </h2>
-              <p className="text-gray-400">
+              <p className="text-gray-400 text-xs">
                 Acesse todos os recursos do INTERBØX 2025
               </p>
             </div>
 
-            {/* Grid de Links em Cards Verticais */}
-            <div className="space-y-4 mb-8">
+            {/* Grid de Links em Cards Verticais - Ultra compactos */}
+            <div className="space-y-1 mb-3">
               {Object.entries(groupedLinks).map(([category, links]) => (
-                <div key={category} className="space-y-3">
-                  {/* Cabeçalho da categoria */}
-                  <h3 className="text-xl font-semibold text-white flex items-center space-x-2">
-                    <span className="text-2xl">{CATEGORIES[category as keyof typeof CATEGORIES].icon}</span>
+                <div key={category} className="space-y-1">
+                  {/* Cabeçalho da categoria - Mínimo */}
+                  <h3 className="text-base font-semibold text-white flex items-center space-x-2">
+                    <span className="text-lg">{CATEGORIES[category as keyof typeof CATEGORIES].icon}</span>
                     <span>{CATEGORIES[category as keyof typeof CATEGORIES].title}</span>
                   </h3>
                   
-                  {/* Cards dos links */}
-                  <div className="space-y-3">
+                  {/* Cards dos links - Ultra compactos */}
+                  <div className="space-y-1">
                     {links.map((link) => (
                       <div
                         key={link.id}
-                        className="bg-gray-900/80 backdrop-blur-sm rounded-2xl p-4 hover:bg-gray-800/80 transition-all duration-300 cursor-pointer group"
+                        className="bg-gray-900/80 backdrop-blur-sm rounded-lg p-2 hover:bg-gray-800/80 transition-all duration-300 cursor-pointer group"
                         onClick={() => handleLinkClick(link)}
                       >
-                        <div className="flex items-center space-x-4">
-                          {/* Thumbnail/Ícone */}
-                          <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-pink-500/20 to-purple-500/20 flex items-center justify-center">
+                        <div className="flex items-center space-x-2">
+                          {/* Thumbnail/Ícone - Mínimo */}
+                          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-pink-500/20 to-purple-500/20 flex items-center justify-center">
                             {link.logo ? (
                               <img
                                 src={link.logo}
                                 alt={link.title}
-                                className="w-10 h-10 object-contain"
+                                className="w-6 h-6 object-contain"
                               />
                             ) : (
-                              <span className="text-2xl">{link.icon}</span>
+                              <span className="text-lg">{link.icon}</span>
                             )}
                           </div>
                           
-                          {/* Conteúdo */}
+                          {/* Conteúdo - Ultra compacto */}
                           <div className="flex-1">
-                            <h4 className="text-white font-semibold text-lg mb-1">
+                            <h4 className="text-white font-semibold text-sm mb-0.5">
                               {link.title}
                             </h4>
-                            <p className="text-gray-400 text-sm leading-relaxed">
+                            <p className="text-gray-400 text-xs leading-tight">
                               {link.description}
                             </p>
                           </div>
                           
-                          {/* Botão Play */}
-                          <button className="w-12 h-12 rounded-full bg-orange-500 flex items-center justify-center hover:bg-orange-600 transition-colors group-hover:scale-110">
-                            <span className="text-white text-lg">▶</span>
+                          {/* Botão Play - Mínimo */}
+                          <button className="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center hover:bg-orange-600 transition-colors group-hover:scale-110">
+                            <span className="text-white text-xs">▶</span>
                           </button>
                         </div>
                       </div>
@@ -232,17 +228,15 @@ export default function LinksPage() {
               ))}
             </div>
 
-            {/* Botão Call-to-Action Principal */}
+            {/* Botão Call-to-Action Principal - Compacto */}
             <div className="text-center">
-              <button className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold text-lg py-4 px-8 rounded-2xl transition-colors duration-300 transform hover:scale-105">
+              <button className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold text-sm py-2 px-4 rounded-lg transition-colors duration-300 transform hover:scale-105">
                 Acessar Todos os Links
               </button>
             </div>
           </div>
         </section>
       </div>
-      
-      <Footer />
     </>
   );
 } 
