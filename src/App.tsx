@@ -7,6 +7,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import PWAInstallBanner from './components/PWAInstallBanner';
 import BottomTabBar from './components/BottomTabBar';
 import Home from './pages/Home';
+import UpdateNotification from './components/UpdateNotification';
 
 // Lazy imports para todas as páginas
 const SetupProfile = lazy(() => import('./pages/SetupProfile'));
@@ -30,6 +31,7 @@ const Dev = lazy(() => import('./pages/dev'));
 export default function App() {
   return (
     <BrowserRouter>
+      <UpdateNotification />
       <PWAInstallBanner />
       
       <header className="p-4 flex justify-end gap-4 bg-black border-b border-gray-800">

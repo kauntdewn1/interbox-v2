@@ -43,7 +43,7 @@ const LINKS: LinkItem[] = [
     url: 'https://interbox-captacao.netlify.app/captacao/judge-staff',
     icon: '⧖',
     category: 'inscricoes',
-    color: 'from-orange-500 to-red-600',
+    color: 'from-blue-500 to-blue-600',
     external: true
   },
 
@@ -130,18 +130,18 @@ export default function LinksPage() {
             {/* Card de perfil sobreposto - Mínimo */}
             <div className="bg-black/80 backdrop-blur-sm rounded-lg p-2 mb-2 max-w-xs">
               <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 rounded-full overflow-hidden bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-full overflow-hidden bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center">
                   <img
                     src="/logos/oficial_logo.png"
                     alt="INTERBØX"
-                    className="w-5 h-5 object-contain"
+                    className="w-7 h-7 object-contain"
                   />
                 </div>
                 <div className="flex-1">
                   <h3 className="text-white font-semibold text-sm">INTERBØX 2025</h3>
                   <p className="text-gray-300 text-xs">Maior Evento de Times da América Latina</p>
                 </div>
-                <button className="w-6 h-6 rounded-full bg-orange-500 flex items-center justify-center hover:bg-orange-600 transition-colors">
+                <button className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center hover:bg-blue-600 transition-colors">
                   <span className="text-white text-xs">↗</span>
                 </button>
               </div>
@@ -149,13 +149,8 @@ export default function LinksPage() {
 
             {/* Slogan motivacional - Ultra compacto */}
             <div className="mb-2">
-              <h1 className="text-2xl md:text-3xl font-bold text-white mb-1 leading-tight">
-                Faça seu Corpo
-                <br />
-                <span className="text-orange-500">Mais Forte</span>
-              </h1>
               <p className="text-base text-gray-200 max-w-2xl">
-                Conecte-se com a comunidade fitness mais vibrante da América Latina
+              ᴄᴏᴍᴘᴇᴛɪçãᴏ. ᴄᴏᴍᴜɴɪᴅᴀᴅᴇ. ᴘʀᴏᴘóꜱɪᴛᴏ.
               </p>
             </div>
           </div>
@@ -217,7 +212,7 @@ export default function LinksPage() {
                           </div>
                           
                           {/* Botão Play - Mínimo */}
-                          <button className="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center hover:bg-orange-600 transition-colors group-hover:scale-110">
+                          <button className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center hover:bg-blue-600 transition-colors group-hover:scale-110">
                             <span className="text-white text-xs">▶</span>
                           </button>
                         </div>
@@ -230,7 +225,7 @@ export default function LinksPage() {
 
             {/* Botão Call-to-Action Principal - Compacto */}
             <div className="text-center">
-              <button className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold text-sm py-2 px-4 rounded-lg transition-colors duration-300 transform hover:scale-105">
+              <button className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold text-sm py-2 px-4 rounded-lg transition-colors duration-300 transform hover:scale-105">
                 Acessar Todos os Links
               </button>
             </div>
