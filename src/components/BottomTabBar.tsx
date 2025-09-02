@@ -39,19 +39,37 @@ const BottomTabBar = () => {
       description: 'Seja um'
     },
     {
-      id: 'links',
-      label: 'Links',
+      id: 'audiovisual',
+      label: 'Audiovisual',
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-.758l1.102-1.101a4 4 0 00-5.656-5.656l-4 4a4 4 0 105.656 5.656l1.102-1.101" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
         </svg>
       ),
-      path: '/links',
-      description: 'Úteis'
+      path: 'https://interbox-captacao.netlify.app/audiovisual',
+      description: 'Captação',
+      external: true
+    },
+    {
+      id: 'judges-staff',
+      label: 'Judges',
+      icon: (
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg>
+      ),
+      path: 'https://interbox-captacao.netlify.app/captacao/judge-staff',
+      description: '& Staff',
+      external: true
     }
   ];
 
   const isActive = (path: string) => {
+    // Links externos nunca são ativos
+    if (path.startsWith('http')) {
+      return false;
+    }
+    
     if (path === '/') {
       return location.pathname === '/';
     }
@@ -62,18 +80,34 @@ const BottomTabBar = () => {
     <div className="ios-bottom-tab-bar">
       <div className="ios-tab-content">
         {tabs.map((tab) => (
-          <Link
-            key={tab.id}
-            to={tab.path}
-            className={`ios-tab-item ${isActive(tab.path) ? 'active' : ''}`}
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          >
-            <div className="ios-tab-icon-container">
-              {tab.icon}
-            </div>
-            <span className="ios-tab-label">{tab.label}</span>
-            <span className="ios-tab-description">{tab.description}</span>
-          </Link>
+          tab.external ? (
+            <a
+              key={tab.id}
+              href={tab.path}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ios-tab-item"
+            >
+              <div className="ios-tab-icon-container">
+                {tab.icon}
+              </div>
+              <span className="ios-tab-label">{tab.label}</span>
+              <span className="ios-tab-description">{tab.description}</span>
+            </a>
+          ) : (
+            <Link
+              key={tab.id}
+              to={tab.path}
+              className={`ios-tab-item ${isActive(tab.path) ? 'active' : ''}`}
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            >
+              <div className="ios-tab-icon-container">
+                {tab.icon}
+              </div>
+              <span className="ios-tab-label">{tab.label}</span>
+              <span className="ios-tab-description">{tab.description}</span>
+            </Link>
+          )
         ))}
       </div>
       
