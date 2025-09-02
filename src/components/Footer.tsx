@@ -10,7 +10,7 @@ export default function Footer() {
         </div>
 
         {/* Links úteis */}
-        <div className="mt-6 flex justify-center space-x-6">
+        <div className="mt-6 flex justify-center space-x-50 mb-6 md:space-x-6">
           <a 
             href="https://instagram.com/cerradointerbox" 
             target="_blank" 

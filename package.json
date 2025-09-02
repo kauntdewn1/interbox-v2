@@ -18,7 +18,8 @@
   },
   "dependencies": {
     "@clerk/clerk-react": "^5.45.0",
-    "@supabase/supabase-js": "^2.39.4", 
+    "@heroicons/react": "^2.2.0",
+    "@supabase/supabase-js": "^2.39.4",
     "browser-image-compression": "^2.0.2",
     "canvas-confetti": "^1.9.3",
     "chart.js": "^4.5.0",

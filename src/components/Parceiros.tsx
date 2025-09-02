@@ -49,34 +49,31 @@ const parceiros: Parceiro[] = [
 
 export default function Parceiros() {
   return (
-    <section className="py-16 bg-gradient-to-br from-black via-gray-900 to-black relative overflow-hidden">
+    <section className="py-8 md:py-7 bg-gradient-to-br from-black via-gray-900 to-black relative overflow-hidden">
       {/* Background com efeito sutil */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(236,72,153,0.1),transparent_50%)]"></div>
       
-      <div className="relative z-10 max-w-7xl mx-auto px-6">
-        {/* Header da seção */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-6">
+        {/* Header da seção - Mobile First */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-center mb-6 md:mb-8"
         >
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-            Nossos Parceiros
-          </h2>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+          <p className="text-gray-400 text-sm md:text-base lg:text-lg max-w-2xl mx-auto px-2">
             Empresas que acreditam no poder da comunidade e apoiam o maior evento de times da América Latina
           </p>
         </motion.div>
 
-        {/* Grid de logos */}
+        {/* Grid de logos - Mobile First Compact */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 items-center justify-items-center"
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4 lg:gap-6 items-center justify-items-center"
         >
           {parceiros.map((parceiro, index) => (
             <motion.div
