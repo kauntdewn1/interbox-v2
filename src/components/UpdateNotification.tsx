@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { RiRefreshFill } from "react-icons/ri";
 
 interface UpdateNotificationProps {
   onUpdate?: () => void;
@@ -60,7 +61,7 @@ const UpdateNotification: React.FC<UpdateNotificationProps> = ({ onUpdate }) => 
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center">
-              <span className="text-white text-sm">🔄</span>
+              <RiRefreshFill className="w-4 h-4 text-white" />
             </div>
             <div>
               <p className="font-semibold text-sm">
