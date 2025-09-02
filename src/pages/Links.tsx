@@ -122,7 +122,7 @@ export default function LinksPage() {
               className="w-full h-full object-cover"
             />
             {/* Overlay escuro para melhor legibilidade */}
-            <div className="absolute inset-0 bg-black/40" />
+            <div className="absolute inset-0 bg-black/20" />
           </div>
 
           {/* Conteúdo do Hero - Ultra compacto para iOS */}

@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { Routes, Route, Navigate, BrowserRouter } from 'react-router-dom';
+import { Routes, Route, Navigate, BrowserRouter, useLocation } from 'react-router-dom';
 import { SignedIn, UserButton } from '@clerk/clerk-react';
 
 import LoadingScreen from './components/LoadingScreen';
@@ -28,10 +28,15 @@ const Marketing = lazy(() => import('./pages/marketing'));
 const Admin = lazy(() => import('./pages/admin'));
 const Dev = lazy(() => import('./pages/dev'));
 
-export default function App() {
+// Componente interno para gerenciar o BottomTabBar
+function AppContent() {
+  const location = useLocation();
+  
+  // Ocultar BottomTabBar apenas na página /links
+  const shouldShowBottomTabBar = location.pathname !== '/links';
+
   return (
-    <BrowserRouter>
-      <UpdateNotification />
+    <>
       <PWAInstallBanner />
       
       <header className="p-4 flex justify-end gap-4 bg-black border-b border-gray-800">
@@ -142,8 +147,17 @@ export default function App() {
         </Routes>
       </Suspense>
       
-      {/* Bottom Tab Bar iOS-like */}
-      <BottomTabBar />
+      {/* Bottom Tab Bar iOS-like - Oculto apenas na página /links */}
+      {shouldShowBottomTabBar && <BottomTabBar />}
+    </>
+  );
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <UpdateNotification />
+      <AppContent />
     </BrowserRouter>
   );
 }
