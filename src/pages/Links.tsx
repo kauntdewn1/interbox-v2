@@ -1,5 +1,6 @@
 import React from 'react';
 import SEOHead from '../components/SEOHead';
+import Footer from '../components/Footer';
 
 interface LinkItem {
   id: string;
@@ -171,9 +172,8 @@ export default function LinksPage() {
               {Object.entries(groupedLinks).map(([category, links]) => (
                 <div key={category} className="space-y-1">
                   {/* Cabeçalho da categoria - Mínimo */}
-                  <h3 className="text-base font-semibold text-white flex items-center space-x-2">
-                    <span className="text-lg">{CATEGORIES[category as keyof typeof CATEGORIES].icon}</span>
-                    <span>{CATEGORIES[category as keyof typeof CATEGORIES].title}</span>
+                  <h3 className="text-base font-semibold text-white">
+                    {CATEGORIES[category as keyof typeof CATEGORIES].title}
                   </h3>
                   
                   {/* Cards dos links - Ultra compactos */}
@@ -222,6 +222,7 @@ export default function LinksPage() {
           </div>
         </section>
       </div>
+      <Footer />
     </>
   );
 } 
