@@ -1,17 +1,36 @@
-/* Bottom Tab Bar iOS-like */
+/* Bottom Tab Bar iOS-like com Glassmorphism */
 .ios-bottom-tab-bar {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(28, 28, 30, 0.95);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-top: 0.5px solid rgba(255, 255, 255, 0.1);
+  
+  /* Glassmorphism iOS avançado */
+  background: linear-gradient(
+    135deg,
+    rgba(28, 28, 30, 0.85) 0%,
+    rgba(28, 28, 30, 0.75) 50%,
+    rgba(28, 28, 30, 0.90) 100%
+  );
+  
+  /* Efeitos de vidro iOS */
+  backdrop-filter: blur(25px) saturate(180%);
+  -webkit-backdrop-filter: blur(25px) saturate(180%);
+  
+  /* Bordas com glassmorphism */
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 
+    0 -4px 20px rgba(0, 0, 0, 0.3),
+    0 -1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  
   z-index: 1000;
-  padding: 8px 0 0 0;
+  padding: 12px 0 0 0;
   /* Safe area para dispositivos com notch */
-  padding-bottom: max(8px, env(safe-area-inset-bottom));
+  padding-bottom: max(12px, env(safe-area-inset-bottom));
+  
+  /* Animação de entrada */
+  animation: slideUpFade 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .ios-tab-content {
@@ -26,39 +45,80 @@
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  padding: 8px 4px;
-  border-radius: 8px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 10px 6px;
+  border-radius: 12px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.7);
   text-decoration: none;
-  min-width: 64px;
+  min-width: 68px;
   position: relative;
+  
+  /* Glassmorphism sutil nos itens */
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .ios-tab-item:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.9);
-  transform: translateY(-1px);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.12) 100%
+  );
+  color: rgba(255, 255, 255, 0.95);
+  transform: translateY(-2px);
+  
+  /* Glassmorphism hover */
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.2),
+    0 2px 8px rgba(255, 255, 255, 0.1);
 }
 
 .ios-tab-item.active {
-  background: rgba(0, 122, 255, 0.15);
+  background: linear-gradient(
+    135deg,
+    rgba(0, 122, 255, 0.15) 0%,
+    rgba(0, 122, 255, 0.25) 100%
+  );
   color: #007AFF;
+  
+  /* Glassmorphism active */
+  border: 1px solid rgba(0, 122, 255, 0.3);
+  box-shadow: 
+    0 4px 20px rgba(0, 122, 255, 0.2),
+    0 2px 8px rgba(0, 122, 255, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .ios-tab-icon-container {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 6px;
-  transition: all 0.2s ease;
+  border-radius: 10px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Glassmorphism nos ícones */
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .ios-tab-item.active .ios-tab-icon-container {
-  background: rgba(0, 122, 255, 0.1);
+  background: linear-gradient(
+    135deg,
+    rgba(0, 122, 255, 0.15) 0%,
+    rgba(0, 122, 255, 0.25) 100%
+  );
+  border: 1px solid rgba(0, 122, 255, 0.4);
+  box-shadow: 
+    0 2px 12px rgba(0, 122, 255, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .ios-tab-label {
@@ -128,43 +188,122 @@
   }
 }
 
-/* Animações */
+/* Animações Glassmorphism */
+@keyframes slideUpFade {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes tabPulse {
   0% { transform: scale(1); }
   50% { transform: scale(1.05); }
   100% { transform: scale(1); }
 }
 
-.ios-tab-item.active .ios-tab-icon-container {
-  animation: tabPulse 0.3s ease-in-out;
+@keyframes glassShine {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }
 
-/* Hover effects para desktop */
+.ios-tab-item.active .ios-tab-icon-container {
+  animation: tabPulse 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Efeito de brilho glassmorphism */
+.ios-tab-item.active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 12px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: glassShine 2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Hover effects para desktop com Glassmorphism */
 @media (hover: hover) {
   .ios-tab-item:hover {
-    background: rgba(255, 255, 255, 0.12);
-    transform: translateY(-2px);
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.12) 0%,
+      rgba(255, 255, 255, 0.18) 100%
+    );
+    transform: translateY(-3px);
+    
+    /* Glassmorphism hover avançado */
+    box-shadow: 
+      0 8px 25px rgba(0, 0, 0, 0.25),
+      0 4px 12px rgba(255, 255, 255, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
   
   .ios-tab-item:hover .ios-tab-icon-container {
-    background: rgba(255, 255, 255, 0.1);
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.08) 0%,
+      rgba(255, 255, 255, 0.15) 100%
+    );
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
   }
 }
 
-/* Dark mode support */
+/* Dark mode support com Glassmorphism */
 @media (prefers-color-scheme: dark) {
   .ios-bottom-tab-bar {
-    background: rgba(28, 28, 30, 0.98);
+    background: linear-gradient(
+      135deg,
+      rgba(18, 18, 20, 0.90) 0%,
+      rgba(28, 28, 30, 0.80) 50%,
+      rgba(18, 18, 20, 0.95) 100%
+    );
+    backdrop-filter: blur(30px) saturate(200%);
+    -webkit-backdrop-filter: blur(30px) saturate(200%);
   }
 }
 
-/* High contrast mode */
+/* High contrast mode com Glassmorphism */
 @media (prefers-contrast: high) {
   .ios-bottom-tab-bar {
-    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 
+      0 -6px 25px rgba(0, 0, 0, 0.5),
+      0 -2px 0 rgba(255, 255, 255, 0.2);
   }
   
   .ios-tab-item.active {
-    background: rgba(0, 122, 255, 0.25);
+    background: linear-gradient(
+      135deg,
+      rgba(0, 122, 255, 0.35) 0%,
+      rgba(0, 122, 255, 0.45) 100%
+    );
+    border: 2px solid rgba(0, 122, 255, 0.6);
+  }
+}
+
+/* Suporte para dispositivos com tela de alta densidade */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .ios-bottom-tab-bar {
+    backdrop-filter: blur(35px) saturate(220%);
+    -webkit-backdrop-filter: blur(35px) saturate(220%);
   }
 }
