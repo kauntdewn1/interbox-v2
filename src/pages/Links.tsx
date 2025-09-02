@@ -32,11 +32,21 @@ const LINKS: LinkItem[] = [
     id: 'audiovisual',
     title: 'Candidatura Audiovisual',
     description: 'Seja fotógrafo, videomaker ou influencer oficial do INTERBØX 2025',
-    url: '/audiovisual/form',
+    url: 'https://interbox-captacao.netlify.app/audiovisual',
     icon: '📸',
     category: 'inscricoes',
     color: 'from-gray-600 to-gray-800',
-    inactive: true
+    external: true
+  },
+  {
+    id: 'judge-staff',
+    title: 'Cadastro Judge & Staff',
+    description: 'Seja parte da equipe oficial do INTERBØX 2025 como juiz ou staff',
+    url: 'https://interbox-captacao.netlify.app/captacao/judge-staff',
+    icon: '👨‍⚖️',
+    category: 'inscricoes',
+    color: 'from-orange-500 to-red-600',
+    external: true
   },
 
   // 💪 APOIADORES
