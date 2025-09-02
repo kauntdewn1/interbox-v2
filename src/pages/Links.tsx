@@ -139,7 +139,11 @@ export default function LinksPage() {
                   />
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-white font-semibold text-sm">INTERBØX 2025</h3>
+                  <img
+                    src="/logos/nome_hrz.png"
+                    alt="INTERBØX 2025"
+                    className="h-6 w-auto object-contain"
+                  />
                   <p className="text-gray-300 text-xs">Maior Evento de Times da América Latina</p>
                 </div>
               </div>
