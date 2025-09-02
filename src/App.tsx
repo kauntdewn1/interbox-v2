@@ -5,6 +5,7 @@ import { SignedIn, UserButton } from '@clerk/clerk-react';
 import LoadingScreen from './components/LoadingScreen';
 import ProtectedRoute from './components/ProtectedRoute';
 import PWAInstallBanner from './components/PWAInstallBanner';
+import BottomTabBar from './components/BottomTabBar';
 import Home from './pages/Home';
 
 // Lazy imports para todas as páginas
@@ -138,6 +139,9 @@ export default function App() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>
+      
+      {/* Bottom Tab Bar iOS-like */}
+      <BottomTabBar />
     </BrowserRouter>
   );
 }

@@ -71,42 +71,8 @@ export default function Header() {
               </motion.div>
             </a>
 
-            {/* NAV DESKTOP */}
+            {/* NAV DESKTOP - APENAS LOGIN */}
             <nav className="hidden md:flex items-center space-x-6">
-              <Link to="/" className="text-white hover:text-pink-400 font-medium text-sm">Home</Link>
-              <Link to="/sobre" className="text-white hover:text-pink-400 font-medium text-sm">Sobre</Link>
-              <a 
-                href="https://interbox-captacao.netlify.app/audiovisual" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-pink-400 hover:text-pink-300 font-medium text-sm"
-              >
-                Audiovisual
-              </a>
-              <button 
-                onClick={() => {
-                  window.location.href = '/';
-                  setTimeout(() => {
-                    const element = document.getElementById('EcommerceSimulation');
-                    if (element) {
-                      element.scrollIntoView({ behavior: 'smooth' });
-                    }
-                  }, 100);
-                }}
-                className="text-pink-400 hover:text-pink-300 font-medium text-sm cursor-pointer"
-              >
-                Loja
-              </button>
-              <a 
-                href="https://interbox-captacao.netlify.app/captacao/judge-staff" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-pink-400 hover:text-pink-300 font-medium text-sm"
-              >
-                Judges e Staff
-              </a>
-              <Link to="/patrocinadores" className="text-pink-400 hover:text-pink-300 font-medium text-sm">Seja um Patrocinador</Link>
-
               <SignedOut>
                 <SignInButton mode="modal">
                   <motion.button
@@ -174,40 +140,7 @@ export default function Header() {
             >
               <h2 className="text-lg font-bold text-pink-400 mb-6">Menu</h2>
               <nav className="flex flex-col space-y-4">
-                <Link to="/" className="text-white hover:text-pink-400">Home</Link>
-                <Link to="/sobre" className="text-white hover:text-pink-400">Sobre</Link>
-                <a 
-                  href="https://interbox-captacao.netlify.app/audiovisual" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-white hover:text-pink-400"
-                >
-                  Audiovisual
-                </a>
-                <button 
-                  onClick={() => {
-                    setIsMenuOpen(false);
-                    window.location.href = '/';
-                    setTimeout(() => {
-                      const element = document.getElementById('EcommerceSimulation');
-                      if (element) {
-                        element.scrollIntoView({ behavior: 'smooth' });
-                      }
-                    }, 100);
-                  }}
-                  className="text-white hover:text-pink-400 cursor-pointer text-left"
-                >
-                  Loja
-                </button>
-                <a 
-                  href="https://interbox-captacao.netlify.app/captacao/judge-staff" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-white hover:text-pink-400"
-                >
-                  Judges e Staff
-                </a>
-                <Link to="/patrocinadores" className="text-white hover:text-pink-400">Seja um Patrocinador</Link>
+                <p className="text-gray-400 text-sm mb-2">Navegação principal disponível no menu inferior</p>
 
                 {authUser ? (
                   <>

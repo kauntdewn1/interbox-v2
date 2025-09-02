@@ -1,3 +1,5 @@
+@import './styles/bottom-tab-bar.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -195,3 +197,7 @@
 .leaderboard-rank-1 { @apply text-yellow-400; }
 .leaderboard-rank-2 { @apply text-gray-300; }
 .leaderboard-rank-3 { @apply text-amber-600; }
+
+/* ============================================================================
+   BOTTOM TAB BAR - iOS STYLE
+   ============================================================================ */

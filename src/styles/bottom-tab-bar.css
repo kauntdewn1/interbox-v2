@@ -1,0 +1,170 @@
+/* Bottom Tab Bar iOS-like */
+.ios-bottom-tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(28, 28, 30, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 0.5px solid rgba(255, 255, 255, 0.1);
+  z-index: 1000;
+  padding: 8px 0 0 0;
+  /* Safe area para dispositivos com notch */
+  padding-bottom: max(8px, env(safe-area-inset-bottom));
+}
+
+.ios-tab-content {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 16px;
+}
+
+.ios-tab-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 4px;
+  border-radius: 8px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  min-width: 64px;
+  position: relative;
+}
+
+.ios-tab-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.9);
+  transform: translateY(-1px);
+}
+
+.ios-tab-item.active {
+  background: rgba(0, 122, 255, 0.15);
+  color: #007AFF;
+}
+
+.ios-tab-icon-container {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.ios-tab-item.active .ios-tab-icon-container {
+  background: rgba(0, 122, 255, 0.1);
+}
+
+.ios-tab-label {
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1;
+  text-align: center;
+}
+
+.ios-tab-description {
+  font-size: 9px;
+  font-weight: 400;
+  line-height: 1;
+  text-align: center;
+  opacity: 0.7;
+}
+
+.ios-tab-indicator {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 2px;
+  background: #007AFF;
+  border-radius: 1px;
+  transition: all 0.3s ease;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .ios-tab-content {
+    padding: 0 8px;
+  }
+  
+  .ios-tab-item {
+    min-width: 56px;
+  }
+  
+  .ios-tab-icon-container {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .ios-tab-label {
+    font-size: 10px;
+  }
+  
+  .ios-tab-description {
+    font-size: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .ios-tab-content {
+    padding: 0 4px;
+  }
+  
+  .ios-tab-item {
+    min-width: 48px;
+    padding: 6px 2px;
+  }
+  
+  .ios-tab-icon-container {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+/* Animações */
+@keyframes tabPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.ios-tab-item.active .ios-tab-icon-container {
+  animation: tabPulse 0.3s ease-in-out;
+}
+
+/* Hover effects para desktop */
+@media (hover: hover) {
+  .ios-tab-item:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateY(-2px);
+  }
+  
+  .ios-tab-item:hover .ios-tab-icon-container {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .ios-bottom-tab-bar {
+    background: rgba(28, 28, 30, 0.98);
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .ios-bottom-tab-bar {
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+  }
+  
+  .ios-tab-item.active {
+    background: rgba(0, 122, 255, 0.25);
+  }
+}
