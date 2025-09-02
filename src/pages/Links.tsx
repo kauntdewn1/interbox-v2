@@ -23,7 +23,7 @@ const LINKS: LinkItem[] = [
     title: 'Inscrição de Atletas',
     description: 'Garanta sua vaga na maior competição de times da América Latina',
     url: 'https://www.brasilgamesscoreboard.com.br/checkout/77e9f9d6-f194-4bc5-bc83-6311699c68a9',
-    icon: '🏋️‍♂️',
+    icon: '⍟',
     category: 'inscricoes',
     color: 'from-blue-500 to-cyan-600',
     external: true
@@ -33,7 +33,7 @@ const LINKS: LinkItem[] = [
     title: 'Candidatura Audiovisual',
     description: 'Seja fotógrafo, videomaker ou influencer oficial do INTERBØX 2025',
     url: 'https://interbox-captacao.netlify.app/audiovisual',
-    icon: '📸',
+    icon: '⨂',
     category: 'inscricoes',
     color: 'from-gray-600 to-gray-800',
     external: true
@@ -43,7 +43,7 @@ const LINKS: LinkItem[] = [
     title: 'Cadastro Judge & Staff',
     description: 'Seja parte da equipe oficial do INTERBØX 2025 como juiz ou staff',
     url: 'https://interbox-captacao.netlify.app/captacao/judge-staff',
-    icon: '👨‍⚖️',
+    icon: '⧖',
     category: 'inscricoes',
     color: 'from-orange-500 to-red-600',
     external: true
@@ -55,7 +55,7 @@ const LINKS: LinkItem[] = [
     title: 'MOVE Recovery Esportivo',
     description: 'Reserve seu atendimento com a equipe MOVE durante o evento',
     url: 'https://mpago.la/2Q1u7fP',
-    icon: '💪',
+    icon: '⟠',
     category: 'apoiadores',
     color: 'from-purple-500 to-pink-600',
     external: true,
@@ -68,7 +68,7 @@ const LINKS: LinkItem[] = [
     title: 'Grupo WhatsApp INTERBOX',
     description: 'Entre na comunidade oficial do INTERBOX 2025',
     url: 'https://chat.whatsapp.com/FHTqm0l36kc7RWYWMw1Kiz',
-    icon: '🤝',
+    icon: '◭',
     category: 'comunidade',
     color: 'from-green-500 to-green-700',
     external: true
@@ -76,9 +76,9 @@ const LINKS: LinkItem[] = [
 ];
 
 const CATEGORIES = {
-  inscricoes: { title: '🎟️ Inscrições', icon: '🎟️' },
-  apoiadores: { title: '💪 APOIO', icon: '💪' },
-  comunidade: { title: '🤝 Comunidade', icon: '🤝' }
+  inscricoes: { title: '⍟ Inscrições', icon: '⍟' },
+  apoiadores: { title: '⟠ APOIO', icon: '⟠' },
+  comunidade: { title: '◭ Comunidade', icon: '◭' }
 };
 
 export default function LinksPage() {
@@ -115,148 +115,129 @@ export default function LinksPage() {
       
       <Header />
       
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-        {/* Hero Section com Glassmorphism */}
-        <section className="relative pt-32 pb-20 overflow-hidden">
-          {/* Background Effects Refinados */}
+      <div className="min-h-screen bg-black">
+        {/* Hero Section - Ocupa 2/3 da tela */}
+        <section className="relative h-[66vh] overflow-hidden">
+          {/* Background Image */}
           <div className="absolute inset-0">
-            <div className="absolute inset-0 bg-gradient-to-br from-pink-500/5 via-purple-500/5 to-blue-500/5" />
-            <div className="absolute top-0 left-1/4 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl animate-pulse" />
-            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" />
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-blue-500/5 rounded-full blur-2xl" />
+            <img
+              src="/images/topo_links.webp"
+              alt="INTERBØX 2025"
+              className="w-full h-full object-cover"
+            />
+            {/* Overlay escuro para melhor legibilidade */}
+            <div className="absolute inset-0 bg-black/40" />
           </div>
 
-          <div className="relative z-10 max-w-6xl mx-auto px-4 text-center">
-            {/* Logo com Glassmorphism */}
-            <div className="mb-8 flex justify-center">
-              <div className="relative group">
-                <div className="absolute inset-0 bg-gradient-to-r from-pink-500/20 to-purple-500/20 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500" />
-                <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 shadow-2xl">
-                  <img 
-                    src="/logos/nome_hrz.png" 
-                    alt="CERRADO INTERBØX" 
-                    className="h-24 md:h-32 w-auto object-contain"
+          {/* Conteúdo do Hero */}
+          <div className="relative z-10 h-full flex flex-col justify-end p-6">
+            {/* Card de perfil sobreposto */}
+            <div className="bg-black/80 backdrop-blur-sm rounded-2xl p-4 mb-6 max-w-xs">
+              <div className="flex items-center space-x-3">
+                <div className="w-12 h-12 rounded-full overflow-hidden bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center">
+                  <img
+                    src="/logos/oficial_logo.png"
+                    alt="INTERBØX"
+                    className="w-8 h-8 object-contain"
                   />
                 </div>
+                <div className="flex-1">
+                  <h3 className="text-white font-semibold text-lg">INTERBØX 2025</h3>
+                  <p className="text-gray-300 text-sm">Maior Evento de Times da América Latina</p>
+                </div>
+                <button className="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center hover:bg-orange-600 transition-colors">
+                  <span className="text-white text-lg">↗</span>
+                </button>
               </div>
             </div>
-            
-            {/* Título com Glassmorphism */}
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-pink-500/10 to-purple-500/10 rounded-2xl blur-lg" />
-              <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-2xl">
-                <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
-                  Links INTERBØX 2025
-                </h1>
-                <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-                  Todos os links importantes em um só lugar. Encontre inscrições, redes sociais, 
-                  contato e muito mais do INTERBØX 2025.
-                </p>
-              </div>
+
+            {/* Slogan motivacional */}
+            <div className="mb-8">
+              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 leading-tight">
+                Faça seu Corpo
+                <br />
+                <span className="text-orange-500">Mais Forte</span>
+              </h1>
+              <p className="text-xl text-gray-200 max-w-2xl">
+                Conecte-se com a comunidade fitness mais vibrante da América Latina
+              </p>
             </div>
           </div>
         </section>
 
-        {/* Links Grid com Design iOS Refinado */}
-        <section className="relative z-10 max-w-7xl mx-auto px-4 pb-20">
-          <div className="space-y-16">
-            {Object.entries(groupedLinks).map(([category, links], categoryIndex) => (
-              <div
-                key={category}
-                className="space-y-8 animate-fade-in"
-                style={{
-                  animationDelay: `${categoryIndex * 200}ms`
-                }}
-              >
-                {/* Cabeçalho da Categoria com Glassmorphism */}
-                <div className="text-center relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-pink-500/10 to-purple-500/10 rounded-2xl blur-lg" />
-                  <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-2xl">
-                    <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
-                      {CATEGORIES[category as keyof typeof CATEGORIES].title}
-                    </h2>
-                    <div className="w-32 h-1 bg-gradient-to-r from-pink-500 to-purple-500 mx-auto rounded-full shadow-lg" />
-                  </div>
-                </div>
+        {/* Links Section - Ocupa 1/3 da tela */}
+        <section className="bg-black p-6">
+          <div className="max-w-4xl mx-auto">
+            {/* Título da seção */}
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold text-white mb-2">
+                Links Importantes
+              </h2>
+              <p className="text-gray-400">
+                Acesse todos os recursos do INTERBØX 2025
+              </p>
+            </div>
 
-                {/* Grid de Links Refinado */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {links.map((link, linkIndex) => (
-                    <div
-                      key={link.id}
-                      className="group animate-fade-in"
-                      style={{
-                        animationDelay: `${(categoryIndex * 200) + (linkIndex * 100)}ms`
-                      }}
-                    >
-                      <button
+            {/* Grid de Links em Cards Verticais */}
+            <div className="space-y-4 mb-8">
+              {Object.entries(groupedLinks).map(([category, links]) => (
+                <div key={category} className="space-y-3">
+                  {/* Cabeçalho da categoria */}
+                  <h3 className="text-xl font-semibold text-white flex items-center space-x-2">
+                    <span className="text-2xl">{CATEGORIES[category as keyof typeof CATEGORIES].icon}</span>
+                    <span>{CATEGORIES[category as keyof typeof CATEGORIES].title}</span>
+                  </h3>
+                  
+                  {/* Cards dos links */}
+                  <div className="space-y-3">
+                    {links.map((link) => (
+                      <div
+                        key={link.id}
+                        className="bg-gray-900/80 backdrop-blur-sm rounded-2xl p-4 hover:bg-gray-800/80 transition-all duration-300 cursor-pointer group"
                         onClick={() => handleLinkClick(link)}
-                        disabled={link.inactive}
-                        className={`w-full relative overflow-hidden transition-all duration-500 transform hover:scale-105 ${
-                          link.inactive 
-                            ? 'cursor-not-allowed opacity-60' 
-                            : 'cursor-pointer hover:-translate-y-2'
-                        }`}
                       >
-                        {/* Background Glassmorphism */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-white/10 rounded-3xl backdrop-blur-xl border border-white/20 shadow-2xl" />
-                        
-                        {/* Efeito de Brilho */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                        
-                        {/* Conteúdo */}
-                        <div className="relative z-10 p-8 rounded-3xl">
-                          {/* Header do Card */}
-                          <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center space-x-4">
+                          {/* Thumbnail/Ícone */}
+                          <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-pink-500/20 to-purple-500/20 flex items-center justify-center">
                             {link.logo ? (
-                              <div className="relative">
-                                <div className="absolute inset-0 bg-white/10 rounded-2xl blur-sm" />
-                                <img 
-                                  src={link.logo} 
-                                  alt={link.title}
-                                  className="relative h-12 w-auto object-contain"
-                                />
-                              </div>
+                              <img
+                                src={link.logo}
+                                alt={link.title}
+                                className="w-10 h-10 object-contain"
+                              />
                             ) : (
-                              <div className="relative">
-                                <div className="absolute inset-0 bg-white/10 rounded-2xl blur-sm" />
-                                <span className="relative text-4xl">{link.icon}</span>
-                              </div>
-                            )}
-                            {link.external && !link.inactive && (
-                              <div className="relative">
-                                <div className="absolute inset-0 bg-white/10 rounded-full blur-sm" />
-                                <span className="relative text-lg opacity-80 bg-white/20 backdrop-blur-sm px-2 py-1 rounded-full">
-                                  ↗
-                                </span>
-                              </div>
+                              <span className="text-2xl">{link.icon}</span>
                             )}
                           </div>
                           
-                          {/* Título e Descrição */}
-                          <h3 className="text-2xl font-bold mb-4 text-left text-white leading-tight">
-                            {link.title}
-                          </h3>
+                          {/* Conteúdo */}
+                          <div className="flex-1">
+                            <h4 className="text-white font-semibold text-lg mb-1">
+                              {link.title}
+                            </h4>
+                            <p className="text-gray-400 text-sm leading-relaxed">
+                              {link.description}
+                            </p>
+                          </div>
                           
-                          <p className="text-base opacity-90 text-left leading-relaxed text-gray-200">
-                            {link.description}
-                          </p>
-                          
-                          {/* Indicador de inativo */}
-                          {link.inactive && (
-                            <div className="mt-6 text-center">
-                              <span className="text-sm bg-gray-600/50 text-gray-300 px-4 py-2 rounded-full backdrop-blur-sm border border-gray-500/30">
-                                Temporariamente Indisponível
-                              </span>
-                            </div>
-                          )}
+                          {/* Botão Play */}
+                          <button className="w-12 h-12 rounded-full bg-orange-500 flex items-center justify-center hover:bg-orange-600 transition-colors group-hover:scale-110">
+                            <span className="text-white text-lg">▶</span>
+                          </button>
                         </div>
-                      </button>
-                    </div>
-                  ))}
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+
+            {/* Botão Call-to-Action Principal */}
+            <div className="text-center">
+              <button className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold text-lg py-4 px-8 rounded-2xl transition-colors duration-300 transform hover:scale-105">
+                Acessar Todos os Links
+              </button>
+            </div>
           </div>
         </section>
       </div>
