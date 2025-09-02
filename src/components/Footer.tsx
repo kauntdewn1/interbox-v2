@@ -1,3 +1,6 @@
+import { IoLogoInstagram } from "react-icons/io";
+import { PiTiktokLogoBold } from "react-icons/pi";
+
 export default function Footer() {
   return (
     <footer className="bg-black/80 border-t border-white/10 py-8 mt-16">
@@ -15,23 +18,19 @@ export default function Footer() {
             href="https://instagram.com/cerradointerbox" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="text-white/60 hover:text-white transition-colors"
+            className="text-white/60 hover:text-white transition-colors flex items-center space-x-2"
           >
-            📱 Instagram
+            <IoLogoInstagram className="w-5 h-5" />
+            <span>Instagram</span>
           </a>
           <a 
             href="https://tiktok.com/@cerradointerbox" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="text-white/60 hover:text-white transition-colors"
+            className="text-white/60 hover:text-white transition-colors flex items-center space-x-2"
           >
-            🎵 TikTok
-          </a>
-          <a 
-            href="mailto:cerradointerbox@gmail.com" 
-            className="text-white/60 hover:text-white transition-colors"
-          >
-            📧 Contato
+            <PiTiktokLogoBold className="w-5 h-5" />
+            <span>TikTok</span>
           </a>
         </div>
       </div>
