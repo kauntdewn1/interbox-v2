@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
 import { ClerkProvider } from '@clerk/clerk-react'
+import { CLERK_LOCAL_CONFIG } from './lib/clerk'
 
 // Import your Publishable Key
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
@@ -15,7 +16,7 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ClerkProvider 
       publishableKey={PUBLISHABLE_KEY}
-      // Configurações específicas para produção
+      // Força modo production e desabilita development mode
       appearance={{
         baseTheme: undefined,
         variables: {
@@ -24,6 +25,11 @@ createRoot(document.getElementById('root')!).render(
           colorText: '#ffffff',
         }
       }}
+      // 🔒 CONFIGURAÇÕES PARA USAR DOMÍNIO EXTERNO DO CLERK
+      signInUrl={CLERK_LOCAL_CONFIG.signInUrl}
+      signUpUrl={CLERK_LOCAL_CONFIG.signUpUrl}
+      afterSignInUrl={CLERK_LOCAL_CONFIG.afterSignInUrl}
+      afterSignUpUrl={CLERK_LOCAL_CONFIG.afterSignUpUrl}
     >
       <App />
     </ClerkProvider>

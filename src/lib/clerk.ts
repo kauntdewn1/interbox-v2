@@ -10,6 +10,19 @@ if (!CLERK_PUBLISHABLE_KEY) {
   throw new Error('VITE_CLERK_PUBLISHABLE_KEY não encontrada no .env');
 }
 
+// 🔒 CONFIGURAÇÕES PARA USAR DOMÍNIO EXTERNO DO CLERK
+export const CLERK_LOCAL_CONFIG = {
+  signInUrl: 'https://accounts.cerradointerbox.com.br/sign-in',
+  signUpUrl: 'https://accounts.cerradointerbox.com.br/sign-up',
+  afterSignInUrl: '/',
+  afterSignUpUrl: '/setup',
+  userProfileUrl: '/perfil',
+  // Permite redirecionamentos externos para autenticação
+  allowUrlRedirects: true,
+  // Usa roteamento externo para auth
+  routing: 'hash' as const,
+};
+
 export const clerkConfig = {
   publishableKey: CLERK_PUBLISHABLE_KEY,
   // Configurações específicas para produção
@@ -46,6 +59,13 @@ export const clerkConfig = {
   production: true,
   // Força ambiente de produção
   environment: 'production',
+  // 🔒 CONFIGURAÇÕES PARA USAR DOMÍNIO EXTERNO DO CLERK
+  signInUrl: 'https://accounts.cerradointerbox.com.br/sign-in',
+  signUpUrl: 'https://accounts.cerradointerbox.com.br/sign-up',
+  afterSignInUrl: '/',
+  afterSignUpUrl: '/setup',
+  // Permite redirecionamentos externos para autenticação
+  allowUrlRedirects: true,
   localization: {
     locale: 'pt-BR',
     signIn: {
@@ -60,10 +80,10 @@ export const clerkConfig = {
 };
 
 export const clerkRedirectUrls = {
-  signIn: '/login',
-  signUp: '/cadastro',
-  afterSignIn: '/dashboard',
-  afterSignUp: '/setup-profile',
+  signIn: 'https://accounts.cerradointerbox.com.br/sign-in',
+  signUp: 'https://accounts.cerradointerbox.com.br/sign-up',
+  afterSignIn: '/',
+  afterSignUp: '/setup',
   userProfile: '/perfil',
 };
 
