@@ -10,13 +10,28 @@ if (!CLERK_PUBLISHABLE_KEY) {
   throw new Error('VITE_CLERK_PUBLISHABLE_KEY não encontrada no .env');
 }
 
-// 🔒 CONFIGURAÇÕES PARA USAR DOMÍNIO EXTERNO DO CLERK
+// 🔒 CONFIGURAÇÕES PARA USAR CLERK COMO IDP (OIDC/OAuth2)
 export const CLERK_LOCAL_CONFIG = {
+  // URLs OIDC/OAuth2
+  discoveryUrl: 'https://clerk.cerradointerbox.com.br/.well-known/openid-configuration',
+  authorizeUrl: 'https://clerk.cerradointerbox.com.br/oauth/authorize',
+  tokenUrl: 'https://clerk.cerradointerbox.com.br/oauth/token',
+  userInfoUrl: 'https://clerk.cerradointerbox.com.br/oauth/userinfo',
+  tokenIntrospectionUrl: 'https://clerk.cerradointerbox.com.br/oauth/token_info',
+  
+  // URLs de redirecionamento
   signInUrl: 'https://accounts.cerradointerbox.com.br/sign-in',
   signUpUrl: 'https://accounts.cerradointerbox.com.br/sign-up',
   signInFallbackRedirectUrl: '/',
   signUpFallbackRedirectUrl: '/setup',
   userProfileUrl: '/perfil',
+  
+  // Configurações OAuth2
+  clientId: import.meta.env.VITE_CLERK_CLIENT_ID,
+  clientSecret: import.meta.env.VITE_CLERK_CLIENT_SECRET,
+  redirectUri: import.meta.env.VITE_CLERK_REDIRECT_URI || window.location.origin + '/auth/callback',
+  scope: 'openid profile email',
+  
   // Permite redirecionamentos externos para autenticação
   allowUrlRedirects: true,
   // Usa roteamento externo para auth

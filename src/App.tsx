@@ -16,6 +16,7 @@ const Patrocinadores = lazy(() => import('./pages/patrocinadores'));
 const Sobre = lazy(() => import('./pages/sobre'));
 const SelecaoTipoCadastro = lazy(() => import('./pages/SelecaoTipoCadastro'));
 const Links = lazy(() => import('./pages/Links'));
+const AuthCallback = lazy(() => import('./pages/AuthCallback'));
 
 // Páginas de perfil
 const PerfilAtleta = lazy(() => import('./pages/perfil/atleta'));
@@ -62,6 +63,9 @@ function AppContent() {
 
           {/* Login público */}
           <Route path="/login" element={<Login />} />
+
+          {/* Callback OAuth2 */}
+          <Route path="/auth/callback" element={<AuthCallback />} />
 
           {/* Página Sobre */}
           <Route path="/sobre" element={<Sobre />} />
