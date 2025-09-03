@@ -29,7 +29,7 @@ createRoot(document.getElementById('root')!).render(
       signInUrl={CLERK_LOCAL_CONFIG.signInUrl}
       signUpUrl={CLERK_LOCAL_CONFIG.signUpUrl}
       signInFallbackRedirectUrl={CLERK_LOCAL_CONFIG.signInFallbackRedirectUrl}
-      afterSignUpUrl={CLERK_LOCAL_CONFIG.afterSignUpUrl}
+      signUpFallbackRedirectUrl={CLERK_LOCAL_CONFIG.signUpFallbackRedirectUrl}
     >
       <App />
     </ClerkProvider>

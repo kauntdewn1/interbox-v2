@@ -15,7 +15,7 @@ export const CLERK_LOCAL_CONFIG = {
   signInUrl: 'https://accounts.cerradointerbox.com.br/sign-in',
   signUpUrl: 'https://accounts.cerradointerbox.com.br/sign-up',
   signInFallbackRedirectUrl: '/',
-  afterSignUpUrl: '/setup',
+  signUpFallbackRedirectUrl: '/setup',
   userProfileUrl: '/perfil',
   // Permite redirecionamentos externos para autenticação
   allowUrlRedirects: true,
@@ -63,7 +63,7 @@ export const clerkConfig = {
   signInUrl: 'https://accounts.cerradointerbox.com.br/sign-in',
   signUpUrl: 'https://accounts.cerradointerbox.com.br/sign-up',
   signInFallbackRedirectUrl: '/',
-  afterSignUpUrl: '/setup',
+  signUpFallbackRedirectUrl: '/setup',
   // Permite redirecionamentos externos para autenticação
   allowUrlRedirects: true,
   localization: {
@@ -82,8 +82,8 @@ export const clerkConfig = {
 export const clerkRedirectUrls = {
   signIn: 'https://accounts.cerradointerbox.com.br/sign-in',
   signUp: 'https://accounts.cerradointerbox.com.br/sign-up',
-  afterSignIn: '/',
-  afterSignUp: '/setup',
+  signInFallbackRedirectUrl: '/',
+  signUpFallbackRedirectUrl: '/setup',
   userProfile: '/perfil',
 };
 
