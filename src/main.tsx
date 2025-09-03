@@ -28,7 +28,7 @@ createRoot(document.getElementById('root')!).render(
       // 🔒 CONFIGURAÇÕES PARA USAR DOMÍNIO EXTERNO DO CLERK
       signInUrl={CLERK_LOCAL_CONFIG.signInUrl}
       signUpUrl={CLERK_LOCAL_CONFIG.signUpUrl}
-      afterSignInUrl={CLERK_LOCAL_CONFIG.afterSignInUrl}
+      signInFallbackRedirectUrl={CLERK_LOCAL_CONFIG.signInFallbackRedirectUrl}
       afterSignUpUrl={CLERK_LOCAL_CONFIG.afterSignUpUrl}
     >
       <App />

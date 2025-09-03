@@ -14,7 +14,7 @@ if (!CLERK_PUBLISHABLE_KEY) {
 export const CLERK_LOCAL_CONFIG = {
   signInUrl: 'https://accounts.cerradointerbox.com.br/sign-in',
   signUpUrl: 'https://accounts.cerradointerbox.com.br/sign-up',
-  afterSignInUrl: '/',
+  signInFallbackRedirectUrl: '/',
   afterSignUpUrl: '/setup',
   userProfileUrl: '/perfil',
   // Permite redirecionamentos externos para autenticação
@@ -62,7 +62,7 @@ export const clerkConfig = {
   // 🔒 CONFIGURAÇÕES PARA USAR DOMÍNIO EXTERNO DO CLERK
   signInUrl: 'https://accounts.cerradointerbox.com.br/sign-in',
   signUpUrl: 'https://accounts.cerradointerbox.com.br/sign-up',
-  afterSignInUrl: '/',
+  signInFallbackRedirectUrl: '/',
   afterSignUpUrl: '/setup',
   // Permite redirecionamentos externos para autenticação
   allowUrlRedirects: true,
