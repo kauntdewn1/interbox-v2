@@ -15,6 +15,7 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ClerkProvider 
       publishableKey={PUBLISHABLE_KEY}
+      // Configurações específicas para produção
       appearance={{
         baseTheme: undefined,
         variables: {

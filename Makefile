@@ -262,6 +262,13 @@ env-check: ## Verifica variáveis de ambiente
 
 clerk-status: ## Status da aplicação Clerk
 	@echo "$(BLUE)Verificando status do Clerk...$(NC)"
+	@node scripts/force-production.js
+
+clerk-force-production: ## Força modo production do Clerk
+	@echo "$(BLUE)Forçando modo production do Clerk...$(NC)"
+	@node scripts/force-production.js
+	@echo "$(GREEN)✓ Modo production verificado$(NC)"
+	@echo "$(BLUE)Verificando status do Clerk...$(NC)"
 	@if grep -q "VITE_CLERK_PUBLISHABLE_KEY" .env 2>/dev/null; then \
 		echo "$(GREEN)✓ Clerk configurado$(NC)"; \
 	else \

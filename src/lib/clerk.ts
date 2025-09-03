@@ -12,6 +12,7 @@ if (!CLERK_PUBLISHABLE_KEY) {
 
 export const clerkConfig = {
   publishableKey: CLERK_PUBLISHABLE_KEY,
+  // Configurações específicas para produção
   appearance: {
     baseTheme: 'dark',
     variables: {
@@ -41,6 +42,10 @@ export const clerkConfig = {
       },
     },
   },
+  // Configurações de produção
+  production: true,
+  // Força ambiente de produção
+  environment: 'production',
   localization: {
     locale: 'pt-BR',
     signIn: {
