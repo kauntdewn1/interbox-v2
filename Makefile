@@ -268,6 +268,22 @@ clerk-force-production: ## Força modo production do Clerk
 	@echo "$(BLUE)Forçando modo production do Clerk...$(NC)"
 	@node scripts/force-production.js
 	@echo "$(GREEN)✓ Modo production verificado$(NC)"
+
+clerk-dev-setup: ## Configura Clerk para desenvolvimento local
+	@echo "$(BLUE)Configurando Clerk para desenvolvimento...$(NC)"
+	@if [ -f env.local.example ]; then \
+		cp env.local.example .env.local; \
+		echo "$(YELLOW)Arquivo .env.local criado. Configure as chaves de TESTE$(NC)"; \
+	else \
+		echo "$(RED)Arquivo env.local.example não encontrado$(NC)"; \
+	fi
+	@echo "$(GREEN)✓ Configuração de desenvolvimento criada$(NC)"
+
+clerk-env-switch: ## Alterna entre ambiente de desenvolvimento e produção
+	@echo "$(BLUE)Alternando ambiente do Clerk...$(NC)"
+	@node scripts/force-production.js
+	@echo "$(YELLOW)Para desenvolvimento: npm run dev$(NC)"
+	@echo "$(YELLOW)Para produção: npm run build && npm run preview$(NC)"
 	@echo "$(BLUE)Verificando status do Clerk...$(NC)"
 	@if grep -q "VITE_CLERK_PUBLISHABLE_KEY" .env 2>/dev/null; then \
 		echo "$(GREEN)✓ Clerk configurado$(NC)"; \
