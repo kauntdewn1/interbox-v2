@@ -73,6 +73,9 @@ export default function Header() {
 
             {/* NAV DESKTOP - APENAS LOGIN */}
             <nav className="hidden md:flex items-center space-x-6">
+              <a href="/links" className="text-pink-400 hover:text-pink-300 text-sm font-medium">
+                Links
+              </a>
               <SignedOut>
                 <SignInButton mode="modal">
                   <motion.button

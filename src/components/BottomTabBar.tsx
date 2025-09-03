@@ -4,7 +4,7 @@ import {
   InformationCircleIcon, 
   CurrencyDollarIcon, 
   VideoCameraIcon, 
-  UsersIcon 
+  UsersIcon
 } from '@heroicons/react/24/outline';
 
 const BottomTabBar = () => {
@@ -32,6 +32,7 @@ const BottomTabBar = () => {
       path: '/patrocinadores',
       description: 'Seja um'
     },
+
     {
       id: 'audiovisual',
       label: 'Audiovisual',
