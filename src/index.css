@@ -199,5 +199,101 @@
 .leaderboard-rank-3 { @apply text-amber-600; }
 
 /* ============================================================================
+   iOS-LIKE STYLES FOR LINKS PAGE
+   ============================================================================ */
+
+@layer components {
+  /* iOS-like card styles */
+  .ios-card {
+    @apply bg-white rounded-2xl shadow-lg border border-gray-100;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  }
+  
+  .ios-card-hover {
+    @apply ios-card hover:shadow-xl transition-all duration-300;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+  }
+  
+  .ios-card-hover:hover {
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+  }
+  
+  /* iOS-like button styles */
+  .ios-button {
+    @apply rounded-full shadow-sm transition-all duration-200;
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  .ios-button-primary {
+    @apply ios-button bg-blue-500 hover:bg-blue-600 text-white;
+  }
+  
+  /* iOS-like typography */
+  .ios-title {
+    @apply text-gray-900 font-semibold;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+  }
+  
+  .ios-subtitle {
+    @apply text-gray-600;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+  }
+  
+  /* iOS-like spacing */
+  .ios-spacing {
+    @apply space-y-6;
+  }
+  
+  .ios-padding {
+    @apply p-6;
+  }
+  
+  /* iOS-like backdrop blur */
+  .ios-backdrop {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  
+  /* iOS-like gradients */
+  .ios-gradient-light {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  }
+  
+  .ios-gradient-blue {
+    background: linear-gradient(135deg, #007AFF 0%, #0051D5 100%);
+  }
+}
+
+@layer utilities {
+  /* iOS-like line clamp */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  /* iOS-like touch targets */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* iOS-like shadows */
+  .shadow-ios {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  }
+  
+  .shadow-ios-lg {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+  }
+  
+  .shadow-ios-xl {
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+  }
+}
+
+/* ============================================================================
    BOTTOM TAB BAR - iOS STYLE
    ============================================================================ */

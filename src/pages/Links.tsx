@@ -112,9 +112,9 @@ export default function LinksPage() {
         description="Todos os links importantes em um só lugar. Encontre inscrições, redes sociais, contato e muito mais do INTERBØX 2025."
       />
       
-      <div className="min-h-screen bg-black">
-        {/* Hero Section - Otimizado para iOS */}
-        <section className="relative h-[40vh] overflow-hidden">
+      <div className="min-h-screen bg-gray-50">
+        {/* Hero Section - Design iOS-like */}
+        <section className="relative h-[45vh] overflow-hidden">
           {/* Background Image */}
           <div className="absolute inset-0">
             <img
@@ -122,100 +122,109 @@ export default function LinksPage() {
               alt="INTERBØX 2025"
               className="w-full h-full object-cover"
             />
-            {/* Overlay escuro para melhor legibilidade */}
-            <div className="absolute inset-0 bg-black/60" />
+            {/* Overlay suave para iOS */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60" />
           </div>
 
-          {/* Conteúdo do Hero - Ultra compacto para iOS */}
-          <div className="relative z-10 h-full flex flex-col justify-end p-3">
-            {/* Card de perfil sobreposto - Mínimo */}
-            <div className="bg-black/80 backdrop-blur-sm rounded-lg p-2 mb-2 max-w-xs">
-              <div className="flex items-center space-x-2">
-                <div className="w-10 h-10 rounded-full overflow-hidden bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center">
+          {/* Conteúdo do Hero - Estilo iOS */}
+          <div className="relative z-10 h-full flex flex-col justify-end p-6">
+            {/* Card de perfil - Design iOS com sombra */}
+            <div className="bg-white/95 ios-backdrop rounded-2xl p-4 mb-4 max-w-sm shadow-ios-xl">
+              <div className="flex items-center space-x-3">
+                <div className="w-12 h-12 rounded-xl overflow-hidden bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center shadow-ios">
                   <img
                     src="/logos/oficial_logo.png"
                     alt="INTERBØX"
-                    className="w-7 h-7 object-contain"
+                    className="w-8 h-8 object-contain"
                   />
                 </div>
                 <div className="flex-1">
                   <img
                     src="/logos/nome_hrz.png"
                     alt="INTERBØX 2025"
-                    className="h-6 w-auto object-contain"
+                    className="h-7 w-auto object-contain mb-1"
                   />
-                  <p className="text-gray-300 text-xs">Maior Evento de Times da América Latina</p>
+                  <p className="ios-subtitle text-sm font-medium">Maior Evento de Times da América Latina</p>
                 </div>
               </div>
             </div>
 
-            {/* Slogan motivacional - Ultra compacto */}
-            <div className="mb-2">
-              <p className="text-base text-gray-200 max-w-2xl">
-              ᴄᴏᴍᴘᴇᴛɪçãᴏ. ᴄᴏᴍᴜɴɪᴅᴀᴅᴇ. ᴘʀᴏᴘóꜱɪᴛᴏ.
+            {/* Slogan motivacional - Tipografia iOS */}
+            <div className="mb-4">
+              <p className="text-lg text-white font-semibold max-w-2xl leading-relaxed">
+                ᴄᴏᴍᴘᴇᴛɪçãᴏ. ᴄᴏᴍᴜɴɪᴅᴀᴅᴇ. ᴘʀᴏᴘóꜱɪᴛᴏ.
               </p>
             </div>
           </div>
         </section>
 
-        {/* Links Section - Máximo aproveitamento do espaço iOS */}
-        <section className="bg-black p-3">
-          <div className="max-w-4xl mx-auto">
-            {/* Título da seção - Mínimo */}
-            <div className="text-center mb-2">
-              <h2 className="text-xl font-bold text-white mb-1">
+        {/* Links Section - Design iOS-like */}
+        <section className="bg-gray-50 p-6 -mt-8 relative z-20">
+          <div className="max-w-2xl mx-auto">
+            {/* Título da seção - Estilo iOS */}
+            <div className="text-center mb-8">
+              <h2 className="ios-title text-2xl mb-2">
                 Links Importantes
               </h2>
-              <p className="text-gray-400 text-xs">
+              <p className="ios-subtitle text-base">
                 Acesse todos os recursos do INTERBØX 2025
               </p>
             </div>
 
-            {/* Grid de Links em Cards Verticais - Ultra compactos */}
-            <div className="space-y-1 mb-3">
+            {/* Grid de Links em Cards - Design iOS */}
+            <div className="ios-spacing">
               {Object.entries(groupedLinks).map(([category, links]) => (
-                <div key={category} className="space-y-1">
-                  {/* Cabeçalho da categoria - Mínimo */}
-                  <h3 className="text-base font-semibold text-white">
-                    {CATEGORIES[category as keyof typeof CATEGORIES].title}
-                  </h3>
+                <div key={category} className="space-y-3">
+                  {/* Cabeçalho da categoria - Estilo iOS */}
+                  <div className="flex items-center space-x-2 mb-3">
+                    <div className="w-8 h-8 rounded-lg ios-gradient-blue flex items-center justify-center shadow-ios">
+                      <span className="text-white text-sm font-semibold">
+                        {CATEGORIES[category as keyof typeof CATEGORIES].icon}
+                      </span>
+                    </div>
+                    <h3 className="ios-title text-lg">
+                      {CATEGORIES[category as keyof typeof CATEGORIES].title}
+                    </h3>
+                  </div>
                   
-                  {/* Cards dos links - Ultra compactos */}
-                  <div className="space-y-1">
+                  {/* Cards dos links - Design iOS */}
+                  <div className="space-y-3">
                     {links.map((link) => (
                       <div
                         key={link.id}
-                        className="bg-gray-900/80 backdrop-blur-sm rounded-lg p-2 hover:bg-gray-800/80 transition-all duration-300 cursor-pointer group"
+                        className="ios-card-hover p-4 cursor-pointer group"
                         onClick={() => handleLinkClick(link)}
                       >
-                        <div className="flex items-center space-x-2">
-                          {/* Thumbnail/Ícone - Mínimo */}
-                          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-pink-500/20 to-purple-500/20 flex items-center justify-center">
+                        <div className="flex items-center space-x-4">
+                          {/* Thumbnail/Ícone - Estilo iOS */}
+                          <div className="w-14 h-14 rounded-xl ios-gradient-light flex items-center justify-center shadow-ios">
                             {link.logo ? (
                               <img
                                 src={link.logo}
                                 alt={link.title}
-                                className="w-6 h-6 object-contain"
+                                className="w-8 h-8 object-contain"
                               />
                             ) : (
-                              <span className="text-lg">{link.icon}</span>
+                              <span className="text-2xl">{link.icon}</span>
                             )}
                           </div>
                           
-                          {/* Conteúdo - Ultra compacto */}
-                          <div className="flex-1">
-                            <h4 className="text-white font-semibold text-sm mb-0.5">
+                          {/* Conteúdo - Espaçamento iOS */}
+                          <div className="flex-1 min-w-0">
+                            <h4 className="ios-title text-base mb-1 truncate">
                               {link.title}
                             </h4>
-                            <p className="text-gray-400 text-xs leading-tight">
+                            <p className="ios-subtitle text-sm leading-relaxed line-clamp-2">
                               {link.description}
                             </p>
                           </div>
                           
-                          {/* Botão Play - Mínimo */}
-                          <button className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center hover:bg-blue-600 transition-colors group-hover:scale-110">
-                            <span className="text-white text-xs">▶</span>
-                          </button>
+                          {/* Botão de ação - Touch target iOS */}
+                          <div className="ios-button-primary w-11 h-11 flex items-center justify-center group-hover:scale-105">
+                            <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                            </svg>
+                          </div>
                         </div>
                       </div>
                     ))}
