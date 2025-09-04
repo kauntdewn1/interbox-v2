@@ -16,11 +16,11 @@
 | Arquivo | Status | Prioridade | Observações |
 |---------|--------|------------|-------------|
 | `AvatarSelector.tsx` | ✅ | **ALTA** | Permite escolher avatares fixos e desbloquear premium com $BOX |
-| `BottomSheet.tsx` | 🕐 | **MÉDIA** | Componente mobile para configurações do perfil |
-| `Card.tsx` | 🕐 | **MÉDIA** | Container genérico - verificar se é UI genérica ou específica |
+| `BottomSheet.tsx` | ✅ | **MÉDIA** | Componente mobile para configurações do perfil |
+| `Card.tsx` | ✅ | **MÉDIA** | Container genérico - verificar se é UI genérica ou específica |
 | `ConfettiExplosion.tsx` | ✅ | **ALTA** | Efeito visual para cadastro com sucesso e entrega de $BOX |
-| `CookieBanner.tsx` | 🕐 | **ALTA** | LGPD e experiência do usuário |
-| `Pagination.tsx` | 🕐 | **MÉDIA** | Paginação para dashboards administrativos |
+| `CookieBanner.tsx` | ✅ | **ALTA** | LGPD e experiência do usuário |
+| `Pagination.tsx` | ✅ | **MÉDIA** | Paginação para dashboards administrativos |
 
 ### **🔹 Componentes de Gamificação**
 | Arquivo | Status | Prioridade | Observações |
@@ -43,7 +43,7 @@
 | Arquivo | Status | Prioridade | Observações |
 |---------|--------|------------|-------------|
 | `SelecaoTipoCadastro.tsx` | ✅ | **CRÍTICA** | Primeiro acesso logado - definir role (atleta, juiz, mídia) |
-| `ReferralLanding.tsx` | 🕐 | **CRÍTICA** | Página de convite/referral para viralidade |
+| `ReferralLanding.tsx` | ✅ | **CRÍTICA** | Página de convite/referral para viralidade |
 
 ### **🔸 Páginas de Perfil por Role**
 | Arquivo | Status | Prioridade | Observações |
@@ -179,4 +179,4 @@ npm run build && git add . && git commit -m "feat: migração componente X" && g
 
 **Última atualização**: $(date)
 **Status**: 🕐 Em andamento
-**Progresso**: 70% completo
+**Progresso**: 85% completo
