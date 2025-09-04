@@ -222,6 +222,7 @@ export default function AvatarSelector({
 
       // Adicionar notificação
       await addNotification({
+        user_id: user?.id || '',
         title: '🎉 Avatar desbloqueado!',
         message: `Você desbloqueou o avatar ${selectedPremiumAvatar.name} por ${selectedPremiumAvatar.cost} $BOX!`,
         type: 'success',

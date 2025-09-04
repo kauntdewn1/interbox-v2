@@ -3,7 +3,7 @@
 // ============================================================================
 
 import React, { useEffect, useRef } from 'react';
-import confetti from 'canvas-confetti';
+import confetti, { type Options } from 'canvas-confetti';
 
 // ============================================================================
 // TIPOS
@@ -29,35 +29,35 @@ const CONFETTI_PRESETS = {
     spread: 45,
     origin: { y: 0.6 },
     colors: ['#10B981', '#34C759', '#22C55E'],
-    shapes: ['square', 'circle'] as const
+    shapes: ['square', 'circle']
   },
   achievement: {
     particleCount: 100,
     spread: 60,
     origin: { y: 0.5 },
     colors: ['#F59E0B', '#F97316', '#EF4444', '#EC4899'],
-    shapes: ['star', 'circle'] as const
+    shapes: ['star', 'circle']
   },
   levelup: {
     particleCount: 150,
     spread: 70,
     origin: { y: 0.4 },
     colors: ['#8B5CF6', '#A855F7', '#C084FC', '#DDD6FE'],
-    shapes: ['star', 'circle', 'square'] as const
+    shapes: ['star', 'circle', 'square']
   },
   purchase: {
     particleCount: 80,
     spread: 50,
     origin: { y: 0.6 },
     colors: ['#EC4899', '#F472B6', '#FBBF24', '#F59E0B'],
-    shapes: ['circle', 'square'] as const
+    shapes: ['circle', 'square']
   },
   custom: {
     particleCount: 50,
     spread: 45,
     origin: { y: 0.6 },
     colors: ['#007AFF', '#34C759', '#FF9500'],
-    shapes: ['circle'] as const
+    shapes: ['circle']
   }
 };
 
@@ -81,7 +81,7 @@ export default function ConfettiExplosion({
   className = ''
 }: ConfettiExplosionProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const timeoutRef = useRef<NodeJS.Timeout>();
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // ============================================================================
   // EFEITOS
@@ -108,12 +108,12 @@ export default function ConfettiExplosion({
     const multiplier = INTENSITY_MULTIPLIERS[intensity];
     
     // Configuração base
-    const config = {
+    const config: Options = {
       particleCount: Math.floor(preset.particleCount * multiplier),
       spread: preset.spread,
       origin: preset.origin,
       colors: colors || preset.colors,
-      shapes: preset.shapes,
+      shapes: preset.shapes as any,
       gravity: 0.8,
       drift: 0.1,
       ticks: 300

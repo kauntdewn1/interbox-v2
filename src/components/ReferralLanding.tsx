@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useClerkSupabase, useIntegratedGamification } from '../hooks/useClerkSupabase';
 import { useAnalytics } from '../hooks/useSupabase';
-import { ConfettiExplosion } from './ConfettiExplosion';
+import ConfettiExplosion from './ConfettiExplosion';
 
 // ============================================================================
 // TIPOS

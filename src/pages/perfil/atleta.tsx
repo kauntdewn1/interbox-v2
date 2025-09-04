@@ -1,30 +1,15 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { useUser } from '@clerk/clerk-react';
-import { supabase } from '../../lib/supabase';
+import { useUser as useClerkUser } from '@clerk/clerk-react';
+import { useClerkSupabase } from '../../hooks/useClerkSupabase';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+import UserHeader from '../../components/UserHeader';
+import CategoriasCompeticao from '../../components/CategoriasCompeticao';
+import AvatarSelector from '../../components/AvatarSelector';
 
 // Tipos
-interface UserData {
-  id: string;
-  email: string;
-  display_name: string | null;
-  role: string;
-  photo_url?: string;
-  whatsapp?: string;
-  box?: string;
-  cidade?: string;
-  mensagem?: string;
-  gamification?: {
-    level?: string;
-    tokens?: {
-      box?: {
-        balance?: number;
-      };
-    };
-  };
-}
+import type { User, UserGamification } from '../../types/supabase';
 
 interface Team {
   id: string;
@@ -53,64 +38,25 @@ const ATLETA_TABS = [
 ];
 
 export default function PerfilAtleta() {
-  const { user } = useUser();
-  const [userData, setUserData] = useState<UserData | null>(null);
+  const { user } = useClerkUser();
+  const { user: userData, gamification, loading: userLoading } = useClerkSupabase();
+  
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('perfil');
   
   // Estados dos dados
   const [userTeam, setUserTeam] = useState<Team | null>(null);
   const [userEvents, setUserEvents] = useState<Event[]>([]);
-  const [userBoxes, setUserBoxes] = useState<number>(0);
   const [isCaptain, setIsCaptain] = useState(false);
 
   // Carregar dados do usuário
   const loadUserData = useCallback(async (userId: string) => {
     try {
       console.log('🔄 Carregando dados do usuário:', userId);
-      const { data: userData, error } = await supabase
-        .from('users')
-        .select('*')
-        .eq('id', userId)
-        .single();
 
-      if (error) {
-        console.error('Erro ao carregar usuário:', error);
-        return;
-      }
-
-      console.log('📖 Dados carregados do Supabase:', userData);
-      setUserData(userData);
-
-      // Carregar time se existir
-      if (userData.team_id) {
-        const { data: teamData } = await supabase
-          .from('teams')
-          .select('*')
-          .eq('id', userData.team_id)
-          .single();
-        
-        if (teamData) {
-          setUserTeam(teamData);
-          setIsCaptain(teamData.captain_id === userId);
-        }
-      }
-
-      // Carregar eventos do usuário
-      const { data: eventsData } = await supabase
-        .from('events')
-        .select('*')
-        .contains('participants', [userId])
-        .order('data', { ascending: false });
-
-      if (eventsData) {
-        setUserEvents(eventsData);
-      }
-
-      // Carregar dados de gamificação
-      if (userData.gamification?.tokens?.box?.balance) {
-        setUserBoxes(userData.gamification.tokens.box.balance);
-      }
+      // Carregar eventos do usuário (simulado por enquanto)
+      // TODO: Implementar quando tivermos tabela de eventos
+      setUserEvents([]);
 
     } catch (error) {
       console.error('❌ Erro ao carregar dados do usuário:', error);
@@ -119,14 +65,14 @@ export default function PerfilAtleta() {
 
   // Effects
   useEffect(() => {
-    if (user) {
+    if (user && userData) {
       loadUserData(user.id);
       setLoading(false);
     }
-  }, [user, loadUserData]);
+  }, [user, userData, loadUserData]);
 
   // Loading state
-  if (loading) {
+  if (loading || userLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-black via-[#0a0a1a] to-[#0038d0] flex items-center justify-center">
         <div className="text-center">
@@ -161,21 +107,11 @@ export default function PerfilAtleta() {
       
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         {/* Header do Perfil */}
-        <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 mb-6">
-          <div className="flex items-center space-x-4">
-            <div className="w-16 h-16 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center">
-              <span className="text-2xl">🏃</span>
-            </div>
-            <div className="flex-1">
-              <h1 className="text-2xl font-bold text-white">{userData.display_name}</h1>
-              <p className="text-gray-300">Atleta • {userData.cidade || 'Cidade não informada'}</p>
-            </div>
-            <div className="text-right">
-              <div className="text-3xl font-bold text-pink-400">{userBoxes}</div>
-              <div className="text-gray-300 text-sm">$BØX</div>
-            </div>
-          </div>
-        </div>
+        <UserHeader 
+          showGamification={true}
+          showRole={true}
+          className="mb-6"
+        />
 
         {/* Tabs */}
         <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-4 border border-white/10 mb-6">
@@ -210,7 +146,7 @@ export default function PerfilAtleta() {
             userTeam={userTeam} 
             userEvents={userEvents}
             isCaptain={isCaptain} 
-            userBoxes={userBoxes}
+            gamification={gamification}
           />
         </motion.div>
       </div>
@@ -222,14 +158,14 @@ export default function PerfilAtleta() {
 
 interface TabContentProps {
   activeTab: string;
-  userData: UserData;
+  userData: any; // Tipo do useClerkSupabase
   userTeam: Team | null;
   userEvents: Event[];
   isCaptain: boolean;
-  userBoxes: number;
+  gamification: UserGamification;
 }
 
-function TabContent({ activeTab, userData, userTeam, userEvents, isCaptain, userBoxes }: TabContentProps) {
+function TabContent({ activeTab, userData, userTeam, userEvents, isCaptain, gamification }: TabContentProps) {
   switch (activeTab) {
     case 'competicao':
       return <CompeticaoTab userTeam={userTeam} />;
@@ -240,7 +176,7 @@ function TabContent({ activeTab, userData, userTeam, userEvents, isCaptain, user
     case 'convites':
       return <ConvitesTab />;
     case 'perfil':
-      return <PerfilTab userData={userData} userBoxes={userBoxes} />;
+      return <PerfilTab userData={userData} gamification={gamification} />;
     default:
       return <CompeticaoTab userTeam={userTeam} />;
   }
@@ -276,6 +212,15 @@ function CompeticaoTab({ userTeam }: { userTeam: Team | null }) {
           </div>
         </div>
       </div>
+
+      {/* Componente de Categorias */}
+      <CategoriasCompeticao 
+        onCategoriaSelect={(categoria) => {
+          console.log('Categoria selecionada:', categoria);
+        }}
+        showStats={true}
+        className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10"
+      />
 
       <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
         <h3 className="text-lg font-semibold text-white mb-6 flex items-center">
@@ -498,7 +443,7 @@ function ConvitesTab() {
 }
 
 // Perfil Tab
-function PerfilTab({ userData, userBoxes }: { userData: UserData; userBoxes: number }) {
+function PerfilTab({ userData, gamification }: { userData: any; gamification: UserGamification }) {
   return (
     <div className="space-y-6">
       {/* Informações da Conta */}
@@ -511,17 +456,32 @@ function PerfilTab({ userData, userBoxes }: { userData: UserData; userBoxes: num
         <div className="space-y-4">
           <div className="flex items-center justify-between py-3 border-b border-white/10">
             <span className="text-gray-300">Nome</span>
-            <span className="font-medium text-white">{userData.display_name}</span>
+            <span className="font-medium text-white">{userData?.display_name || 'Nome não informado'}</span>
           </div>
           <div className="flex items-center justify-between py-3 border-b border-white/10">
             <span className="text-gray-300">E-mail</span>
-            <span className="font-medium text-white">{userData.email}</span>
+            <span className="font-medium text-white">{userData?.email || 'Email não informado'}</span>
           </div>
           <div className="flex items-center justify-between py-3">
             <span className="text-gray-300">Participando como</span>
-            <span className="font-medium text-white">{userData.role}</span>
+            <span className="font-medium text-white">{userData?.role || 'Role não informado'}</span>
           </div>
         </div>
+      </div>
+
+      {/* Avatar Selector */}
+      <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
+        <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
+          <span className="text-purple-400 mr-2">👤</span>
+          Avatar Personalizado
+        </h3>
+        <AvatarSelector 
+          selectedAvatar={userData?.avatar_url || 'default'}
+          onAvatarSelect={(avatar) => {
+            console.log('Avatar selecionado:', avatar);
+          }}
+          showPremium={true}
+        />
       </div>
 
       {/* Conquistas */}

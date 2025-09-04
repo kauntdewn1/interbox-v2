@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useClerkSupabase } from '../hooks/useClerkSupabase';
 import { useNotifications } from '../hooks/useSupabase';
-import confetti from 'canvas-confetti';
+import confetti, { type Options } from 'canvas-confetti';
 import type { UserRole } from '../types/supabase';
 
 // ============================================================================
@@ -160,15 +160,15 @@ export default function SelecaoTipoCadastro({ className = '' }: SelecaoTipoCadas
         metadata: {
           tokens: TIPOS_CADASTRO.find(t => t.id === selectedType)?.tokens || 0,
           role: selectedType
-        }
+        },
+        user_id: user.id
       });
 
       // Efeito de confetti
       confetti({
         particleCount: 50,
-        spread: 45,
-        origin: { y: 0.6 },
-        colors: ['#007AFF', '#34C759', '#FF9500', '#FF3B30']
+        spread: 70,
+        origin: { y: 0.6 }
       });
 
       // Redirecionar após delay
