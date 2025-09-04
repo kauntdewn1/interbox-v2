@@ -1,9 +1,9 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "redirects": [
     {
       "source": "/links",
       "destination": "/",
-      "permanent": true,
       "statusCode": 301
     }
   ],

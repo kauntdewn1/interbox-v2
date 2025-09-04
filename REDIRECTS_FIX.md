@@ -12,11 +12,11 @@ O Instagram e outras plataformas sociais não aceitam:
 ### 1. **Arquivo de Redirects para Vercel** (`vercel.json`)
 ```json
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "redirects": [
     {
       "source": "/links",
       "destination": "/",
-      "permanent": true,
       "statusCode": 301
     }
   ]
