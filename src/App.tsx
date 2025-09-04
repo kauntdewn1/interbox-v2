@@ -15,7 +15,6 @@ const Login = lazy(() => import('./pages/Login'));
 const Patrocinadores = lazy(() => import('./pages/patrocinadores'));
 const Sobre = lazy(() => import('./pages/sobre'));
 const SelecaoTipoCadastro = lazy(() => import('./pages/SelecaoTipoCadastro'));
-const Links = lazy(() => import('./pages/Links'));
 const AuthCallback = lazy(() => import('./pages/AuthCallback'));
 
 // Páginas de perfil
@@ -33,8 +32,8 @@ const Dev = lazy(() => import('./pages/dev'));
 function AppContent() {
   const location = useLocation();
   
-  // Ocultar BottomTabBar apenas na página /links
-  const shouldShowBottomTabBar = location.pathname !== '/links';
+  // Sempre mostrar BottomTabBar (removida lógica de /links)
+  const shouldShowBottomTabBar = true;
 
   return (
     <>
@@ -72,9 +71,6 @@ function AppContent() {
 
           {/* Página de Patrocinadores */}
           <Route path="/patrocinadores" element={<Patrocinadores />} />
-
-          {/* Página de Links */}
-          <Route path="/links" element={<Links />} />
 
           {/* Seleção de Tipo de Cadastro */}
           <Route
@@ -151,7 +147,7 @@ function AppContent() {
         </Routes>
       </Suspense>
       
-      {/* Bottom Tab Bar iOS-like - Oculto apenas na página /links */}
+      {/* Bottom Tab Bar iOS-like */}
       {shouldShowBottomTabBar && <BottomTabBar />}
     </>
   );

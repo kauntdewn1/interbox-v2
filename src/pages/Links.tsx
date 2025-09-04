@@ -131,7 +131,7 @@ export default function LinksPage() {
             {/* Card de perfil - Design iOS com sombra */}
             <div className="bg-white/95 ios-backdrop rounded-2xl p-4 mb-4 max-w-sm shadow-ios-xl">
               <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 rounded-xl overflow-hidden bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center shadow-ios">
+                <div className="w-12 h-12 rounded-xl overflow-hidden text-center bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center shadow-ios">
                   <img
                     src="/logos/oficial_logo.png"
                     alt="INTERBØX"
