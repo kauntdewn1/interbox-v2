@@ -9,23 +9,36 @@ O Instagram e outras plataformas sociais não aceitam:
 
 ## ✅ Soluções Implementadas
 
-### 1. **Arquivo de Redirects para Vercel** (`vercel.json`)
+### 1. **Página /links Funcionando Normalmente**
+- ✅ Rota `/links` restaurada no React Router
+- ✅ Componente `Links` funcionando
+- ✅ BottomTabBar oculto apenas na página `/links`
+- ✅ Sem redirects desnecessários
+
+### 2. **Headers de Segurança** (`vercel.json`)
 ```json
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "redirects": [
+  "headers": [
     {
-      "source": "/links",
-      "destination": "/",
-      "statusCode": 301
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        }
+      ]
     }
   ]
 }
-```
-
-### 2. **Arquivo de Redirects para Netlify** (`public/_redirects`)
-```
-/links / 301!
 ```
 
 ### 3. **Remoção da Rota `/links` do React Router**

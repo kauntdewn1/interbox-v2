@@ -32,7 +32,7 @@ const Dev = lazy(() => import('./pages/dev'));
 function AppContent() {
   const location = useLocation();
   
-  // Sempre mostrar BottomTabBar (removida lógica de /links)
+  // Sempre mostrar BottomTabBar (página /links redireciona para /)
   const shouldShowBottomTabBar = true;
 
   return (

@@ -1,6 +1,3 @@
-# Redirects para Netlify
-/links / 301!
-
 # Headers de segurança
 /*
   X-Content-Type-Options: nosniff
