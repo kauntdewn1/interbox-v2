@@ -1,5 +1,5 @@
 // ============================================================================
-// TIPOS SUPABASE - INTERBØX V2
+// TIPOS SUPABASE TEMPORÁRIOS - INTERBØX V2
 // ============================================================================
 
 export type Json =
@@ -29,19 +29,19 @@ export type UserStatus =
   | 'active'
   | 'inactive'
   | 'suspended'
-  | 'pending'
 
 export type GamificationLevel = 
-  | 'annie'    // Iniciante
-  | 'cindy'    // Base
-  | 'fran'     // Intermediário
-  | 'helen'    // Avançado
-  | 'matt'     // Expert
-  | 'murph'    // Master
+  | 'cindy'
+  | 'helen'
+  | 'fran'
+  | 'annie'
+  | 'murph'
+  | 'matt'
 
 export type TransactionType = 
   | 'earn'
   | 'spend'
+  | 'transfer'
   | 'bonus'
   | 'referral'
   | 'achievement'
@@ -54,6 +54,18 @@ export type SponsorStatus =
   | 'pending'
   | 'rejected'
 
+export type NotificationType = 
+  | 'info'
+  | 'success'
+  | 'warning'
+  | 'error'
+
+export type TeamInviteStatus = 
+  | 'pending'
+  | 'accepted'
+  | 'rejected'
+  | 'expired'
+
 // ============================================================================
 // INTERFACES PRINCIPAIS
 // ============================================================================
@@ -62,8 +74,8 @@ export interface User {
   id: string
   clerk_id: string
   email: string
-  display_name: string
-  photo_url?: string
+  display_name: string | null
+  photo_url: string | null
   role: UserRole
   whatsapp?: string
   box?: string
@@ -72,19 +84,50 @@ export interface User {
   profile_complete: boolean
   is_active: boolean
   test_user: boolean
-  status: UserStatus
   team_id?: string
+  avatar_url?: string
   created_at: string
   updated_at: string
 }
 
-export interface Team {
-  id: string
-  nome: string
-  captain_id?: string
-  atletas: Json
-  created_at: string
-  updated_at: string
+export interface UserInsert {
+  id?: string
+  clerk_id: string
+  email: string
+  display_name?: string | null
+  photo_url?: string | null
+  role: UserRole
+  whatsapp?: string
+  box?: string
+  cidade?: string
+  mensagem?: string
+  profile_complete?: boolean
+  is_active?: boolean
+  test_user?: boolean
+  team_id?: string
+  avatar_url?: string
+  created_at?: string
+  updated_at?: string
+}
+
+export interface UserUpdate {
+  id?: string
+  clerk_id?: string
+  email?: string
+  display_name?: string | null
+  photo_url?: string | null
+  role?: UserRole
+  whatsapp?: string
+  box?: string
+  cidade?: string
+  mensagem?: string
+  profile_complete?: boolean
+  is_active?: boolean
+  test_user?: boolean
+  team_id?: string
+  avatar_url?: string
+  created_at?: string
+  updated_at?: string
 }
 
 export interface UserGamification {
@@ -93,34 +136,100 @@ export interface UserGamification {
   level: GamificationLevel
   box_tokens: number
   total_earned: number
-  total_spent: number
-  weekly_tokens: number
-  monthly_tokens: number
-  yearly_tokens: number
-  referral_tokens: number
   achievements: string[]
   badges: string[]
-  challenges: Json
-  rewards: Json
-  referral_code: string
-  referrals: string[]
-  total_actions: number
-  frequencia_dias: number
-  melhor_frequencia: number
-  last_action_at: string
-  ultimo_login_frequencia: string
+  last_action: string
   created_at: string
   updated_at: string
+}
+
+export interface UserGamificationInsert {
+  id?: string
+  user_id: string
+  level?: GamificationLevel
+  box_tokens?: number
+  total_earned?: number
+  achievements?: string[]
+  badges?: string[]
+  last_action?: string
+  created_at?: string
+  updated_at?: string
+}
+
+export interface UserGamificationUpdate {
+  id?: string
+  user_id?: string
+  level?: GamificationLevel
+  box_tokens?: number
+  total_earned?: number
+  achievements?: string[]
+  badges?: string[]
+  last_action?: string
+  created_at?: string
+  updated_at?: string
 }
 
 export interface Transaction {
   id: string
   user_id: string
-  type: TransactionType
   amount: number
-  description?: string
-  metadata: Json
+  type: TransactionType
+  description: string
+  metadata?: Json
   created_at: string
+}
+
+export interface TransactionInsert {
+  id?: string
+  user_id: string
+  amount: number
+  type: TransactionType
+  description: string
+  metadata?: Json
+  created_at?: string
+}
+
+export interface TransactionUpdate {
+  id?: string
+  user_id?: string
+  amount?: number
+  type?: TransactionType
+  description?: string
+  metadata?: Json
+  created_at?: string
+}
+
+export interface Team {
+  id: string
+  nome: string
+  categoria?: string
+  status?: string
+  captain_id: string
+  members: string[]
+  created_at: string
+  updated_at: string
+}
+
+export interface TeamInsert {
+  id?: string
+  nome: string
+  categoria?: string
+  status?: string
+  captain_id: string
+  members?: string[]
+  created_at?: string
+  updated_at?: string
+}
+
+export interface TeamUpdate {
+  id?: string
+  nome?: string
+  categoria?: string
+  status?: string
+  captain_id?: string
+  members?: string[]
+  created_at?: string
+  updated_at?: string
 }
 
 export interface Patrocinador {
@@ -130,7 +239,7 @@ export interface Patrocinador {
   categoria: string
   telefone: string
   email: string
-  promessa?: string
+  promessa: string
   observacoes?: string
   logomarca_url?: string
   status: SponsorStatus
@@ -138,14 +247,64 @@ export interface Patrocinador {
   updated_at: string
 }
 
+export interface PatrocinadorInsert {
+  id?: string
+  nome: string
+  empresa: string
+  categoria: string
+  telefone: string
+  email: string
+  promessa: string
+  observacoes?: string
+  logomarca_url?: string
+  status?: SponsorStatus
+  created_at?: string
+  updated_at?: string
+}
+
+export interface PatrocinadorUpdate {
+  id?: string
+  nome?: string
+  empresa?: string
+  categoria?: string
+  telefone?: string
+  email?: string
+  promessa?: string
+  observacoes?: string
+  logomarca_url?: string
+  status?: SponsorStatus
+  created_at?: string
+  updated_at?: string
+}
+
 export interface AnalyticsEvent {
   id: string
-  user_id?: string
+  user_id: string
   event_name: string
   event_data: Json
-  user_agent?: string
+  user_agent: string
   ip_address?: string
   created_at: string
+}
+
+export interface AnalyticsEventInsert {
+  id?: string
+  user_id: string
+  event_name: string
+  event_data: Json
+  user_agent: string
+  ip_address?: string
+  created_at?: string
+}
+
+export interface AnalyticsEventUpdate {
+  id?: string
+  user_id?: string
+  event_name?: string
+  event_data?: Json
+  user_agent?: string
+  ip_address?: string
+  created_at?: string
 }
 
 export interface Notification {
@@ -153,10 +312,35 @@ export interface Notification {
   user_id: string
   title: string
   message: string
-  type: string
+  type: NotificationType
   read: boolean
-  metadata: Json
+  metadata?: Json
   created_at: string
+  updated_at: string
+}
+
+export interface NotificationInsert {
+  id?: string
+  user_id: string
+  title: string
+  message: string
+  type: NotificationType
+  read?: boolean
+  metadata?: Json
+  created_at?: string
+  updated_at?: string
+}
+
+export interface NotificationUpdate {
+  id?: string
+  user_id?: string
+  title?: string
+  message?: string
+  type?: NotificationType
+  read?: boolean
+  metadata?: Json
+  created_at?: string
+  updated_at?: string
 }
 
 export interface TeamInvite {
@@ -164,39 +348,33 @@ export interface TeamInvite {
   team_id: string
   inviter_id: string
   invitee_email: string
-  invitee_id?: string
-  status: string
+  status: TeamInviteStatus
   expires_at: string
   created_at: string
+  updated_at: string
 }
 
-// ============================================================================
-// TIPOS PARA INSERÇÃO E ATUALIZAÇÃO
-// ============================================================================
+export interface TeamInviteInsert {
+  id?: string
+  team_id: string
+  inviter_id: string
+  invitee_email: string
+  status?: TeamInviteStatus
+  expires_at: string
+  created_at?: string
+  updated_at?: string
+}
 
-export type UserInsert = Omit<User, 'id' | 'created_at' | 'updated_at'>
-export type UserUpdate = Partial<Omit<User, 'id' | 'created_at' | 'updated_at'>>
-
-export type TeamInsert = Omit<Team, 'id' | 'created_at' | 'updated_at'>
-export type TeamUpdate = Partial<Omit<Team, 'id' | 'created_at' | 'updated_at'>>
-
-export type UserGamificationInsert = Omit<UserGamification, 'id' | 'created_at' | 'updated_at'>
-export type UserGamificationUpdate = Partial<Omit<UserGamification, 'id' | 'created_at' | 'updated_at'>>
-
-export type TransactionInsert = Omit<Transaction, 'id' | 'created_at'>
-export type TransactionUpdate = Partial<Omit<Transaction, 'id' | 'created_at'>>
-
-export type PatrocinadorInsert = Omit<Patrocinador, 'id' | 'created_at' | 'updated_at'>
-export type PatrocinadorUpdate = Partial<Omit<Patrocinador, 'id' | 'created_at' | 'updated_at'>>
-
-export type AnalyticsEventInsert = Omit<AnalyticsEvent, 'id' | 'created_at'>
-export type AnalyticsEventUpdate = Partial<Omit<AnalyticsEvent, 'id' | 'created_at'>>
-
-export type NotificationInsert = Omit<Notification, 'id' | 'created_at'>
-export type NotificationUpdate = Partial<Omit<Notification, 'id' | 'created_at'>>
-
-export type TeamInviteInsert = Omit<TeamInvite, 'id' | 'created_at'>
-export type TeamInviteUpdate = Partial<Omit<TeamInvite, 'id' | 'created_at'>>
+export interface TeamInviteUpdate {
+  id?: string
+  team_id?: string
+  inviter_id?: string
+  invitee_email?: string
+  status?: TeamInviteStatus
+  expires_at?: string
+  created_at?: string
+  updated_at?: string
+}
 
 // ============================================================================
 // INTERFACE PRINCIPAL DO DATABASE
@@ -248,24 +426,24 @@ export interface Database {
     }
     Views: Record<string, never>
     Functions: {
-      create_user_with_gamification: {
-            Args: {
-              p_clerk_id: string
-              p_email: string
-              p_display_name: string
-              p_role?: UserRole
-            }
-            Returns: string
-          }
       add_tokens: {
-            Args: {
-              p_user_id: string
-              p_amount: number
-              p_type?: TransactionType
-              p_description?: string
-            }
-            Returns: boolean
-          }
+        Args: {
+          p_user_id: string
+          p_amount: number
+          p_type: TransactionType
+          p_description: string
+        }
+        Returns: { success: boolean; new_balance: number }
+      }
+      create_user_with_gamification: {
+        Args: {
+          p_clerk_id: string
+          p_email: string
+          p_display_name: string
+          p_role: UserRole
+        }
+        Returns: { user_id: string; gamification_id: string }
+      }
     }
     Enums: {
       user_role: UserRole
@@ -273,14 +451,8 @@ export interface Database {
       gamification_level: GamificationLevel
       transaction_type: TransactionType
       sponsor_status: SponsorStatus
+      notification_type: NotificationType
+      team_invite_status: TeamInviteStatus
     }
-    CompositeTypes: Record<string, never>
   }
 }
-
-// ============================================================================
-// TIPOS DE NEGÓCIO
-// ============================================================================
-
-export type UserRole = 'publico' | 'atleta' | 'judge' | 'midia' | 'admin' | 'dev' | 'marketing';
-

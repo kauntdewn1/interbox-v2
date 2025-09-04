@@ -50,7 +50,7 @@ export function useGamificationContext(): UseGamificationContextResult {
         if (gamificationError) throw gamificationError
         if (!Array.isArray(gamificationData)) throw new Error('Erro ao carregar gamificação')
 
-        const userIds = gamificationData.map(row => row.user_id)
+        const userIds = gamificationData.map((row: Record<string, unknown>) => row.user_id as string)
 
         // 2. Busca usuários correspondentes
         const { data: usersData, error: usersError } = await supabase
@@ -62,21 +62,21 @@ export function useGamificationContext(): UseGamificationContextResult {
         if (!Array.isArray(usersData)) throw new Error('Erro ao carregar usuários')
 
         const userMap = new Map<string, UserRow>()
-        usersData.forEach(user => {
+        usersData.forEach((user: Record<string, unknown>) => {
           if (isUserRow(user)) {
-            userMap.set(user.id, user)
+            userMap.set(user.id as string, user as UserRow)
           }
         })
 
         // 3. Consolida os dados
         const consolidated: ConsolidatedUser[] = gamificationData
           .filter(isGamificationRow)
-          .map(entry => {
+          .map((entry: GamificationRow) => {
             const profile = userMap.get(entry.user_id)
             return {
               id: entry.user_id,
               displayName: profile?.display_name ?? 'Anônimo',
-              role: validateRole(profile?.role),
+              role: validateRole(profile?.role as string),
               boxTokens: entry.box_tokens ?? 0,
             }
           })

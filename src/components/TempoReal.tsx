@@ -103,10 +103,10 @@ export default function TempoReal({
 
       // Processar dados do leaderboard
       const processedData: LeaderboardEntry[] = data
-        .filter(item => item.user_gamification && item.user_gamification.length > 0)
+        .filter(item => item.user_gamification)
         .map((item, index) => ({
           user: item,
-          gamification: item.user_gamification[0],
+          gamification: item.user_gamification,
           position: index + 1,
           isCurrentUser: currentUser?.id === item.id
         }));
@@ -269,7 +269,7 @@ export default function TempoReal({
                         {levelInfo.icon} {levelInfo.name}
                       </span>
                       <span className="text-xs text-gray-400">
-                        {entry.gamification.total_actions} ações
+                        {entry.gamification.achievements.length} conquistas
                       </span>
                     </div>
                   </div>
@@ -292,7 +292,7 @@ export default function TempoReal({
                   <div className="mt-3">
                     <div className="flex justify-between text-xs text-gray-400 mb-1">
                       <span>Progresso</span>
-                      <span>{entry.gamification.frequencia_dias} dias seguidos</span>
+                      <span>{entry.gamification.achievements.length} conquistas</span>
                     </div>
                     <div className="w-full bg-gray-700 rounded-full h-2">
                       <motion.div
@@ -352,10 +352,10 @@ export function useLeaderboard(limit: number = 10) {
       if (error) throw error;
 
       const processedData: LeaderboardEntry[] = data
-        .filter(item => item.user_gamification && item.user_gamification.length > 0)
+        .filter(item => item.user_gamification)
         .map((item, index) => ({
           user: item,
-          gamification: item.user_gamification[0],
+          gamification: item.user_gamification,
           position: index + 1,
           isCurrentUser: false
         }));

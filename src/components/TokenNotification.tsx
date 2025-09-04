@@ -30,6 +30,7 @@ interface NotificationData {
 const NOTIFICATION_ICONS: Record<TransactionType, string> = {
   'earn': '💰',
   'spend': '💸',
+  'transfer': '🔄',
   'bonus': '🎁',
   'referral': '👥',
   'achievement': '🏆'
@@ -38,6 +39,7 @@ const NOTIFICATION_ICONS: Record<TransactionType, string> = {
 const NOTIFICATION_COLORS: Record<TransactionType, string> = {
   'earn': 'text-green-400',
   'spend': 'text-red-400',
+  'transfer': 'text-orange-400',
   'bonus': 'text-purple-400',
   'referral': 'text-blue-400',
   'achievement': 'text-yellow-400'
@@ -46,6 +48,7 @@ const NOTIFICATION_COLORS: Record<TransactionType, string> = {
 const NOTIFICATION_MESSAGES: Record<TransactionType, (amount: number, description?: string) => string> = {
   'earn': (amount, description) => `+${amount} $BOX ganhos! ${description || 'Continue assim!'}`,
   'spend': (amount, description) => `-${amount} $BOX gastos. ${description || 'Investimento realizado!'}`,
+  'transfer': (amount, description) => `${amount} $BOX transferidos. ${description || 'Transferência realizada!'}`,
   'bonus': (amount, description) => `+${amount} $BOX de bônus! ${description || 'Presente especial!'}`,
   'referral': (amount, description) => `+${amount} $BOX por indicação! ${description || 'Obrigado por indicar!'}`,
   'achievement': (amount, description) => `+${amount} $BOX por conquista! ${description || 'Parabéns!'}`

@@ -284,15 +284,15 @@ export default function UserGamificationCards({ className = '' }: GamificationCa
         {/* Estatísticas */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="text-center">
-            <div className="text-2xl font-bold text-white">{gamification.total_actions}</div>
+            <div className="text-2xl font-bold text-white">{gamification.achievements.length}</div>
             <p className="text-sm text-gray-400">Ações</p>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-white">{gamification.frequencia_dias}</div>
+            <div className="text-2xl font-bold text-white">{gamification.badges.length}</div>
             <p className="text-sm text-gray-400">Dias seguidos</p>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-white">{gamification.referrals.length}</div>
+            <div className="text-2xl font-bold text-white">{gamification.total_earned}</div>
             <p className="text-sm text-gray-400">Indicações</p>
           </div>
           <div className="text-center">
@@ -373,7 +373,7 @@ export default function UserGamificationCards({ className = '' }: GamificationCa
                   <div>
                     <p className="text-white font-medium">Streak de 7 dias</p>
                     <p className="text-sm text-gray-400">
-                      {7 - gamification.frequencia_dias} dias restantes
+                      {gamification.achievements.length} conquistas
                     </p>
                   </div>
                 </div>

@@ -152,7 +152,7 @@ export default function ReferralLanding({ className = '' }: ReferralLandingProps
       await new Promise(resolve => setTimeout(resolve, 2000));
 
       // Adicionar tokens para o usuário atual
-      await awardTokens(REFERRAL_REWARDS.referee, 'referral', 'Bônus de indicação');
+      await awardTokens('referral', REFERRAL_REWARDS.referee, 'Bônus de indicação');
 
       // Simular adição de tokens para o referrer (substituir por lógica real)
       console.log('Adicionando tokens para o referrer:', referralData.referrer.id);

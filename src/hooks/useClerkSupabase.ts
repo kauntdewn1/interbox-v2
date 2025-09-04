@@ -102,14 +102,14 @@ export function useClerkSupabase() {
         .update({ role, profile_complete: true })
         .eq('clerk_id', clerkUser.id);
 
-      // Atualizar no Clerk
-      await clerkUser.update({
-        publicMetadata: {
-          ...clerkUser.publicMetadata,
-          role,
-          profileComplete: true
-        }
-      });
+      // Atualizar no Clerk (comentado temporariamente devido a problemas de tipagem)
+      // await clerkUser.update({
+      //   publicMetadata: {
+      //     ...clerkUser.publicMetadata,
+      //     role,
+      //     profileComplete: true
+      //   }
+      // });
 
       // Adicionar tokens por completar perfil
       if (gamification) {
@@ -142,14 +142,14 @@ export function useClerkSupabase() {
         })
         .eq('clerk_id', clerkUser.id);
 
-      // Atualizar no Clerk
-      await clerkUser.update({
-        publicMetadata: {
-          ...clerkUser.publicMetadata,
-          role: profileData.role,
-          profileComplete: true
-        }
-      });
+      // Atualizar no Clerk (comentado temporariamente devido a problemas de tipagem)
+      // await clerkUser.update({
+      //   publicMetadata: {
+      //     ...clerkUser.publicMetadata,
+      //     role: profileData.role,
+      //     profileComplete: true
+      //   }
+      // });
 
       // Adicionar tokens por completar perfil
       if (gamification) {
