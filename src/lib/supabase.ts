@@ -1,11 +1,31 @@
-// src/lib/supabase.ts
-import { createClient } from '@supabase/supabase-js';
+// ============================================================================
+// CLIENTE SUPABASE - INTERBØX V2
+// ============================================================================
 
-// Create Supabase client - using any temporarily to avoid type issues
-export const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL || 'placeholder',
-  import.meta.env.VITE_SUPABASE_ANON_KEY || 'placeholder'
-) as any;
+import { createClient } from '@supabase/supabase-js';
+import type { Database } from '../types/supabase';
+
+// Configurações do Supabase
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error('Variáveis de ambiente do Supabase não configuradas');
+}
+
+// Cliente Supabase tipado
+export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    autoRefreshToken: true,
+    persistSession: true,
+    detectSessionInUrl: true
+  },
+  realtime: {
+    params: {
+      eventsPerSecond: 10
+    }
+  }
+});
 
 // 4. Constatantes e tipos de negócio
 export type UserRole = 'publico' | 'atleta' | 'judge' | 'midia' | 'admin' | 'dev' | 'marketing' | 'fotografo' | 'espectador' | 'staff';
