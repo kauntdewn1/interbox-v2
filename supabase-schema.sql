@@ -52,11 +52,12 @@ CREATE TYPE transaction_type AS ENUM (
 
 -- Status de patrocinador
 CREATE TYPE sponsor_status AS ENUM (
+  'bronze',
+  'prata',
+  'ouro',
+  'platina',
   'pending',
-  'approved',
-  'rejected',
-  'active',
-  'inactive'
+  'rejected'
 );
 
 -- ============================================================================

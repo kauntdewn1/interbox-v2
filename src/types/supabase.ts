@@ -47,11 +47,12 @@ export type TransactionType =
   | 'achievement'
 
 export type SponsorStatus = 
+  | 'bronze'
+  | 'prata'
+  | 'ouro'
+  | 'platina'
   | 'pending'
-  | 'approved'
   | 'rejected'
-  | 'active'
-  | 'inactive'
 
 // ============================================================================
 // INTERFACES PRINCIPAIS
