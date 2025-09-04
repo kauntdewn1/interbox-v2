@@ -3,7 +3,7 @@
 // ============================================================================
 
 import { useState, useEffect, useCallback } from 'react';
-import { useUser } from '@clerk/clerk-react';
+import { useAuth, useUser } from '@clerk/clerk-react';
 import { supabase } from '../lib/supabase';
 import { useUser as useSupabaseUser, useGamification, useCreateUserWithGamification } from './useSupabase';
 import type { User, UserRole } from '../types/supabase';
@@ -14,6 +14,7 @@ import type { User, UserRole } from '../types/supabase';
 
 export function useClerkSupabase() {
   const { user: clerkUser, isLoaded: clerkLoaded } = useUser();
+  const { getToken } = useAuth();
   const [supabaseUser, setSupabaseUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -36,6 +37,35 @@ export function useClerkSupabase() {
     createUser: createUserWithGamification,
     loading: createLoading 
   } = useCreateUserWithGamification();
+
+  // ============================================================================
+  // CONFIGURAÇÃO JWT DO CLERK
+  // ============================================================================
+
+  const configureClerkJWT = useCallback(async () => {
+    if (!clerkUser) return false;
+    
+    try {
+      const token = await getToken({ template: 'supabase' });
+      
+      if (token) {
+        // Configurar o token no Supabase
+        await supabase.auth.setSession({
+          access_token: token,
+          refresh_token: ''
+        });
+        
+        console.log('✅ JWT do Clerk configurado no Supabase');
+        return true;
+      } else {
+        console.warn('⚠️ Token do Clerk não encontrado');
+        return false;
+      }
+    } catch (error) {
+      console.error('❌ Erro ao configurar JWT do Clerk:', error);
+      return false;
+    }
+  }, [clerkUser, getToken]);
 
   // ============================================================================
   // FUNÇÕES DE SINCRONIZAÇÃO
@@ -167,9 +197,13 @@ export function useClerkSupabase() {
 
   useEffect(() => {
     if (clerkLoaded && clerkUser) {
-      syncUserToSupabase();
+      // Configurar JWT do Clerk primeiro
+      configureClerkJWT().then(() => {
+        // Depois sincronizar usuário
+        syncUserToSupabase();
+      });
     }
-  }, [clerkLoaded, clerkUser, syncUserToSupabase]);
+  }, [clerkLoaded, clerkUser, configureClerkJWT, syncUserToSupabase]);
 
   useEffect(() => {
     setSupabaseUser(dbUser);
@@ -213,6 +247,7 @@ export function useClerkSupabase() {
     updateUserRole,
     completeProfile,
     addTokens,
+    configureClerkJWT,
     
     // Dados combinados
     user: {

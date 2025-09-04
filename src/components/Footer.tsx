@@ -21,7 +21,7 @@ export default function Footer() {
             className="text-white/60 hover:text-white transition-colors flex items-center space-x-2"
           >
             <IoLogoInstagram className="w-5 h-5" />
-            <span>Instagram</span>
+            <span> Instagram </span>
           </a>
           <a 
             href="https://tiktok.com/@cerradointerbox" 
@@ -30,7 +30,7 @@ export default function Footer() {
             className="text-white/60 hover:text-white transition-colors flex items-center space-x-2"
           >
             <PiTiktokLogoBold className="w-5 h-5" />
-            <span>TikTok</span>
+            <span> TikTok </span>
           </a>
           <a 
             href="https://drive.google.com/file/d/1wLnETYONkPjPWYjEd2dib9pEJFvvCsag/view?usp=sharing" 
@@ -39,7 +39,7 @@ export default function Footer() {
             className="text-white/60 hover:text-white transition-colors flex items-center space-x-2"
           >
             <span>📋</span>
-            <span>Regulamento</span>
+            <span> Regulamento </span>
           </a>
         </div>
 
