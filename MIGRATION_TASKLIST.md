@@ -1,3 +1,10 @@
+⚠️ ATENÇÃO IA: Siga estritamente os arquivos marcados como "🕐 Pendente" ou "🔴 CRÍTICA".
+
+❌ NÃO crie novos arquivos ou pastas por inferência.
+❌ NÃO altere rotas ou caminhos sem autorização explícita.
+✅ Aja apenas sobre os arquivos com status rastreado neste documento.
+
+
 # 📋 **TASKLIST DE MIGRAÇÃO - INTERBØX V2**
 ## Firebase → Supabase + Clerk
 
@@ -8,10 +15,10 @@
 ### **🔹 Componentes de UI/UX**
 | Arquivo | Status | Prioridade | Observações |
 |---------|--------|------------|-------------|
-| `AvatarSelector.tsx` | 🕐 | **ALTA** | Permite escolher avatares fixos e desbloquear premium com $BOX |
+| `AvatarSelector.tsx` | ✅ | **ALTA** | Permite escolher avatares fixos e desbloquear premium com $BOX |
 | `BottomSheet.tsx` | 🕐 | **MÉDIA** | Componente mobile para configurações do perfil |
 | `Card.tsx` | 🕐 | **MÉDIA** | Container genérico - verificar se é UI genérica ou específica |
-| `ConfettiExplosion.tsx` | 🕐 | **ALTA** | Efeito visual para cadastro com sucesso e entrega de $BOX |
+| `ConfettiExplosion.tsx` | ✅ | **ALTA** | Efeito visual para cadastro com sucesso e entrega de $BOX |
 | `CookieBanner.tsx` | 🕐 | **ALTA** | LGPD e experiência do usuário |
 | `Pagination.tsx` | 🕐 | **MÉDIA** | Paginação para dashboards administrativos |
 
@@ -21,12 +28,12 @@
 | `TempoReal.tsx` | ✅ | **CRÍTICA** | Ranking de gamificação em tempo real na home |
 | `TokenNotification.tsx` | ✅ | **ALTA** | Notifica ganho de tokens $BOX |
 | `UserGamificationCards.tsx` | ✅ | **CRÍTICA** | **NÚCLEO DA GAMIFICAÇÃO** - perfil com pontuação e conquistas |
-| `UserHeader.tsx` | 🕐 | **ALTA** | Header das páginas de perfil individual |
+| `UserHeader.tsx` | ✅ | **ALTA** | Header das páginas de perfil individual |
 
 ### **🔹 Componentes de Competição**
 | Arquivo | Status | Prioridade | Observações |
 |---------|--------|------------|-------------|
-| `CategoriasCompeticao.tsx` | 🕐 | **ALTA** | Ordena categorias: Scale, RX, Elite, Iniciante, Master |
+| `CategoriasCompeticao.tsx` | ✅ | **ALTA** | Ordena categorias: Scale, RX, Elite, Iniciante, Master |
 
 ---
 
@@ -172,4 +179,4 @@ npm run build && git add . && git commit -m "feat: migração componente X" && g
 
 **Última atualização**: $(date)
 **Status**: 🕐 Em andamento
-**Progresso**: 45% completo
+**Progresso**: 70% completo
