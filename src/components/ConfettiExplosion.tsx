@@ -143,7 +143,7 @@ export default function ConfettiExplosion({
         }, 400);
         break;
 
-      case 'levelup':
+      case 'levelup': {
         // Explosão em múltiplas direções
         const directions = [
           { x: 0.2, y: 0.4 },
@@ -161,6 +161,7 @@ export default function ConfettiExplosion({
           }, index * 300);
         });
         break;
+      }
 
       case 'purchase':
         // Efeito de moedas caindo

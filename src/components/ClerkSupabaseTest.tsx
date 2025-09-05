@@ -264,7 +264,7 @@ export default function ClerkSupabaseTest() {
         <div className="mt-6 bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
           <h2 className="text-xl font-semibold text-white mb-4">📋 Instruções</h2>
           <div className="text-white/70 space-y-2">
-            <p>1. <strong>JWT Template:</strong> Certifique-se de que o template "supabase" está configurado no Clerk Dashboard</p>
+            <p>1. <strong>JWT Template:</strong> Certifique-se de que o template &quot;supabase&quot; está configurado no Clerk Dashboard</p>
             <p>2. <strong>Supabase Config:</strong> Configure o JWT secret no Supabase Dashboard</p>
             <p>3. <strong>RLS Policies:</strong> Execute o script rls-policies-clerk.sql no Supabase</p>
             <p>4. <strong>Variáveis de Ambiente:</strong> Verifique se todas as variáveis estão configuradas</p>

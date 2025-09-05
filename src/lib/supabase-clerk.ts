@@ -3,7 +3,6 @@
 // ============================================================================
 
 import { createClient } from '@supabase/supabase-js';
-import { useAuth } from '@clerk/clerk-react';
 
 // Configurações do Supabase
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
@@ -36,12 +35,8 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
 // FUNÇÃO PARA CONFIGURAR JWT DO CLERK
 // ============================================================================
 
-export async function configureClerkAuth() {
+export async function configureClerkAuth(token: string) {
   try {
-    // Obter o token do Clerk
-    const { getToken } = useAuth();
-    const token = await getToken({ template: 'supabase' });
-    
     if (token) {
       // Configurar o token no Supabase
       await supabase.auth.setSession({
@@ -107,11 +102,8 @@ export function useSupabaseWithClerk() {
 // FUNÇÃO PARA TESTAR CONEXÃO CLERK + SUPABASE
 // ============================================================================
 
-export async function testClerkSupabaseConnection() {
+export async function testClerkSupabaseConnection(token: string) {
   try {
-    const { getToken } = useAuth();
-    const token = await getToken({ template: 'supabase' });
-    
     if (!token) {
       return {
         success: false,
