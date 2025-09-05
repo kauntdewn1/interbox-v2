@@ -21,8 +21,71 @@ createRoot(document.getElementById('root')!).render(
         baseTheme: undefined,
         variables: {
           colorPrimary: '#ec4899',
-          colorBackground: '#000000',
+          colorBackground: '#111827',
           colorText: '#ffffff',
+          colorTextSecondary: '#d1d5db',
+          colorInputBackground: '#1f2937',
+          colorBorder: '#4b5563',
+          colorInputText: '#ffffff',
+          colorNeutral: '#6b7280',
+          colorSuccess: '#10b981',
+          colorDanger: '#ef4444',
+          colorWarning: '#f59e0b',
+          borderRadius: '0.5rem',
+        },
+        elements: {
+          card: {
+            backgroundColor: '#111827',
+            border: '1px solid #374151',
+            boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.3)',
+          },
+          headerTitle: {
+            color: '#ec4899',
+            fontSize: '1.5rem',
+            fontWeight: '700',
+          },
+          headerSubtitle: {
+            color: '#d1d5db',
+            fontSize: '0.875rem',
+          },
+          formFieldLabel: {
+            color: '#ffffff',
+            fontSize: '0.875rem',
+            fontWeight: '500',
+          },
+          formFieldInput: {
+            backgroundColor: '#1f2937',
+            border: '1px solid #4b5563',
+            color: '#ffffff',
+            '&:focus': {
+              borderColor: '#ec4899',
+              boxShadow: '0 0 0 2px rgba(236, 72, 153, 0.2)',
+            },
+          },
+          formButtonPrimary: {
+            backgroundColor: '#ec4899',
+            color: '#ffffff',
+            fontWeight: '600',
+            '&:hover': {
+              backgroundColor: '#db2777',
+            },
+          },
+          formButtonSecondary: {
+            backgroundColor: '#374151',
+            color: '#ffffff',
+            '&:hover': {
+              backgroundColor: '#4b5563',
+            },
+          },
+          footerActionText: {
+            color: '#d1d5db',
+          },
+          footerActionLink: {
+            color: '#ec4899',
+            '&:hover': {
+              color: '#db2777',
+            },
+          },
         }
       }}
       // 🔒 CONFIGURAÇÕES PARA USAR DOMÍNIO EXTERNO DO CLERK

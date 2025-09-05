@@ -29,7 +29,7 @@ O Supabase não está configurado para aceitar JWTs do Clerk, por isso o login n
   "aud": "authenticated",
   "exp": "{{session.expire_at}}",
   "iat": "{{session.issued_at}}",
-  "iss": "https://your-clerk-domain.clerk.accounts.dev",
+  "iss": "https://clerk.cerradointerbox.com.br",
   "sub": "{{user.id}}",
   "email": "{{user.primary_email_address.email_address}}",
   "role": "authenticated",
