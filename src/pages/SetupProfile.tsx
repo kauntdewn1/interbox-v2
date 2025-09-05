@@ -4,7 +4,7 @@ import confetti from 'canvas-confetti';
 import Header from '../components/Header'
 import Footer from '../components/Footer';
 import { useUser } from '@clerk/clerk-react';
-import { supabase } from '../lib/supabase';
+import { getAuthedSupabase } from '../lib/supabase';
 
 // Tipos
 interface FormData {
@@ -109,11 +109,12 @@ export default function SetupProfile() {
 
 
   const saveUserProfile = async (userData: UserInsertData) => {
+    const supabase = await getAuthedSupabase();
     const { data: existingUser } = await supabase
       .from('users')
       .select('*')
       .eq('clerk_id', userData.clerk_id)
-      .single();
+      .maybeSingle();
 
     if (existingUser) {
       // Atualizar usuário existente
@@ -134,11 +135,12 @@ export default function SetupProfile() {
   };
 
   const saveUserGamification = async (gamificationData: UserGamificationData) => {
+    const supabase = await getAuthedSupabase();
     const { data: existingGamification } = await supabase
       .from('user_gamification')
       .select('*')
       .eq('user_id', gamificationData.user_id)
-      .single();
+      .maybeSingle();
 
     if (existingGamification) {
       // Atualizar dados de gamificação existentes

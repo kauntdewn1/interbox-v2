@@ -2,7 +2,7 @@
 // CLIENTE SUPABASE CORRIGIDO - INTERBØX V2
 // ============================================================================
 
-import { createClient } from '@supabase/supabase-js';
+import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 
 // Configurações do Supabase
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
@@ -58,4 +58,19 @@ export function handleSupabaseError(error: unknown, context: string): never {
 export function validateData<T>(data: T | null, context: string): T {
   if (!data) throw new Error(`${context} não encontrado.`);
   return data;
+}
+
+// Retorna um cliente Supabase com JWT do Clerk aplicado (se disponível)
+export async function getAuthedSupabase(): Promise<SupabaseClient> {
+  try {
+    const clerk: any = (window as any).Clerk;
+    const token = await clerk?.session?.getToken({ template: 'supabase' });
+    if (token) {
+      await supabase.auth.setSession({ access_token: token, refresh_token: '' });
+    }
+  } catch (err) {
+    // Se não conseguir token, segue com anon (RLS deve bloquear operações sensíveis)
+    console.warn('JWT do Clerk não aplicado ao Supabase (seguindo como anon):', err);
+  }
+  return supabase;
 }
