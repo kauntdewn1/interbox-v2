@@ -93,6 +93,10 @@ createRoot(document.getElementById('root')!).render(
       signUpUrl={CLERK_LOCAL_CONFIG.signUpUrl}
       signInFallbackRedirectUrl={CLERK_LOCAL_CONFIG.signInFallbackRedirectUrl}
       signUpFallbackRedirectUrl={CLERK_LOCAL_CONFIG.signUpFallbackRedirectUrl}
+      
+      // 🚫 DESABILITAR TELA DE CONFIGURAÇÃO PADRÃO DO CLERK
+      afterSignInUrl="/"
+      afterSignUpUrl="/selecao-tipo-cadastro"
     >
       <App />
     </ClerkProvider>
