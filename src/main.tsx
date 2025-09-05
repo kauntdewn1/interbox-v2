@@ -20,6 +20,10 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ClerkProvider 
       publishableKey={PUBLISHABLE_KEY}
+      // Configuração de localização em português brasileiro
+      localization={{
+        locale: 'pt-BR',
+      }}
       // Força modo production e desabilita development mode
       appearance={{
         baseTheme: undefined,

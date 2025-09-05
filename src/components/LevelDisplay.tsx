@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLevelSystem, LevelInfo } from '../hooks/useLevelSystem';
+import { useGamificationPreload } from '../hooks/useGamificationPreload';
 
 interface LevelDisplayProps {
   boxTokens: number;
@@ -15,6 +16,9 @@ export default function LevelDisplay({
   className = '' 
 }: LevelDisplayProps) {
   const { currentLevel, nextLevel, progressToNext, tokensToNext } = useLevelSystem(boxTokens);
+  
+  // Preload imagens de gamificação quando o componente é renderizado
+  useGamificationPreload(true);
 
   return (
     <div className={`level-display ${className}`}>
@@ -66,6 +70,9 @@ export default function LevelDisplay({
 // Componente para mostrar todos os níveis disponíveis
 export function LevelSystemOverview() {
   const { allLevels } = useLevelSystem(0);
+  
+  // Preload imagens de gamificação quando o componente é renderizado
+  useGamificationPreload(true);
 
   return (
     <div className="level-system-overview">

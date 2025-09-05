@@ -6,6 +6,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useClerkSupabase, useIntegratedGamification } from '../hooks/useClerkSupabase';
 import { useNotifications } from '../hooks/useSupabase';
+import { useGamificationPreload } from '../hooks/useGamificationPreload';
 import type { UserGamification, Transaction } from '../types/supabase';
 
 // ============================================================================
@@ -112,6 +113,9 @@ export default function UserGamificationCards({ className = '' }: GamificationCa
   
   const [selectedTab, setSelectedTab] = useState<'overview' | 'achievements' | 'transactions'>('overview');
   const [showLevelUp, setShowLevelUp] = useState(false);
+  
+  // Preload imagens de gamificação quando o componente é renderizado
+  useGamificationPreload(true);
 
   // ============================================================================
   // EFEITOS

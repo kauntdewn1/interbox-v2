@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../lib/supabase';
 import { useClerkSupabase } from '../hooks/useClerkSupabase';
 import { useLevelSystem } from '../hooks/useLevelSystem';
+import { useGamificationPreload } from '../hooks/useGamificationPreload';
 import { debounce } from '../utils/performance';
 import type { User, UserGamification } from '../types/supabase';
 
@@ -180,6 +181,9 @@ export default function TempoReal({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
+  
+  // Preload imagens de gamificação quando o componente é renderizado
+  useGamificationPreload(true);
 
   // ============================================================================
   // FUNÇÕES

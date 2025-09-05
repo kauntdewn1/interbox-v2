@@ -46,12 +46,28 @@ export function setupLazyLoading() {
 }
 
 /**
- * Preload de imagens críticas
+ * Preload de imagens críticas (sempre necessárias)
  */
 export function preloadCriticalImages() {
   const criticalImages = [
     '/logos/oficial_logo.png',
     '/images/default-avatar.png',
+  ];
+
+  criticalImages.forEach((src) => {
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.as = 'image';
+    link.href = src;
+    document.head.appendChild(link);
+  });
+}
+
+/**
+ * Preload de imagens de gamificação (apenas quando necessário)
+ */
+export function preloadGamificationImages() {
+  const gamificationImages = [
     '/images/levels/cindy.webp',
     '/images/levels/helen.webp',
     '/images/levels/fran.webp',
@@ -60,7 +76,7 @@ export function preloadCriticalImages() {
     '/images/levels/matt.webp',
   ];
 
-  criticalImages.forEach((src) => {
+  gamificationImages.forEach((src) => {
     const link = document.createElement('link');
     link.rel = 'preload';
     link.as = 'image';

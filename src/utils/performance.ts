@@ -86,26 +86,18 @@ export function lazyLoadImage(img: HTMLImageElement, src: string) {
 
 /**
  * Preload de recursos críticos
+ * Nota: Preload de imagens é feito em imageOptimization.ts para evitar duplicação
  */
 export function preloadCriticalResources() {
-  const criticalImages = [
-    '/logos/oficial_logo.png',
-    '/images/default-avatar.png',
-    '/images/levels/cindy.webp',
-    '/images/levels/helen.webp',
-    '/images/levels/fran.webp',
-    '/images/levels/annie.webp',
-    '/images/levels/murph.webp',
-    '/images/levels/matt.webp',
-  ];
-
-  criticalImages.forEach((src) => {
-    const link = document.createElement('link');
-    link.rel = 'preload';
-    link.as = 'image';
-    link.href = src;
-    document.head.appendChild(link);
-  });
+  // Preload de CSS crítico se necessário
+  // const criticalCSS = document.createElement('link');
+  // criticalCSS.rel = 'preload';
+  // criticalCSS.as = 'style';
+  // criticalCSS.href = '/src/index.css';
+  // document.head.appendChild(criticalCSS);
+  
+  // Preload de fontes críticas (já feito no HTML)
+  // Fontes Google já estão sendo preloadadas no index.html
 }
 
 /**
