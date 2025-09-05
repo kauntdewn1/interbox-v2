@@ -1,10 +1,19 @@
 import { useState, useEffect } from 'react';
 
 // 🔒 HOOK PARA GERENCIAR FLUXO OAUTH2 COM CLERK COMO IDP
+interface OAuth2User {
+  id: string;
+  email: string;
+  name: string;
+  picture?: string;
+  access_token: string;
+  refresh_token?: string;
+}
+
 export default function useOAuth2() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<OAuth2User | null>(null);
 
   // Configurações OAuth2
   const config = {

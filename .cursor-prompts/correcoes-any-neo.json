@@ -1,0 +1,40 @@
+{
+  "title": "NEØ - Correções de Tipagem `any`",
+  "description": "Padrões para substituir todos os usos de `any` por tipos seguros",
+  "rules": [
+    {
+      "rule": "Evite `any`. Use `unknown` em blocos `catch`, seguido de verificações seguras.",
+      "example": {
+        "wrong": "catch (err: any) {",
+        "right": [
+          "catch (err: unknown) {",
+          "  if (err && typeof err === 'object' && 'code' in err) {",
+          "    const error = err as { code: string }",
+          "    // tratar erro com código",
+          "  } else if (err instanceof Error) {",
+          "    console.error(err.message);",
+          "  } else {",
+          "    console.error(err);",
+          "  }"
+        ]
+      }
+    },
+    {
+      "rule": "Substitua todos os usos de `any` por tipos específicos, `unknown` com verificação ou tipos importados do Supabase (ex: `UserRow`, `Database[...]`). Nunca deixe `any` sem justificativa clara.",
+      "patterns": {
+        "supabase_types": "Database['public']['Tables']['table_name']['Row']",
+        "unknown_safe": "unknown com verificação de tipo",
+        "as_any_error": "Sinalizar `as any` como erro de lint"
+      }
+    }
+  ],
+  "lint_rules": {
+    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/no-unsafe-assignment": "error",
+    "@typescript-eslint/no-unsafe-call": "error",
+    "@typescript-eslint/no-unsafe-member-access": "error",
+    "@typescript-eslint/no-unsafe-return": "error"
+  }
+}
+
+    

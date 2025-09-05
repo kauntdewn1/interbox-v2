@@ -117,14 +117,31 @@ export const clerkSecurityConfig = {
   },
 };
 
+// ============================================================================
+// INTERFACES DE TIPAGEM
+// ============================================================================
+
+interface ClerkPublicMetadata {
+  role?: string;
+  profile_complete?: boolean;
+  isActive?: boolean;
+  testUser?: boolean;
+  permissions?: Record<string, boolean>;
+}
+
+// ============================================================================
 // FUNÇÕES HELPER TIPADAS
+// ============================================================================
+
 export const clerkHelpers = {
   hasRole: (user: UserResource | null | undefined, role: string): boolean => {
-    return (user?.publicMetadata as any)?.role    === role
+    const metadata = user?.publicMetadata as ClerkPublicMetadata | undefined;
+    return metadata?.role === role;
   },
 
   getUserRole: (user: UserResource | null | undefined): string => {
-    return (user?.publicMetadata as any)?.role    || 'publico'
+    const metadata = user?.publicMetadata as ClerkPublicMetadata | undefined;
+    return metadata?.role || 'publico';
   },
 
   isAdmin: (user: UserResource | null | undefined): boolean => {
@@ -153,15 +170,18 @@ export const clerkHelpers = {
   },
 
   hasCompleteProfile: (user: UserResource | null | undefined): boolean => {
-    return user?.publicMetadata?.profileComplete === true
+    const metadata = user?.publicMetadata as ClerkPublicMetadata | undefined;
+    return metadata?.profile_complete === true;
   },
 
   isActive: (user: UserResource | null | undefined): boolean => {
-    return user?.publicMetadata?.isActive !== false
+    const metadata = user?.publicMetadata as ClerkPublicMetadata | undefined;
+    return metadata?.isActive !== false;
   },
 
   isTestUser: (user: UserResource | null | undefined): boolean => {
-    return user?.publicMetadata?.testUser === true
+    const metadata = user?.publicMetadata as ClerkPublicMetadata | undefined;
+    return metadata?.testUser === true;
   },
 }
 

@@ -6,7 +6,6 @@ import Header from '../components/Header'
 import Footer from '../components/Footer';
 import { useUser } from '@clerk/clerk-react';
 import { supabase } from '../lib/supabase';
-import { TOKEN_ACTIONS } from '../hooks/useLevelSystem';
 
 // Tipos
 interface FormData {
@@ -230,11 +229,11 @@ export default function SetupProfile() {
       }
       
       // Cálculo de tokens e achievements usando o novo sistema
-      let tokensEarned = TOKEN_ACTIONS.completar_perfil; // 25 BØX por completar perfil
+      let tokensEarned = 25; // 25 BØX por completar perfil
       const achievements = ['setup_profile_completo'];
       
       if (photoFile) {
-        tokensEarned += PHOTO_BONUS_TOKENS; // +10 BØX por foto
+        tokensEarned += 10; // +10 BØX por foto
         achievements.push('foto_perfil');
       }
 
@@ -338,8 +337,8 @@ export default function SetupProfile() {
                 <div className="mt-4 p-4 bg-gradient-to-r from-pink-100 to-blue-100 rounded-lg border border-pink-200">
                   <p className="text-sm text-gray-700">
                     🎁 <strong>Ganhe tokens $BØX:</strong><br/>
-                    +{TOKEN_ACTIONS.completar_perfil} $BØX por completar o perfil<br/>
-                    +{PHOTO_BONUS_TOKENS} $BØX por adicionar foto
+                    +25 $BØX por completar o perfil<br/>
+                    +10 $BØX por adicionar foto
                   </p>
                 </div>
               </div>
@@ -382,7 +381,7 @@ export default function SetupProfile() {
 
                   {photoFile && (
                     <p className="mt-2 text-sm" style={{ color: 'rgb(251, 5, 228)' }}>
-                      ✅ +{PHOTO_BONUS_TOKENS} $BØX garantidos pela foto!
+                      ✅ +10 $BØX garantidos pela foto!
                     </p>
                   )}
                 </div>

@@ -10,6 +10,7 @@ import AvatarSelector from '../../components/AvatarSelector';
 
 // Tipos
 import type { User, UserGamification } from '../../types/supabase';
+import { UserData } from '@/types/user';
 
 interface Team {
   id: string;
@@ -142,7 +143,7 @@ export default function PerfilAtleta() {
         >
           <TabContent 
             activeTab={activeTab} 
-            userData={userData} 
+            userData={mapToUserData(userData)} 
             userTeam={userTeam} 
             userEvents={userEvents}
             isCaptain={isCaptain} 
@@ -156,9 +157,35 @@ export default function PerfilAtleta() {
   );
 }
 
+// Interface para dados do usuário do Clerk + Supabase
+function mapToUserData(user: any): UserData {
+  return {
+    id: user.id,
+    clerkUserId: user.clerkId || "",
+    clerk_id: user.clerkId || "", // adapte conforme a origem
+    email: user.email,
+    display_name: user.name || "",
+    lastName: user.lastName || "",
+    fullName: user.fullName || "",
+    avatarUrl: user.image,
+    role: user.role,
+    photo_url: user.image,
+    is_active: user.isActive,
+    test_user: user.testUser,
+    profile_complete: user.profileComplete,
+    boxTokens: user.tokens || 0,
+    level: user.level || "cindy",
+    achievements: user.achievements,
+    badges: user.badges,
+    updated_at: new Date().toISOString(),
+    created_at: new Date().toISOString(),
+  };
+}
+
+
 interface TabContentProps {
   activeTab: string;
-  userData: any; // Tipo do useClerkSupabase
+  userData: UserData;
   userTeam: Team | null;
   userEvents: Event[];
   isCaptain: boolean;
@@ -443,7 +470,7 @@ function ConvitesTab() {
 }
 
 // Perfil Tab
-function PerfilTab({ userData, gamification }: { userData: any; gamification: UserGamification }) {
+function PerfilTab({ userData, gamification }: { userData: UserData; gamification: UserGamification }) {
   return (
     <div className="space-y-6">
       {/* Informações da Conta */}
@@ -456,11 +483,11 @@ function PerfilTab({ userData, gamification }: { userData: any; gamification: Us
         <div className="space-y-4">
           <div className="flex items-center justify-between py-3 border-b border-white/10">
             <span className="text-gray-300">Nome</span>
-            <span className="font-medium text-white">{userData?.display_name || 'Nome não informado'}</span>
+            <span className="font-medium text-white">{userData?.fullName || ''}</span>
           </div>
           <div className="flex items-center justify-between py-3 border-b border-white/10">
             <span className="text-gray-300">E-mail</span>
-            <span className="font-medium text-white">{userData?.email || 'Email não informado'}</span>
+            <span className="font-medium text-white">{userData?.clerkUserId || ''}</span>
           </div>
           <div className="flex items-center justify-between py-3">
             <span className="text-gray-300">Participando como</span>
@@ -476,7 +503,7 @@ function PerfilTab({ userData, gamification }: { userData: any; gamification: Us
           Avatar Personalizado
         </h3>
         <AvatarSelector 
-          selectedAvatar={userData?.avatar_url || 'default'}
+          selectedAvatar={userData?.avatarUrl || ''}
           onAvatarSelect={(avatar) => {
             console.log('Avatar selecionado:', avatar);
           }}

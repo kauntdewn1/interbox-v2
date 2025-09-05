@@ -1,10 +1,15 @@
 import { useState, useEffect } from 'react';
 
+interface BeforeInstallPromptEvent extends Event {
+  prompt(): Promise<void>;
+  userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
+}
+
 interface PWAState {
   isInstalled: boolean;
   isInstallable: boolean;
   isStandalone: boolean;
-  deferredPrompt: any;
+  deferredPrompt: BeforeInstallPromptEvent | null;
   showInstallPrompt: boolean;
 }
 
@@ -22,7 +27,7 @@ export function usePWA() {
     const isInStandaloneMode = () =>
       window.matchMedia('(display-mode: standalone)').matches ||
       window.matchMedia('(display-mode: fullscreen)').matches ||
-      (window.navigator as any).standalone === true;
+      (window.navigator as Navigator & { standalone?: boolean }).standalone === true;
 
     setState(prev => ({
       ...prev,
@@ -36,7 +41,7 @@ export function usePWA() {
       setState(prev => ({
         ...prev,
         isInstallable: true,
-        deferredPrompt: e,
+        deferredPrompt: e as BeforeInstallPromptEvent,
         showInstallPrompt: true
       }));
     };

@@ -234,7 +234,7 @@ interface TabContentProps {
 function TabContent({ activeTab, stats, users }: TabContentProps) {
   switch (activeTab) {
     case 'dashboard':
-      return <DashboardTab stats={stats} />;
+      return <DashboardTab stats={stats as DashboardStats | any} />;
     case 'users':
       return <UsersTab users={users} />;
     case 'teams':
@@ -244,8 +244,22 @@ function TabContent({ activeTab, stats, users }: TabContentProps) {
     case 'settings':
       return <SettingsTab />;
     default:
-      return <DashboardTab stats={stats} />;
+      return <DashboardTab stats={ stats as DashboardStats | any } />;
   }
+}
+
+// Interface para estatísticas do dashboard
+interface DashboardStats {
+  totalUsers: number;
+  totalTeams: number;
+  totalEvents: number;
+  totalTokens: number;
+  recentActivity: Array<{
+    id: string;
+    action: string;
+    timestamp: string;
+    user: string;
+  }>;
 }
 
 // Dashboard Tab
@@ -288,7 +302,7 @@ function DashboardTab({ stats }: { stats: any }) {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-yellow-100 text-sm">Usuários Ativos</p>
-              <p className="text-3xl font-bold">{stats.activeUsers}</p>
+              <p className="text-3xl font-bold">{stats.activeUsers as number}</p>
             </div>
             <div className="text-3xl">🔥</div>
           </div>

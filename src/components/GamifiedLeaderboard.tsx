@@ -49,8 +49,8 @@ export default function GamifiedLeaderboard({ showAnimations = true, maxUsers = 
   const { user: clerkUser } = useUser()
 
   const usersWithTokens = allUsers
-    .filter((user: any) => (user.boxTokens || 0) > 0)
-    .sort((a: any, b: any) => (b.boxTokens || 0) - (a.boxTokens || 0))
+    .filter((user) => (user.boxTokens || 0) > 0)
+    .sort((a, b) => (b.boxTokens || 0) - (a.boxTokens || 0))
 
   const entries = maxUsers ? usersWithTokens.slice(0, maxUsers) : usersWithTokens
 
@@ -82,7 +82,7 @@ export default function GamifiedLeaderboard({ showAnimations = true, maxUsers = 
 
       <div className="space-y-6">
         <AnimatePresence>
-          {entries.map((entry: any, index: any) => {
+          {entries.map((entry, index: number) => {
             const levelInfo = getLevelInfo(entry.boxTokens || 0)
             const isCurrentUser = clerkUser?.id === entry.id
 
@@ -116,8 +116,8 @@ export default function GamifiedLeaderboard({ showAnimations = true, maxUsers = 
                       <span className="text-4xl font-black">{getRankIcon(index + 1)}</span>
                       <div className="relative">
                         <img
-                          src={getUserAvatar(entry.role as string)}
-                          alt={sanitizeText(entry.display_name)}
+                          src={getUserAvatar(entry.role)}
+                          alt={sanitizeText(entry.displayName || 'Usuário')}
                           width={56}
                           height={56}
                           className="rounded-full border-4 shadow-xl"
@@ -151,9 +151,9 @@ export default function GamifiedLeaderboard({ showAnimations = true, maxUsers = 
                   </div>
 
                   <div className="space-y-4">
-                    <h3 className="text-2xl font-bold text-white">{sanitizeText(entry.display_name)}</h3>
+                    <h3 className="text-2xl font-bold text-white">{sanitizeText(entry.displayName || 'Usuário')}</h3>
                     <p className="text-gray-300 text-base font-medium">
-                      Está participando como: {entry.role as string  || 'Geral'}
+                      Está participando como: {entry.role || 'Geral'}
                     </p>
 
                     <div className="space-y-2">

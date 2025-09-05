@@ -311,7 +311,7 @@ export default function UserGamificationCards({ className = '' }: GamificationCa
         ].map((tab) => (
           <button
             key={tab.id}
-            onClick={() => setSelectedTab(tab.id as any)}
+            onClick={() => setSelectedTab(tab.id as 'overview' | 'achievements' | 'transactions')}
             className={`flex-1 flex items-center justify-center space-x-2 py-3 px-4 rounded-md transition-colors ${
               selectedTab === tab.id
                 ? 'bg-pink-500 text-white'

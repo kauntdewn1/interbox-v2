@@ -231,16 +231,29 @@ interface TabContentProps {
 function TabContent({ activeTab, stats, patrocinadores }: TabContentProps) {
   switch (activeTab) {
     case 'dashboard':
-      return <DashboardTab stats={stats} />;
+      return <DashboardTab stats={stats as any} />;
     case 'patrocinadores':
       return <PatrocinadoresTab patrocinadores={patrocinadores} />;
     case 'analytics':
-      return <AnalyticsTab stats={stats} />;
+      return <AnalyticsTab stats={stats as any} />;
     case 'campanhas':
       return <CampanhasTab />;
     default:
-      return <DashboardTab stats={stats} />;
+      return <DashboardTab stats={stats as any} />;
   }
+}
+
+// Interface para estatísticas do marketing
+interface MarketingStats {
+  totalViews: number;
+  totalClicks: number;
+  conversionRate: number;
+  topContent: Array<{
+    id: string;
+    title: string;
+    views: number;
+    clicks: number;
+  }>;
 }
 
 // Dashboard Tab
@@ -253,7 +266,7 @@ function DashboardTab({ stats }: { stats: any }) {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-blue-100 text-sm">Total de Usuários</p>
-              <p className="text-3xl font-bold">{stats.totalUsers}</p>
+              <p className="text-3xl font-bold">{stats.totalUsers as number}</p>
             </div>
             <div className="text-3xl">👥</div>
           </div>
@@ -263,7 +276,7 @@ function DashboardTab({ stats }: { stats: any }) {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-green-100 text-sm">Patrocinadores</p>
-              <p className="text-3xl font-bold">{stats.totalPatrocinadores}</p>
+              <p className="text-3xl font-bold">{stats.totalPatrocinadores as number}</p>
             </div>
             <div className="text-3xl">🤝</div>
           </div>
@@ -273,7 +286,7 @@ function DashboardTab({ stats }: { stats: any }) {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-yellow-100 text-sm">Receita Total</p>
-              <p className="text-3xl font-bold">R$ {stats.totalRevenue.toLocaleString()}</p>
+              <p className="text-3xl font-bold">R$ {stats.totalRevenue as number}</p>
             </div>
             <div className="text-3xl">💰</div>
           </div>
@@ -283,7 +296,7 @@ function DashboardTab({ stats }: { stats: any }) {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-purple-100 text-sm">Taxa de Conversão</p>
-              <p className="text-3xl font-bold">{stats.conversionRate.toFixed(1)}%</p>
+              <p className="text-3xl font-bold">{stats.conversionRate as number}</p>
             </div>
             <div className="text-3xl">📈</div>
           </div>
@@ -421,15 +434,15 @@ function AnalyticsTab({ stats }: { stats: any }) {
           <div className="space-y-4">
             <div className="flex justify-between items-center">
               <span className="text-gray-300">Taxa de Conversão</span>
-              <span className="text-white font-semibold">{stats.conversionRate.toFixed(1)}%</span>
+                <span className="text-white font-semibold">{stats.conversionRate as number}</span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-gray-300">Usuários Ativos</span>
-              <span className="text-white font-semibold">{stats.totalUsers}</span>
+                <span className="text-white font-semibold">{stats.totalUsers as number}</span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-gray-300">Patrocinadores</span>
-              <span className="text-white font-semibold">{stats.totalPatrocinadores}</span>
+              <span className="text-white font-semibold">{stats.totalPatrocinadores as number}</span>
             </div>
           </div>
         </div>

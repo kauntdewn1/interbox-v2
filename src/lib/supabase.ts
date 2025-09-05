@@ -33,10 +33,26 @@ export type TransactionType = 'earn' | 'spend' | 'transfer' | 'bonus' | 'referra
 export type SponsorStatus = 'bronze' | 'prata' | 'ouro' | 'platina' | 'pending' | 'rejected';
 export type NotificationType = 'info' | 'success' | 'warning' | 'error';
 
+// Interface para erros do Supabase
+interface SupabaseError {
+  code?: string;
+  message?: string;
+  details?: string;
+  hint?: string;
+}
+
 // Helpers de erro para Supabase
-export function handleSupabaseError(error: any, context: string): never {
+export function handleSupabaseError(error: unknown, context: string): never {
   console.error(`Erro no Supabase (${context}):`, error);
-  throw new Error(`Erro no Supabase (${context}): ${error.message}`);
+  
+  if (error && typeof error === 'object' && 'code' in error) {
+    const supabaseError = error as SupabaseError;
+    throw new Error(`Erro no Supabase (${context}): ${supabaseError.message || 'Erro desconhecido'}`);
+  } else if (error instanceof Error) {
+    throw new Error(`Erro no Supabase (${context}): ${error.message}`);
+  } else {
+    throw new Error(`Erro desconhecido no Supabase (${context})`);
+  }
 }
 
 export function validateData<T>(data: T | null, context: string): T {

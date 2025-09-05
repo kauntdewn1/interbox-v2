@@ -58,10 +58,26 @@ export const calculateGamificationLevel = (tokens: number): GamificationLevel =>
   return 'cindy';
 };
 
-// 5. Helpers de erro para Supabase
-export function handleSupabaseError(error: any, context: string): never {
+// 5. Interface para erros do Supabase
+interface SupabaseError {
+  code?: string;
+  message?: string;
+  details?: string;
+  hint?: string;
+}
+
+// 6. Helpers de erro para Supabase
+export function handleSupabaseError(error: unknown, context: string): never {
   console.error(`Erro no Supabase (${context}):`, error);
-  throw new Error(`Erro no Supabase (${context}): ${error.message}`);
+  
+  if (error && typeof error === 'object' && 'code' in error) {
+    const supabaseError = error as SupabaseError;
+    throw new Error(`Erro no Supabase (${context}): ${supabaseError.message || 'Erro desconhecido'}`);
+  } else if (error instanceof Error) {
+    throw new Error(`Erro no Supabase (${context}): ${error.message}`);
+  } else {
+    throw new Error(`Erro desconhecido no Supabase (${context})`);
+  }
 }
 
 export function validateData<T>(data: T | null, context: string): T {

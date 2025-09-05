@@ -30,9 +30,14 @@ export default function Login() {
       });
 
       navigate('/');
-    } catch (err: any) {
-      console.error(err);
-      setError('Credenciais inválidas ou erro ao fazer login.');
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error(err.message);
+        setError('Credenciais inválidas ou erro ao fazer login.');
+      } else {
+        console.error('Erro desconhecido:', err);
+        setError('Erro inesperado ao fazer login.');
+      }
     } finally {
       setLoading(false);
     }

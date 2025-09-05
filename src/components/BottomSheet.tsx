@@ -3,7 +3,7 @@
 // ============================================================================
 
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import { useClerkSupabase } from '../hooks/useClerkSupabase';
 
 // ============================================================================
@@ -76,7 +76,7 @@ export default function BottomSheet({
     }
   };
 
-  const handleDragEnd = (event: any, info: any) => {
+  const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     const velocity = info.velocity.y;
     const currentHeight = snapPoints[currentSnapPoint];
     

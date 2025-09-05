@@ -419,7 +419,7 @@ export async function testRLS(): Promise<{
 export async function initializeRLS(): Promise<{
   success: boolean;
   message: string;
-  details?: any;
+  details?: Record<string, unknown>;
 }> {
   try {
     console.log('🔐 Inicializando verificação RLS...');

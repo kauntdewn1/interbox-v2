@@ -242,9 +242,9 @@ interface TabContentProps {
 function TabContent({ activeTab, stats, logs }: TabContentProps) {
   switch (activeTab) {
     case 'dashboard':
-      return <DashboardTab stats={stats} />;
+      return <DashboardTab stats={stats as DevStats | any} />;
     case 'logs':
-      return <LogsTab logs={logs} />;
+      return <LogsTab logs={logs as Log[]} />;
     case 'database':
       return <DatabaseTab />;
     case 'testing':
@@ -252,8 +252,21 @@ function TabContent({ activeTab, stats, logs }: TabContentProps) {
     case 'deployment':
       return <DeploymentTab />;
     default:
-      return <DashboardTab stats={stats} />;
+      return <DashboardTab stats={stats as DevStats | any} />;
   }
+}
+
+// Interface para estatísticas de desenvolvimento
+interface DevStats {
+  totalErrors: number;
+  totalLogs: number;
+  systemHealth: number;
+  recentErrors: Array<{
+    id: string;
+    message: string;
+    timestamp: string;
+    severity: 'low' | 'medium' | 'high' | 'critical';
+  }>;
 }
 
 // Dashboard Tab
@@ -266,7 +279,7 @@ function DashboardTab({ stats }: { stats: any }) {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-blue-100 text-sm">Total de Usuários</p>
-              <p className="text-3xl font-bold">{stats.totalUsers}</p>
+              <p className="text-3xl font-bold">{stats.totalUsers as number}</p>
             </div>
             <div className="text-3xl">👥</div>
           </div>
@@ -276,7 +289,7 @@ function DashboardTab({ stats }: { stats: any }) {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-green-100 text-sm">Logs</p>
-              <p className="text-3xl font-bold">{stats.totalLogs}</p>
+              <p className="text-3xl font-bold">{stats.totalLogs as number}</p>
             </div>
             <div className="text-3xl">📝</div>
           </div>
@@ -286,7 +299,7 @@ function DashboardTab({ stats }: { stats: any }) {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-red-100 text-sm">Erros</p>
-              <p className="text-3xl font-bold">{stats.errors}</p>
+              <p className="text-3xl font-bold">{stats.errors as number}</p>
             </div>
             <div className="text-3xl">❌</div>
           </div>
@@ -296,7 +309,7 @@ function DashboardTab({ stats }: { stats: any }) {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-yellow-100 text-sm">Warnings</p>
-              <p className="text-3xl font-bold">{stats.warnings}</p>
+              <p className="text-3xl font-bold">{stats.warnings as number}</p>
             </div>
             <div className="text-3xl">⚠️</div>
           </div>
