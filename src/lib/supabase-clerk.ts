@@ -1,10 +1,14 @@
 // ============================================================================
-// CLIENTE SUPABASE COM CLERK - INTERBØX V2
+// SUPABASE + CLERK INTEGRATION - INTERBØX V2
 // ============================================================================
 
 import { createClient } from '@supabase/supabase-js';
+import { useAuth } from '@clerk/clerk-react';
 
-// Configurações do Supabase
+// ============================================================================
+// CONFIGURAÇÃO
+// ============================================================================
+
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
@@ -12,38 +16,23 @@ if (!supabaseUrl || !supabaseAnonKey) {
   throw new Error('Variáveis de ambiente do Supabase não configuradas');
 }
 
-// Cliente Supabase configurado para Clerk
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-  auth: {
-    autoRefreshToken: false, // Clerk gerencia o refresh
-    persistSession: false,   // Clerk gerencia a sessão
-    detectSessionInUrl: false
-  },
-  global: {
-    headers: {
-      // Headers serão adicionados dinamicamente com o JWT do Clerk
-    }
-  },
-  realtime: {
-    params: {
-      eventsPerSecond: 10
-    }
-  }
-});
+// Cliente Supabase padrão
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // ============================================================================
-// FUNÇÃO PARA CONFIGURAR JWT DO CLERK
+// FUNÇÕES DE CONFIGURAÇÃO
 // ============================================================================
 
+/**
+ * Configurar autenticação do Clerk no Supabase
+ */
 export async function configureClerkAuth(token: string) {
   try {
     if (token) {
-      // Configurar o token no Supabase
       await supabase.auth.setSession({
         access_token: token,
         refresh_token: ''
       });
-      
       console.log('✅ JWT do Clerk configurado no Supabase');
       return true;
     } else {
@@ -56,13 +45,51 @@ export async function configureClerkAuth(token: string) {
   }
 }
 
+/**
+ * Testar conexão Clerk + Supabase
+ */
+export async function testClerkSupabaseConnection(token: string) {
+  try {
+    if (!token) {
+      return {
+        success: false,
+        error: 'Token do Clerk não encontrado'
+      };
+    }
+
+    // Testar conexão com Supabase
+    const { data, error } = await supabase
+      .from('users')
+      .select('id')
+      .limit(1);
+
+    if (error) {
+      return {
+        success: false,
+        error: `Erro Supabase: ${error.message}`
+      };
+    }
+
+    return {
+      success: true,
+      message: 'Conexão Clerk + Supabase funcionando!',
+      data
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error: `Erro inesperado: ${error instanceof Error ? error.message : 'Erro desconhecido'}`
+    };
+  }
+}
+
 // ============================================================================
 // HOOK PARA USAR SUPABASE COM CLERK
 // ============================================================================
 
 export function useSupabaseWithClerk() {
   const { getToken, isSignedIn } = useAuth();
-  
+
   const getSupabaseClient = async () => {
     if (!isSignedIn) {
       throw new Error('Usuário não está autenticado');
@@ -76,73 +103,21 @@ export function useSupabaseWithClerk() {
         throw new Error('Token do Clerk não disponível');
       }
       
-      // Criar cliente com token
-      const client = createClient(supabaseUrl, supabaseAnonKey, {
-        global: {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }
-      });
+      // Configurar autenticação no Supabase
+      await configureClerkAuth(token);
       
-      return client;
+      return supabase;
     } catch (error) {
       console.error('Erro ao obter cliente Supabase:', error);
       throw error;
     }
   };
-  
-  return {
-    getSupabaseClient,
-    isSignedIn
-  };
+
+  return { getSupabaseClient };
 }
 
 // ============================================================================
-// FUNÇÃO PARA TESTAR CONEXÃO CLERK + SUPABASE
+// EXPORTS
 // ============================================================================
 
-export async function testClerkSupabaseConnection(token: string) {
-  try {
-    if (!token) {
-      return {
-        success: false,
-        error: 'Token do Clerk não encontrado'
-      };
-    }
-    
-    // Testar conexão com Supabase
-    const { data, error } = await supabase
-      .from('users')
-      .select('id')
-      .limit(1);
-    
-    if (error) {
-      return {
-        success: false,
-        error: `Erro Supabase: ${error.message}`
-      };
-    }
-    
-    return {
-      success: true,
-      message: 'Conexão Clerk + Supabase funcionando'
-    };
-  } catch (error) {
-    return {
-      success: false,
-      error: `Erro geral: ${error instanceof Error ? error.message : 'Erro desconhecido'}`
-    };
-  }
-}
-
-// ============================================================================
-// EXPORT DEFAULT
-// ============================================================================
-
-export default {
-  supabase,
-  configureClerkAuth,
-  useSupabaseWithClerk,
-  testClerkSupabaseConnection
-};
+export { supabase as default };

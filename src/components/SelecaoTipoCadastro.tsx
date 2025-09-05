@@ -2,7 +2,7 @@
 // SELEÇÃO TIPO CADASTRO - INTERBØX V2
 // ============================================================================
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useClerkSupabase } from '../hooks/useClerkSupabase';

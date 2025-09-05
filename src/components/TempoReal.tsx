@@ -2,11 +2,12 @@
 // TEMPO REAL - RANKING DE GAMIFICAÇÃO - INTERBØX V2
 // ============================================================================
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../lib/supabase';
 import { useClerkSupabase } from '../hooks/useClerkSupabase';
 import { useLevelSystem } from '../hooks/useLevelSystem';
+import { debounce } from '../utils/performance';
 import type { User, UserGamification } from '../types/supabase';
 
 // Componente para cada entrada do leaderboard
@@ -15,9 +16,9 @@ function LeaderboardEntryData({
   index, 
   positionIcon 
 }: { 
-  entry: LeaderboardEntryDataData;
+  entry: LeaderboardEntryData;
   index: number;
-  positionIcon: string | undefined;
+  positionIcon?: string;
 }) {
   const { currentLevel, nextLevel, progressToNext, tokensToNext } = useLevelSystem(entry.gamification.box_tokens);
   
@@ -133,10 +134,10 @@ function LeaderboardEntryData({
 interface TempoRealProps {
   className?: string;
   limit?: number;
-  showCurrentUser?: boolean;
+  _showCurrentUser?: boolean;
 }
 
-interface LeaderboardEntryDataData {
+interface LeaderboardEntryData {
   user: User;
   gamification: UserGamification;
   position: number;
@@ -181,23 +182,10 @@ export default function TempoReal({
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
 
   // ============================================================================
-  // EFEITOS
-  // ============================================================================
-
-  useEffect(() => {
-    fetchLeaderboard();
-    
-    // Atualizar a cada 30 segundos
-    const interval = setInterval(fetchLeaderboard, 30000);
-    
-    return () => clearInterval(interval);
-  }, [limit, currentUser]);
-
-  // ============================================================================
   // FUNÇÕES
   // ============================================================================
 
-  const fetchLeaderboard = async () => {
+  const fetchLeaderboard = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -234,8 +222,26 @@ export default function TempoReal({
     } finally {
       setLoading(false);
     }
-  };
+  }, [limit, currentUser?.id]);
 
+  // Debounced version para evitar chamadas excessivas
+  const debouncedFetchLeaderboard = useMemo(
+    () => debounce(fetchLeaderboard, 300),
+    [fetchLeaderboard]
+  );
+
+  // ============================================================================
+  // EFEITOS
+  // ============================================================================
+
+  useEffect(() => {
+    fetchLeaderboard();
+    
+    // Atualizar a cada 30 segundos
+    const interval = setInterval(debouncedFetchLeaderboard, 30000);
+    
+    return () => clearInterval(interval);
+  }, [fetchLeaderboard, debouncedFetchLeaderboard]);
 
   // ============================================================================
   // RENDERIZAÇÃO
@@ -291,7 +297,7 @@ export default function TempoReal({
           </div>
         </div>
         <button
-          onClick={fetchLeaderboard}
+          onClick={debouncedFetchLeaderboard}
           className="text-gray-400 hover:text-white transition-colors"
           title="Atualizar ranking"
         >
