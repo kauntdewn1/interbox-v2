@@ -94,8 +94,7 @@ export function usePWA(): PWAHookReturn {
     if (typeof window === 'undefined') return;
     
     const handleBeforeInstallPrompt = (e: Event) => {
-      // Prevent Chrome 67 and earlier from automatically showing the prompt
-      e.preventDefault();
+      // Não chamar preventDefault() aqui - vamos deixar o browser mostrar o banner
       // Stash the event so it can be triggered later
       setDeferredPrompt(e);
       setIsInstallable(true);

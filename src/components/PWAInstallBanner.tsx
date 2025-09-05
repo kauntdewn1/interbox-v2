@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { usePWA } from '../hooks/usePWAInstall';
+import { usePWA } from '../hooks/usePWA';
 
 export default function PWAInstallBanner() {
   const { isInstallable, showInstallPrompt, installApp, hideInstallPrompt } = usePWA();

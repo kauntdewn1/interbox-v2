@@ -83,7 +83,7 @@ export const clerkConfig = {
     locale: 'pt-BR',
     signIn: {
       title: 'Bem-vindo à INTERBØX',
-      subtitle: 'Entre na Arena dos Consagrados',
+      subtitle: 'Entre na Arena digital',
     },
     signUp: {
       title: 'Junte-se à INTERBØX',
