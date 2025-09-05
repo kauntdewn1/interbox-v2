@@ -72,6 +72,19 @@ export const TOKEN_ACTIONS = {
   acesso_spoiler: 20,
   checkin_evento: 30,
   indicacao_confirmada: 50,
+
+  // ✅ Novas ações gamificadas
+  assistiu_spoiler_video: 20,        // Conteúdo desbloqueável
+  respondeu_quiz: 15,                // Quiz interativo
+  completou_missao_diaria: 30,       // Check de objetivos diários
+  convidou_amigo: 10,                // Convite via link/WhatsApp
+  feedback_evento: 25,               // Pesquisa de opinião pré-evento
+  rede_social_tag: 20,               // Post nas redes com marcação
+  desafio_semana_concluido: 50,      // Missão semanal completa
+  bonus_7dias_ativos: 40,            // Atividade por 7 dias seguidos
+  bonus_14dias_ativos: 100,          // Atividade por 14 dias seguidos
+  chegou_nivel_fran: 25,             // Atingiu o nível Fran
+  compra_avatar_premium: 50         // Cashback promocional na loja
 };
 
 export interface LevelInfo {
