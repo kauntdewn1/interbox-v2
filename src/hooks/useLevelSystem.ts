@@ -2,13 +2,60 @@ import { useMemo } from 'react';
 
 // Sistema de níveis baseado em $BØX (badges conquistados)
 export const LEVEL_SYSTEM = [
-  { id: 'cindy', name: 'Cindy', image: '/images/levels/cindy.webp', minTokens: 0, maxTokens: 99, level: 'Base' },
-  { id: 'beginner', name: 'Iniciante', image: '/images/levels/cindy.webp', minTokens: 100, maxTokens: 499, level: 'Iniciante' },
-  { id: 'intermediate', name: 'Intermediário', image: '/images/levels/helen.webp', minTokens: 500, maxTokens: 999, level: 'Intermediário' },
-  { id: 'advanced', name: 'Avançado', image: '/images/levels/fran.webp', minTokens: 1000, maxTokens: 1999, level: 'Avançado' },
-  { id: 'expert', name: 'Especialista', image: '/images/levels/annie.webp', minTokens: 2000, maxTokens: 4999, level: 'Especialista' },
-  { id: 'master', name: 'Mestre', image: '/images/levels/murph.webp', minTokens: 5000, maxTokens: 9999, level: 'Mestre' },
-  { id: 'legendary', name: 'Lendário', image: '/images/levels/matt.webp', minTokens: 10000, maxTokens: Infinity, level: 'Lendário' },
+  { 
+    id: 'cindy', 
+    name: 'Cindy', 
+    image: '/images/levels/cindy.webp', 
+    minTokens: 0, 
+    maxTokens: 99, 
+    level: 'Cindy',
+    description: 'Todo mundo começa de algum lugar. Cindy é a centelha — a confirmação de que você entrou no jogo.'
+  },
+  { 
+    id: 'helen', 
+    name: 'Helen', 
+    image: '/images/levels/helen.webp', 
+    minTokens: 100, 
+    maxTokens: 299, 
+    level: 'Helen',
+    description: 'Você pegou ritmo. Helen representa o fôlego que sustenta quem vem para ficar.'
+  },
+  { 
+    id: 'fran', 
+    name: 'Fran', 
+    image: '/images/levels/fran.webp', 
+    minTokens: 300, 
+    maxTokens: 599, 
+    level: 'Fran',
+    description: 'A intensidade aperta. Fran é para quem encara o caos e transforma dor em progresso.'
+  },
+  { 
+    id: 'annie', 
+    name: 'Annie', 
+    image: '/images/levels/annie.webp', 
+    minTokens: 600, 
+    maxTokens: 999, 
+    level: 'Annie',
+    description: 'Nível técnico. Aqui, a força exige coordenação, foco e domínio. Você já não é mais iniciante.'
+  },
+  { 
+    id: 'murph', 
+    name: 'Murph', 
+    image: '/images/levels/murph.webp', 
+    minTokens: 1000, 
+    maxTokens: 1999, 
+    level: 'Murph',
+    description: 'A prova definitiva. Murph é brutal, é longa, e poucos chegam até aqui. Mas você está resistindo.'
+  },
+  { 
+    id: 'matt', 
+    name: 'Matt', 
+    image: '/images/levels/matt.webp', 
+    minTokens: 2000, 
+    maxTokens: Infinity, 
+    level: 'Matt',
+    description: 'O Escolhido. Um atleta que transcendeu o ranking e virou lenda viva do Cerrado Interbøx.'
+  },
 ];
 
 // Sistema de tokens por ação
@@ -34,6 +81,7 @@ export interface LevelInfo {
   minTokens: number;
   maxTokens: number;
   level: string;
+  description: string;
 }
 
 export function useLevelSystem(boxTokens: number) {
