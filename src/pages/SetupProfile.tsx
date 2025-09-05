@@ -12,7 +12,7 @@ interface FormData {
   email: string;
   whatsapp: string;
   box: string;
-  categoria: 'publico' | 'atleta' | 'judge' | 'staff' | 'midia' | 'espectador' | 'patrocinador' | 'apoio';
+  categoria: 'publico' | 'atleta' | 'judge' | 'staff' | 'midia' | 'espectador';
   cidade: string;
   mensagem: string;
 }
@@ -66,8 +66,6 @@ const CATEGORIA_OPTIONS = [
   { value: 'staff', label: 'Staff' },
   { value: 'midia', label: 'Mídia' },
   { value: 'espectador', label: 'Torcida' },
-  { value: 'patrocinador', label: 'Patrocinador' },
-  { value: 'apoio', label: 'Apoio' },
 ] as const;
 
 // Componente principal

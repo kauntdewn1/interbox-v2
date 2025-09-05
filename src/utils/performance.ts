@@ -89,7 +89,7 @@ export function lazyLoadImage(img: HTMLImageElement, src: string) {
  */
 export function preloadCriticalResources() {
   const criticalImages = [
-    '/images/logo.png',
+    '/logos/oficial_logo.png',
     '/images/default-avatar.png',
     '/images/levels/cindy.webp',
     '/images/levels/helen.webp',

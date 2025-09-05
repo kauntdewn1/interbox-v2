@@ -50,7 +50,7 @@ export function setupLazyLoading() {
  */
 export function preloadCriticalImages() {
   const criticalImages = [
-    '/images/logo.png',
+    '/logos/oficial_logo.png',
     '/images/default-avatar.png',
     '/images/levels/cindy.webp',
     '/images/levels/helen.webp',
