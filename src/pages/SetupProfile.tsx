@@ -10,7 +10,6 @@ import { getAuthedSupabase } from '../lib/supabase';
 interface FormData {
   nome: string;
   email: string;
-  telefone: string;
   whatsapp: string;
   box: string;
   categoria: 'publico' | 'atleta' | 'judge' | 'staff' | 'midia' | 'espectador' | 'patrocinador' | 'apoio';
@@ -81,7 +80,6 @@ export default function SetupProfile() {
   const [formData, setFormData] = useState<FormData>({
     nome: user?.fullName || '',
     email: user?.primaryEmailAddress?.emailAddress || '',
-    telefone: '',
     whatsapp: '',
     box: '',
     categoria: (user?.unsafeMetadata?.role as any) || 'publico',
@@ -372,20 +370,6 @@ export default function SetupProfile() {
                       onChange={handleInputChange}
                       required
                       autoComplete="email"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-colors text-gray-900"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="telefone" className="block text-sm font-medium text-gray-700 mb-2">
-                      Telefone
-                    </label>
-                    <input
-                      id="telefone"
-                      type="tel"
-                      name="telefone"
-                      value={formData.telefone}
-                      onChange={handleInputChange}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-colors text-gray-900"
                     />
                   </div>
