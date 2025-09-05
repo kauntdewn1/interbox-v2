@@ -16,6 +16,7 @@ const Patrocinadores = lazy(() => import('./pages/patrocinadores'));
 const Sobre = lazy(() => import('./pages/sobre'));
 const SelecaoTipoCadastro = lazy(() => import('./pages/SelecaoTipoCadastro'));
 const AuthCallback = lazy(() => import('./pages/AuthCallback'));
+const PerfilRedirect = lazy(() => import('./components/PerfilRedirect'));
 
 // Páginas de perfil
 const PerfilAtleta = lazy(() => import('./pages/perfil/atleta'));
@@ -78,6 +79,16 @@ function AppContent() {
             element={
               <ProtectedRoute>
                 <SelecaoTipoCadastro />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Rota genérica de perfil que redireciona baseado no role */}
+          <Route
+            path="/perfil"
+            element={
+              <ProtectedRoute>
+                <PerfilRedirect />
               </ProtectedRoute>
             }
           />
