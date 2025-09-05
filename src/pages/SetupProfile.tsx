@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import confetti from 'canvas-confetti';
-import imageCompression from 'browser-image-compression';
 import Header from '../components/Header'
 import Footer from '../components/Footer';
 import { useUser } from '@clerk/clerk-react';
@@ -26,25 +25,31 @@ interface UserInsertData {
   email: string;
   display_name?: string | null;
   photo_url?: string | null;
-  role: string;
+  role: string; // Será convertido para user_role no Supabase
+  whatsapp?: string | null;
   box?: string | null;
   cidade?: string | null;
+  mensagem?: string | null;
   profile_complete?: boolean;
+  is_active?: boolean;
+  test_user?: boolean;
+  team_id?: string | null;
+  avatar_url?: string | null;
 }
 
 // Interface para dados de gamificação
 interface UserGamificationData {
   user_id: string;
+  level?: string; // gamification_level
   box_tokens?: number;
   total_earned?: number;
   achievements?: string[];
+  badges?: string[];
   last_action?: string | null;
 }
 
 // Constantes
-const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const BASE_TOKENS = 50;
-const PHOTO_BONUS_TOKENS = 10;
 
 // Avatares disponíveis (apenas os básicos por enquanto)
 const AVATAR_OPTIONS = [
@@ -72,8 +77,6 @@ export default function SetupProfile() {
   
   // Estados
   const [loading, setLoading] = useState(false);
-  const [photoFile, setPhotoFile] = useState<File | null>(null);
-  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [selectedAvatar, setSelectedAvatar] = useState('default');
   const [formData, setFormData] = useState<FormData>({
     nome: user?.fullName || '',
@@ -103,54 +106,7 @@ export default function SetupProfile() {
     setFormData(prev => ({ ...prev, [name]: value }));
   }, []);
 
-  const handlePhotoChange = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
 
-    // Validação de tamanho
-    if (file.size > MAX_FILE_SIZE) {
-      alert('Arquivo muito grande. Máximo 5MB.');
-      return;
-    }
-
-    try {
-      // Compressão da imagem
-      const compressedFile = await imageCompression(file, {
-        maxSizeMB: 1,
-        maxWidthOrHeight: 800,
-        useWebWorker: true,
-      });
-
-      setPhotoFile(compressedFile);
-
-      // Preview da imagem
-      const reader = new FileReader();
-      reader.onload = () => setPhotoPreview(reader.result as string);
-      reader.readAsDataURL(compressedFile);
-    } catch (error) {
-      console.error('Erro ao comprimir imagem:', error);
-      alert('Erro ao processar a imagem. Tente novamente.');
-    }
-  }, []);
-
-  const uploadPhoto = async (userId: string): Promise<string | null> => {
-    if (!photoFile) return null;
-
-    const fileExt = photoFile.name.split('.').pop();
-    const fileName = `${userId}/profile-photo.${fileExt}`;
-    
-    const { error: uploadError } = await supabase.storage
-      .from('avatars')
-      .upload(fileName, photoFile, { upsert: true });
-
-    if (uploadError) throw uploadError;
-
-    const { data: urlData } = supabase.storage
-      .from('avatars')
-      .getPublicUrl(fileName);
-    
-    return urlData.publicUrl;
-  };
 
   const saveUserProfile = async (userData: UserInsertData) => {
     const { data: existingUser } = await supabase
@@ -218,24 +174,13 @@ export default function SetupProfile() {
     setLoading(true);
     
     try {
-      // Upload da foto (se existir) ou usar avatar selecionado
-      let photoURL = null;
-      if (photoFile) {
-        photoURL = await uploadPhoto(user.id);
-      } else {
-        // Usar avatar selecionado
-        const selectedAvatarData = AVATAR_OPTIONS.find(avatar => avatar.id === selectedAvatar);
-        photoURL = selectedAvatarData?.image || '/images/default-avatar.png';
-      }
+      // Usar avatar selecionado
+      const selectedAvatarData = AVATAR_OPTIONS.find(avatar => avatar.id === selectedAvatar);
+      const photoURL = selectedAvatarData?.image || '/images/default-avatar.png';
       
       // Cálculo de tokens e achievements usando o novo sistema
-      let tokensEarned = 25; // 25 BØX por completar perfil
+      const tokensEarned = 25; // 25 BØX por completar perfil
       const achievements = ['setup_profile_completo'];
-      
-      if (photoFile) {
-        tokensEarned += 10; // +10 BØX por foto
-        achievements.push('foto_perfil');
-      }
 
       // Dados do usuário para a tabela users
       const userData: UserInsertData = {
@@ -244,17 +189,25 @@ export default function SetupProfile() {
         display_name: formData.nome,
         photo_url: photoURL,
         role: formData.categoria,
+        whatsapp: formData.whatsapp || null,
         box: formData.box || null,
         cidade: formData.cidade,
+        mensagem: formData.mensagem || null,
         profile_complete: true,
+        is_active: true,
+        test_user: false,
+        team_id: null,
+        avatar_url: photoURL, // Usar o mesmo valor do photo_url por enquanto
       };
 
       // Dados de gamificação para a tabela user_gamification
       const gamificationData: UserGamificationData = {
         user_id: user.id,
+        level: 'cindy', // Nível inicial
         box_tokens: tokensEarned,
         total_earned: tokensEarned,
         achievements: achievements,
+        badges: [], // Array vazio inicialmente
         last_action: 'profile_setup',
       };
 
@@ -337,59 +290,17 @@ export default function SetupProfile() {
                 <div className="mt-4 p-4 bg-gradient-to-r from-pink-100 to-blue-100 rounded-lg border border-pink-200">
                   <p className="text-sm text-gray-700">
                     🎁 <strong>Ganhe tokens $BØX:</strong><br/>
-                    +25 $BØX por completar o perfil<br/>
-                    +10 $BØX por adicionar foto
+                    +25 $BØX por completar o perfil
                   </p>
                 </div>
               </div>
 
               {/* Formulário */}
               <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Upload de Foto */}
-                <div className="text-center">
-                  <label className="block text-sm font-medium text-gray-700 mb-4">
-                    📸 Foto de Perfil (Opcional)
-                  </label>
-                  
-                  <div className="relative inline-block">
-                    <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200 mx-auto border-4 border-gray-300 shadow-lg">
-                      {photoPreview ? (
-                        <img 
-                          src={photoPreview} 
-                          alt="Preview" 
-                          className="w-full h-full object-cover" 
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <svg className="w-12 h-12 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-                          </svg>
-                        </div>
-                      )}
-                    </div>
-
-                    <label className="mt-3 inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 cursor-pointer transition-colors">
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handlePhotoChange}
-                        className="sr-only"
-                      />
-                      {photoFile ? '📸 Foto selecionada' : '📷 Adicionar foto'}
-                    </label>
-                  </div>
-
-                  {photoFile && (
-                    <p className="mt-2 text-sm" style={{ color: 'rgb(251, 5, 228)' }}>
-                      ✅ +10 $BØX garantidos pela foto!
-                    </p>
-                  )}
-                </div>
-
                 {/* Seleção de Avatar */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-4">
-                    🎭 Ou escolha um avatar
+                    🎭 Escolha seu avatar
                   </label>
                   
                   <div className="grid grid-cols-5 gap-3">
@@ -399,8 +310,6 @@ export default function SetupProfile() {
                         type="button"
                         onClick={() => {
                           setSelectedAvatar(avatar.id);
-                          setPhotoFile(null);
-                          setPhotoPreview(null);
                         }}
                         className={`
                           relative p-2 rounded-lg border-2 transition-all duration-200
@@ -445,7 +354,7 @@ export default function SetupProfile() {
                       value={formData.nome}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-colors"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-colors text-gray-900"
                     />
                   </div>
 
@@ -461,7 +370,7 @@ export default function SetupProfile() {
                       onChange={handleInputChange}
                       required
                       autoComplete="email"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-colors"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-colors text-gray-900"
                     />
                   </div>
 
@@ -475,7 +384,7 @@ export default function SetupProfile() {
                       name="telefone"
                       value={formData.telefone}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-colors"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-colors text-gray-900"
                     />
                   </div>
 
@@ -489,7 +398,7 @@ export default function SetupProfile() {
                       name="whatsapp"
                       value={formData.whatsapp}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-colors"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-colors text-gray-900"
                     />
                   </div>
 
@@ -503,7 +412,7 @@ export default function SetupProfile() {
                       name="box"
                       value={formData.box}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-colors"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-colors text-gray-900"
                     />
                   </div>
 
@@ -518,7 +427,7 @@ export default function SetupProfile() {
                       value={formData.cidade}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-colors"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-colors text-gray-900"
                     />
                   </div>
                 </div>
@@ -533,7 +442,7 @@ export default function SetupProfile() {
                     value={formData.categoria}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-colors"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-colors text-gray-900"
                   >
                     {CATEGORIA_OPTIONS.map(option => (
                       <option key={option.value} value={option.value}>
@@ -553,7 +462,7 @@ export default function SetupProfile() {
                     value={formData.mensagem}
                     onChange={handleInputChange}
                     rows={4}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-colors"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-colors text-gray-900"
                     placeholder="Conte um pouco sobre sua motivação para participar do evento..."
                   />
                 </div>
