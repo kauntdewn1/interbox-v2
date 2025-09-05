@@ -39,11 +39,11 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({
         
         {/* Logo INTERBØX animado */}
         {showLogo && (
-          <div className="animate-pulse">
+          <div className="animate-pulse flex justify-center">
             <img
               src="/logos/nome_hrz.png"
               alt="INTERBØX"
-              className="w-32 md:w-40 h-auto opacity-90"
+              className="w-32 md:w-40 h-auto opacity-90 object-contain"
             />
           </div>
         )}
@@ -69,7 +69,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({
             <img
               src="/logos/oficial_logo.png"
               alt="INTERBØX Logo Oficial"
-              className={`${size === 'sm' ? 'w-4 h-4' : size === 'md' ? 'w-8 h-8' : 'w-12 h-12'} h-auto opacity-90 animate-pulse`}
+              className={`${size === 'sm' ? 'w-4 h-4' : size === 'md' ? 'w-8 h-8' : 'w-12 h-12'} object-contain opacity-90 animate-pulse`}
             />
           </div>
         </div>
