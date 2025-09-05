@@ -74,9 +74,9 @@ export const clerkConfig = {
   production: true,
   // Força ambiente de produção
   environment: 'production',
-  // 🔒 CONFIGURAÇÕES PARA USAR DOMÍNIO EXTERNO DO CLERK
-  signInUrl: 'https://accounts.cerradointerbox.com.br/sign-in',
-  signUpUrl: 'https://accounts.cerradointerbox.com.br/sign-up',
+  // 🔒 CONFIGURAÇÕES PARA USAR DOMÍNIO PADRÃO DO CLERK (temporário)
+  // signInUrl: 'https://accounts.cerradointerbox.com.br/sign-in',
+  // signUpUrl: 'https://accounts.cerradointerbox.com.br/sign-up',
   // Permite redirecionamentos externos para autenticação
   allowUrlRedirects: true,
   localization: {

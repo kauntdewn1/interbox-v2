@@ -88,9 +88,7 @@ createRoot(document.getElementById('root')!).render(
           },
         }
       }}
-      // 🔒 CONFIGURAÇÕES PARA USAR DOMÍNIO EXTERNO DO CLERK
-      signInUrl={CLERK_LOCAL_CONFIG.signInUrl}
-      signUpUrl={CLERK_LOCAL_CONFIG.signUpUrl}
+      // 🔒 CONFIGURAÇÕES DE REDIRECIONAMENTO
       signInFallbackRedirectUrl="/"
       signUpFallbackRedirectUrl="/selecao-tipo-cadastro"
     >
