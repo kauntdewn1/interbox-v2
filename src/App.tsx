@@ -16,7 +16,7 @@ const Patrocinadores = lazy(() => import('./pages/patrocinadores'));
 const Sobre = lazy(() => import('./pages/sobre'));
 const SelecaoTipoCadastro = lazy(() => import('./pages/SelecaoTipoCadastro'));
 const AuthCallback = lazy(() => import('./pages/AuthCallback'));
-const PerfilRedirect = lazy(() => import('./components/PerfilRedirect'));
+const PerfilRedirect = lazy(() => import('./components/PerfilRedirect.tsx'));
 
 // Páginas de perfil
 const PerfilAtleta = lazy(() => import('./pages/perfil/atleta'));
