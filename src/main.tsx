@@ -91,12 +91,8 @@ createRoot(document.getElementById('root')!).render(
       // 🔒 CONFIGURAÇÕES PARA USAR DOMÍNIO EXTERNO DO CLERK
       signInUrl={CLERK_LOCAL_CONFIG.signInUrl}
       signUpUrl={CLERK_LOCAL_CONFIG.signUpUrl}
-      signInFallbackRedirectUrl={CLERK_LOCAL_CONFIG.signInFallbackRedirectUrl}
-      signUpFallbackRedirectUrl={CLERK_LOCAL_CONFIG.signUpFallbackRedirectUrl}
-      
-      // 🚫 DESABILITAR TELA DE CONFIGURAÇÃO PADRÃO DO CLERK
-      afterSignInUrl="/"
-      afterSignUpUrl="/selecao-tipo-cadastro"
+      signInFallbackRedirectUrl="/"
+      signUpFallbackRedirectUrl="/selecao-tipo-cadastro"
     >
       <App />
     </ClerkProvider>

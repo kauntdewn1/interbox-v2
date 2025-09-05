@@ -77,8 +77,6 @@ export const clerkConfig = {
   // 🔒 CONFIGURAÇÕES PARA USAR DOMÍNIO EXTERNO DO CLERK
   signInUrl: 'https://accounts.cerradointerbox.com.br/sign-in',
   signUpUrl: 'https://accounts.cerradointerbox.com.br/sign-up',
-  signInFallbackRedirectUrl: '/',
-  signUpFallbackRedirectUrl: '/setup',
   // Permite redirecionamentos externos para autenticação
   allowUrlRedirects: true,
   localization: {
