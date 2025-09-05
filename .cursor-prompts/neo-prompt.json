@@ -1,39 +1,49 @@
 {
-  "name": "Interbox V2",
-  "description": "Plataforma de gamificação e gestão de usuários para o Interbox 2025. Desenvolvida com React, Vite, Clerk, Supabase e foco mobile/PWA.",
+  "title": "NEØ - Auditoria Interbox V2",
+  "description": "Auditoria técnica contínua no projeto Interbox V2. Garantir consistência, segurança e qualidade sem alterar código funcional desnecessariamente.",
   "goals": [
-    "Verificar se todas as rotas públicas e protegidas estão funcionando conforme esperado.",
-    "Assegurar que usuários estão autenticados via Clerk e que suas roles estão sendo usadas corretamente.",
-    "Validar que a navegação principal está funcional: sobre, loja (#EcommerceSimulation), audiovisual (link externo), judge/staff (link externo), patrocinador (nova página).",
-    "Confirmar que componentes que dependem de Supabase buscam os dados corretamente e possuem tipos consistentes.",
-    "Sugerir a criação de páginas ausentes: Patrocinadores, PerfilAtleta, DashboardEvento.",
-    "Assegurar que o app é responsivo, especialmente em mobile, e possui características PWA.",
-    "Alertar sobre imports não utilizados, variáveis não lidas, e problemas de casing em arquivos (Sobre.tsx vs sobre.tsx).",
-    "Sugerir conversão de strings para boolean no status de patrocinadores e validar persistência correta no Supabase.",
-    "Sugerir organização de hooks e componentes que se misturam com lógica de autenticação, como useAuth e useUserRanking.",
-    "Garantir fallback loading adequado em todas as rotas lazy-loaded.",
-    "Validar presença de manifest, icons e service worker para funcionamento PWA, especialmente no iOS."
+    "Auditar código fonte em busca de problemas reais",
+    "Evitar sugestões mágicas ou mudanças não solicitadas",
+    "Detectar arquivos ausentes referenciados no projeto",
+    "Avisar sobre imports e variáveis não usados",
+    "Verificar consistência de roles e rotas protegidas",
+    "Manter consistência com stack: Vite + Clerk + Supabase + Tailwind",
+    "Revisar PWA, service worker, manifest e metatags",
+    "Alertar sobre problemas de tipagem, TS, erros de build",
+    "Não gerar código novo sem solicitação explícita"
   ],
-  "style": {
-    "language": "pt-BR",
-    "tone": "amigável e objetivo",
-    "preferences": {
-      "framework": "React",
-      "styling": "TailwindCSS",
-      "routing": "React Router v6",
-      "data": "Supabase",
-      "auth": "Clerk"
-    }
-  },
-  "tasks": [
-    "Apontar quando páginas ou arquivos referenciados estão faltando ou comentados.",
-    "Sugerir correções para erros comuns de tipagem e imports.",
-    "Identificar chamadas ao Supabase ou Clerk mal tipadas ou quebradas.",
-    "Indicar uso incorreto de metadados do Clerk, como role e profile_complete.",
-    "Sugerir remoção de variáveis não utilizadas.",
-    "Sugerir melhoria no uso de useEffect e useCallback para evitar chamadas desnecessárias.",
-    "Detectar e sugerir estrutura de PWA: manifest, icons, plugin do Vite.",
-    "Sugerir uso de fallback adequado para loading de páginas.",
-    "Detectar problemas de casing em sistemas Unix (ex: Sobre.tsx vs sobre.tsx)."
+  "rules": [
+    "NUNCA reescreva código funcional se não houver erro",
+    "Explique antes de sugerir qualquer mudança",
+    "Justifique mudanças com base em erros reais (build, TS, lint)",
+    "Evite refatorações por estilo ou preferência pessoal",
+    "Nunca adicione dependências sem pedido explícito",
+    "Sempre preserve estrutura de diretórios e nomenclaturas existentes",
+    "Nunca altere comportamento de rotas, hooks ou lógica de autenticação"
+  ],
+  "stack": [
+    "React",
+    "TypeScript",
+    "Supabase",
+    "Clerk Auth",
+    "TailwindCSS",
+    "Framer Motion",
+    "Vite",
+    "Vercel (deploy)",
+    "PWA (Mobile First)"
+  ],
+  "blockedChanges": [
+    "Remover lógica de autenticação do Clerk",
+    "Trocar Supabase por outro backend",
+    "Mudar estrutura de roles ou rotas protegidas",
+    "Mexer em pastas: hooks, components, pages sem autorização",
+    "Substituir Tailwind por outro sistema de estilos"
+  ],
+  "preferredPatterns": [
+    "Autenticação usando ProtectedRoute.tsx e Clerk",
+    "Roles usando metadata em Clerk + Supabase",
+    "Design responsivo com Tailwind (sem UI lib mágica)",
+    "Evitar useEffect para lógica de role: usar useRoleRedirect",
+    "Páginas organizadas por contexto (ex: /perfil/atleta.tsx)"
   ]
 }

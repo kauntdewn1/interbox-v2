@@ -74,16 +74,18 @@ export const clerkConfig = {
   production: true,
   // Força ambiente de produção
   environment: 'production',
-  // 🔒 CONFIGURAÇÕES PARA USAR DOMÍNIO PADRÃO DO CLERK (temporário)
-  // signInUrl: 'https://accounts.cerradointerbox.com.br/sign-in',
-  // signUpUrl: 'https://accounts.cerradointerbox.com.br/sign-up',
+  // 🔒 CONFIGURAÇÕES PARA USAR DOMÍNIO EXTERNO DO CLERK
+  signInUrl: 'https://accounts.cerradointerbox.com.br/sign-in',
+  signUpUrl: 'https://accounts.cerradointerbox.com.br/sign-up',
+  signInFallbackRedirectUrl: '/',
+  signUpFallbackRedirectUrl: '/setup',
   // Permite redirecionamentos externos para autenticação
   allowUrlRedirects: true,
   localization: {
     locale: 'pt-BR',
     signIn: {
       title: 'Bem-vindo à INTERBØX',
-      subtitle: 'Entre na Arena digital',
+      subtitle: 'Entre na Arena dos Consagrados',
     },
     signUp: {
       title: 'Junte-se à INTERBØX',

@@ -6,7 +6,7 @@ import Header from '../components/Header'
 import Footer from '../components/Footer';
 import { useUser } from '@clerk/clerk-react';
 import { supabase } from '../lib/supabase';
-import { useTokenActions } from '../hooks/useTokenActions';
+import { TOKEN_ACTIONS } from '../hooks/useLevelSystem';
 
 // Tipos
 interface FormData {
@@ -70,7 +70,6 @@ const CATEGORIA_OPTIONS = [
 // Componente principal
 export default function SetupProfile() {
   const { user } = useUser();
-  const { awardTokens } = useTokenActions();
   
   // Estados
   const [loading, setLoading] = useState(false);
@@ -230,11 +229,13 @@ export default function SetupProfile() {
         photoURL = selectedAvatarData?.image || '/images/default-avatar.png';
       }
       
-      // Conceder tokens usando o novo sistema
-      await awardTokens('completar_perfil');
+      // Cálculo de tokens e achievements usando o novo sistema
+      let tokensEarned = TOKEN_ACTIONS.completar_perfil; // 25 BØX por completar perfil
+      const achievements = ['setup_profile_completo'];
       
       if (photoFile) {
-        await awardTokens('completar_perfil', PHOTO_BONUS_TOKENS, 'Foto de perfil adicionada');
+        tokensEarned += PHOTO_BONUS_TOKENS; // +10 BØX por foto
+        achievements.push('foto_perfil');
       }
 
       // Dados do usuário para a tabela users
@@ -249,8 +250,18 @@ export default function SetupProfile() {
         profile_complete: true,
       };
 
-      // Salvar perfil no banco
+      // Dados de gamificação para a tabela user_gamification
+      const gamificationData: UserGamificationData = {
+        user_id: user.id,
+        box_tokens: tokensEarned,
+        total_earned: tokensEarned,
+        achievements: achievements,
+        last_action: 'profile_setup',
+      };
+
+      // Salvar no banco
       await saveUserProfile(userData);
+      await saveUserGamification(gamificationData);
 
       // Feedback de sucesso
       confetti({
@@ -267,7 +278,7 @@ export default function SetupProfile() {
         },
       });
 
-      alert(`✅ Perfil configurado com sucesso! Você ganhou tokens $BØX!`);
+      alert(`✅ Perfil configurado com sucesso! Você ganhou ${tokensEarned} $BØX tokens!`);
       
       // Redirecionamento baseado no role
       const role = formData.categoria === 'publico' ? 'espectador' : formData.categoria;
@@ -327,8 +338,8 @@ export default function SetupProfile() {
                 <div className="mt-4 p-4 bg-gradient-to-r from-pink-100 to-blue-100 rounded-lg border border-pink-200">
                   <p className="text-sm text-gray-700">
                     🎁 <strong>Ganhe tokens $BØX:</strong><br/>
-                    +25 $BØX por completar o perfil<br/>
-                    +10 $BØX por adicionar foto
+                    +{TOKEN_ACTIONS.completar_perfil} $BØX por completar o perfil<br/>
+                    +{PHOTO_BONUS_TOKENS} $BØX por adicionar foto
                   </p>
                 </div>
               </div>

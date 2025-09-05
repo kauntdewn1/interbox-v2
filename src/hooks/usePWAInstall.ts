@@ -32,7 +32,7 @@ export function usePWA() {
 
     // Detectar beforeinstallprompt
     const handleBeforeInstallPrompt = (e: Event) => {
-      // Não chamar preventDefault() aqui - vamos deixar o browser mostrar o banner
+      e.preventDefault();
       setState(prev => ({
         ...prev,
         isInstallable: true,

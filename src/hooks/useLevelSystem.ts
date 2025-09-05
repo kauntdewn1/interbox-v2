@@ -72,7 +72,7 @@ export const TOKEN_ACTIONS = {
   acesso_spoiler: 20,
   checkin_evento: 30,
   indicacao_confirmada: 50,
-
+  
   // ✅ Novas ações gamificadas
   assistiu_spoiler_video: 20,        // Conteúdo desbloqueável
   respondeu_quiz: 15,                // Quiz interativo

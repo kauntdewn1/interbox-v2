@@ -6,7 +6,6 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../lib/supabase';
 import { useClerkSupabase } from '../hooks/useClerkSupabase';
-import { useLevelSystem } from '../hooks/useLevelSystem';
 import type { User, UserGamification } from '../types/supabase';
 
 // ============================================================================
@@ -26,9 +25,24 @@ interface LeaderboardEntry {
   isCurrentUser: boolean;
 }
 
+interface LevelInfo {
+  name: string;
+  icon: string;
+  color: string;
+}
+
 // ============================================================================
 // CONSTANTES
 // ============================================================================
+
+const LEVEL_INFO: Record<string, LevelInfo> = {
+  'cindy': { name: 'Cindy', icon: '🏃‍♀️', color: '#10B981' },
+  'helen': { name: 'Helen', icon: '💪', color: '#3B82F6' },
+  'fran': { name: 'Fran', icon: '🔥', color: '#8B5CF6' },
+  'annie': { name: 'Annie', icon: '⭐', color: '#F59E0B' },
+  'murph': { name: 'Murph', icon: '👑', color: '#EF4444' },
+  'matt': { name: 'Matt', icon: '🏆', color: '#EC4899' }
+};
 
 const POSITION_ICONS = {
   1: '🥇',
@@ -193,7 +207,7 @@ export default function TempoReal({
       <div className="space-y-3">
         <AnimatePresence>
           {leaderboard.map((entry, index) => {
-            const { currentLevel } = useLevelSystem(entry.gamification.box_tokens);
+            const levelInfo = LEVEL_INFO[entry.gamification.level] || LEVEL_INFO.cindy;
             const positionIcon = POSITION_ICONS[entry.position as keyof typeof POSITION_ICONS];
             
             return (
@@ -251,16 +265,9 @@ export default function TempoReal({
                       )}
                     </div>
                     <div className="flex items-center space-x-2 mt-1">
-                      <div className="flex items-center space-x-1">
-                        <img
-                          src={currentLevel.image}
-                          alt={currentLevel.name}
-                          className="w-4 h-4 rounded-full object-cover"
-                        />
-                        <span className="text-sm text-pink-400 font-medium">
-                          {currentLevel.name}
-                        </span>
-                      </div>
+                      <span className="text-sm" style={{ color: levelInfo.color }}>
+                        {levelInfo.icon} {levelInfo.name}
+                      </span>
                       <span className="text-xs text-gray-400">
                         {entry.gamification.achievements.length} conquistas
                       </span>
@@ -272,7 +279,7 @@ export default function TempoReal({
                     <div className={`text-lg font-bold ${
                       entry.isCurrentUser ? 'text-pink-400' : 'text-white'
                     }`}>
-                      {formatTokens(entry.gamification.box_tokens)} $BØX
+                      {formatTokens(entry.gamification.box_tokens)} $BOX
                     </div>
                     <div className="text-xs text-gray-400">
                       {formatTokens(entry.gamification.total_earned)} total

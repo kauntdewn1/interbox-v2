@@ -6,7 +6,6 @@ import LoadingScreen from './components/LoadingScreen';
 import ProtectedRoute from './components/ProtectedRoute';
 import PWAInstallBanner from './components/PWAInstallBanner';
 import BottomTabBar from './components/BottomTabBar';
-import AuthRedirectHandler from './components/AuthRedirectHandler';
 import Home from './pages/Home';
 import UpdateNotification from './components/UpdateNotification';
 
@@ -48,11 +47,8 @@ function AppContent() {
 
       <Suspense fallback={<LoadingScreen />}>
         <Routes>
-          {/* Rota raiz com redirecionamento inteligente */}
-          <Route path="/" element={<AuthRedirectHandler />} />
-          
-          {/* Rota pública da home */}
-          <Route path="/home" element={<Home />} />
+          {/* Rota pública */}
+          <Route path="/" element={<Home />} />
 
           {/* Rota protegida para Setup de perfil */}
           <Route
