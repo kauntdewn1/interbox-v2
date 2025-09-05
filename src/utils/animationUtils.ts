@@ -281,7 +281,7 @@ export const confettiAnimation = {
 };
 
 // Animações responsivas
-export const responsiveAnimation = (mobile: any, desktop: any) => {
+export const responsiveAnimation = (mobile: Record<string, unknown>, desktop: Record<string, unknown>) => {
   const isMobile = window.innerWidth < 768;
   return isMobile ? mobile : desktop;
 };
@@ -289,8 +289,8 @@ export const responsiveAnimation = (mobile: any, desktop: any) => {
 // Animações condicionais
 export const conditionalAnimation = (
   condition: boolean,
-  enabled: any,
-  disabled: any = {}
+  enabled: Record<string, unknown>,
+  disabled: Record<string, unknown> = {}
 ) => {
   return condition ? enabled : disabled;
 };

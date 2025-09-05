@@ -2,12 +2,12 @@
 // SELEÇÃO TIPO CADASTRO - INTERBØX V2
 // ============================================================================
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useClerkSupabase } from '../hooks/useClerkSupabase';
 import { useNotifications } from '../hooks/useSupabase';
-import confetti, { type Options } from 'canvas-confetti';
+import confetti from 'canvas-confetti';
 import type { UserRole } from '../types/supabase';
 
 // ============================================================================

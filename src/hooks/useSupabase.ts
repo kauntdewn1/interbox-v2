@@ -431,7 +431,7 @@ export function useAnalytics() {
 
   const trackEvent = useCallback(async (
     eventName: string,
-    eventData: Record<string, any> = {},
+    eventData: Record<string, unknown> = {},
     userId?: string
   ) => {
     try {

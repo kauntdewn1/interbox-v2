@@ -107,15 +107,15 @@ export function useGamificationContext(): UseGamificationContextResult {
 // --- Type Guards ---
 function isUserRow(obj: unknown): obj is UserRow {
   return typeof obj === 'object' && obj !== null &&
-    'id' in obj && typeof (obj as any).id === 'string' &&
-    'display_name' in obj && typeof (obj as any).display_name === 'string' &&
-    'role' in obj && typeof (obj as any).role === 'string'
+    'id' in obj && typeof (obj as Record<string, unknown>).id === 'string' &&
+    'display_name' in obj && typeof (obj as Record<string, unknown>).display_name === 'string' &&
+    'role' in obj && typeof (obj as Record<string, unknown>).role === 'string'
 }
 
 function isGamificationRow(obj: unknown): obj is GamificationRow {
   return typeof obj === 'object' && obj !== null &&
-    'user_id' in obj && typeof (obj as any).user_id === 'string' &&
-    'box_tokens' in obj && typeof (obj as any).box_tokens === 'number'
+    'user_id' in obj && typeof (obj as Record<string, unknown>).user_id === 'string' &&
+    'box_tokens' in obj && typeof (obj as Record<string, unknown>).box_tokens === 'number'
 }
 
 function validateRole(role: string | undefined): ConsolidatedUser['role'] {

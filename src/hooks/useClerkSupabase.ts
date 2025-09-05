@@ -15,7 +15,7 @@ import type { User, UserRole } from '../types/supabase';
 export function useClerkSupabase() {
   const { user: clerkUser, isLoaded: clerkLoaded } = useUser();
   const { getToken } = useAuth();
-  const [supabaseUser, setSupabaseUser] = useState<User | null>(null);
+  const [_supabaseUser, setSupabaseUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -24,7 +24,7 @@ export function useClerkSupabase() {
     user: dbUser, 
     loading: userLoading, 
     error: userError,
-    createUser: createDbUser 
+    createUser: _createDbUser 
   } = useSupabaseUser(clerkUser?.id || '');
   
   const { 
@@ -81,7 +81,7 @@ export function useClerkSupabase() {
       // Verificar se usuário já existe no Supabase
       if (dbUser) {
         // Atualizar dados se necessário
-        const updates: any = {};
+        const updates: Record<string, unknown> = {};
         
         if (dbUser.email !== clerkUser.emailAddresses[0]?.emailAddress) {
           updates.email = clerkUser.emailAddresses[0]?.emailAddress;

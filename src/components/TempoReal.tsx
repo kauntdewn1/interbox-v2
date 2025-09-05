@@ -172,7 +172,7 @@ const getPositionBg = (position: number): string => {
 export default function TempoReal({ 
   className = '', 
   limit = 10, 
-  showCurrentUser = true 
+  _showCurrentUser = true 
 }: TempoRealProps) {
   const { user: currentUser } = useClerkSupabase();
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntryData[]>([]);
