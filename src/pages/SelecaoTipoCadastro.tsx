@@ -17,123 +17,93 @@ const TIPOS_CADASTRO = [
   { id: 'publico', titulo: 'Público Geral', descricao: 'Outro tipo de participação', icon: '⧇', accentColor: 'text-gray-600', bgColor: 'bg-gray-50', borderColor: 'border-gray-200' },
 ]; 
 
-interface FormData {
-  nome: string;
-  email: string;
-  whatsapp: string;
-  box: string;
-  cidade: string;
-  mensagem: string;
-}
-
 export default function SelecaoTipoCadastro() {
   const navigate = useNavigate();
   const { user } = useUser();
-  const [selectedType, setSelectedType] = useState<string | null>(null);
-  const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const [formData, setFormData] = useState<FormData>({
-    nome: user?.fullName || '',
-    email: user?.primaryEmailAddress?.emailAddress ?? '',
-    whatsapp: '',
-    box: '',
-    cidade: '',
-    mensagem: '',
-  });
-
-  useEffect(() => {
-    if (user?.primaryEmailAddress?.emailAddress ?? '') {
-      setFormData(prev => ({
-        ...prev,
-        email: user?.primaryEmailAddress?.emailAddress ?? '',
-        nome: user.fullName || prev.nome
-      }));
-    }
-  }, [user]);
-
-  const handleTypeSelect = (tipoId: string) => {
-    setSelectedType(tipoId);
-    setShowForm(true);
-  };
-  
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!user || !selectedType) return;
-
+  const handleTypeSelect = async (tipoId: string) => {
+    if (!user) return;
+    
     setLoading(true);
     try {
-      const { error: insertError } = await supabase.from('users').insert({
-        id: user.id,
-        clerk_id: user.id,
-        email: formData.email,
-        display_name: formData.nome,
-        photo_url: user.imageUrl,
-        role: selectedType,
-        whatsapp: formData.whatsapp,
-        box: formData.box,
-        cidade: formData.cidade,
-        mensagem: formData.mensagem,
-        profile_complete: true,
-        is_active: true,
-        test_user: false,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      });
-
-      if (insertError) throw insertError;
-
-      if (selectedType === 'atleta') {
-        await supabase.from('competition_teams').insert({
-          atleta_id: user.id,
-          nome: `Time de ${formData.nome}`,
-          criado_em: new Date().toISOString(),
-        });
-      }
-
-      // Atualizar metadata do Clerk
+      // Salvar o role no Clerk
       await user.update({
         unsafeMetadata: {
-          role: selectedType,
-          profileComplete: true,
+          role: tipoId,
+          profileComplete: false, // Ainda não está completo
         },
       });
 
       confetti({
-        particleCount: 50,
+        particleCount: 30,
         spread: 45,
         origin: { y: 0.6 },
-        colors: ['#007AFF', '#34C759', '#FF9500'],
+        colors: ['#ec4899', '#8b5cf6', '#06b6d4'],
       });
 
       setTimeout(() => {
-        alert(`🎉 Cadastro realizado com sucesso!\n\n🏆 Primeira Conquista: +10 ₿ØX\n🎯 Nível: Iniciante\n📈 Frequência: 1 dia\n\nBem-vindo ao Interbox 2025! 🚀`);
-
-        navigate(`/perfil/${selectedType === 'publico' ? 'espectador' : selectedType}`);
+        // Redirecionar para setup para completar o perfil
+        navigate('/setup');
       }, 1000);
 
     } catch (err) {
-      console.error('Erro ao criar usuário:', err);
-      alert('Erro ao salvar dados no Supabase.');
+      console.error('Erro ao salvar tipo de cadastro:', err);
+      alert('Erro ao salvar dados. Tente novamente.');
     } finally {
       setLoading(false);
     }
   };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const selectedTipo = TIPOS_CADASTRO.find((t) => t.id === selectedType);
+  
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-[#0a0a1a] to-[#0038d0]">
       <Header />
-      <div className="container mx-auto px-3 py-4 max-w-sm">
-        {/* ...continua igual até o final */}
+      <div className="container mx-auto px-4 py-8 max-w-2xl">
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-white mb-4">
+            Escolha seu tipo de participação
+          </h1>
+          <p className="text-gray-300 text-lg">
+            Como você quer participar do INTERBØX 2025?
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {TIPOS_CADASTRO.map((tipo) => (
+            <button
+              key={tipo.id}
+              onClick={() => handleTypeSelect(tipo.id)}
+              disabled={loading}
+              className={`
+                p-6 rounded-xl border-2 transition-all duration-200
+                hover:scale-105 hover:shadow-lg
+                disabled:opacity-50 disabled:cursor-not-allowed
+                ${tipo.bgColor} ${tipo.borderColor}
+                hover:border-opacity-60
+              `}
+            >
+              <div className="text-center">
+                <div className="text-4xl mb-3">{tipo.icon}</div>
+                <h3 className={`text-xl font-bold mb-2 ${tipo.accentColor}`}>
+                  {tipo.titulo}
+                </h3>
+                <p className="text-gray-600 text-sm">
+                  {tipo.descricao}
+                </p>
+              </div>
+            </button>
+          ))}
+        </div>
+
+        {loading && (
+          <div className="text-center mt-8">
+            <div className="inline-flex items-center space-x-2 text-white">
+              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-pink-500"></div>
+              <span>Processando...</span>
+            </div>
+          </div>
+        )}
       </div>
       <Footer />
     </div>

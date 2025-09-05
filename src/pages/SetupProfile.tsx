@@ -6,6 +6,7 @@ import Header from '../components/Header'
 import Footer from '../components/Footer';
 import { useUser } from '@clerk/clerk-react';
 import { supabase } from '../lib/supabase';
+import { TOKEN_ACTIONS } from '../hooks/useLevelSystem';
 
 // Tipos
 interface FormData {
@@ -46,6 +47,15 @@ const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const BASE_TOKENS = 50;
 const PHOTO_BONUS_TOKENS = 10;
 
+// Avatares disponíveis (apenas os básicos por enquanto)
+const AVATAR_OPTIONS = [
+  { id: 'default', name: 'Padrão', image: '/images/default-avatar.png', cost: 0 },
+  { id: 'atleta', name: 'Atleta', image: '/images/atleta-avatar.png', cost: 0 },
+  { id: 'judge', name: 'Judge', image: '/images/avatar/judge-avatar.png', cost: 0 },
+  { id: 'staff', name: 'Staff', image: '/images/avatar/staff-avatar.png', cost: 0 },
+];
+
+
 const CATEGORIA_OPTIONS = [
   { value: 'publico', label: 'Público Geral' },
   { value: 'atleta', label: 'Atleta' },
@@ -65,13 +75,14 @@ export default function SetupProfile() {
   const [loading, setLoading] = useState(false);
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const [selectedAvatar, setSelectedAvatar] = useState('default');
   const [formData, setFormData] = useState<FormData>({
-    nome: '',
+    nome: user?.fullName || '',
     email: user?.primaryEmailAddress?.emailAddress || '',
     telefone: '',
     whatsapp: '',
     box: '',
-    categoria: 'publico',
+    categoria: (user?.unsafeMetadata?.role as any) || 'publico',
     cidade: '',
     mensagem: '',
   });
@@ -208,15 +219,22 @@ export default function SetupProfile() {
     setLoading(true);
     
     try {
-      // Upload da foto (se existir)
-      const photoURL = await uploadPhoto(user.id);
+      // Upload da foto (se existir) ou usar avatar selecionado
+      let photoURL = null;
+      if (photoFile) {
+        photoURL = await uploadPhoto(user.id);
+      } else {
+        // Usar avatar selecionado
+        const selectedAvatarData = AVATAR_OPTIONS.find(avatar => avatar.id === selectedAvatar);
+        photoURL = selectedAvatarData?.image || '/images/default-avatar.png';
+      }
       
-      // Cálculo de tokens e achievements
-      let tokensEarned = BASE_TOKENS;
+      // Cálculo de tokens e achievements usando o novo sistema
+      let tokensEarned = TOKEN_ACTIONS.completar_perfil; // 25 BØX por completar perfil
       const achievements = ['setup_profile_completo'];
       
       if (photoFile) {
-        tokensEarned += PHOTO_BONUS_TOKENS;
+        tokensEarned += PHOTO_BONUS_TOKENS; // +10 BØX por foto
         achievements.push('foto_perfil');
       }
 
@@ -252,10 +270,19 @@ export default function SetupProfile() {
         origin: { y: 0.6 },
       });
 
-      alert(`✅ Perfil configurado com sucesso! Você ganhou ${tokensEarned} ₿ØX tokens!`);
+      // Atualizar metadata do Clerk
+      await user.update({
+        unsafeMetadata: {
+          role: formData.categoria,
+          profileComplete: true,
+        },
+      });
+
+      alert(`✅ Perfil configurado com sucesso! Você ganhou ${tokensEarned} $BØX tokens!`);
       
-      // Redirecionamento (ajuste conforme necessário)
-      window.location.href = '/dashboard';
+      // Redirecionamento baseado no role
+      const role = formData.categoria === 'publico' ? 'espectador' : formData.categoria;
+      window.location.href = `/perfil/${role}`;
       
     } catch (error) {
       console.error('Erro ao salvar perfil:', error);
@@ -310,9 +337,9 @@ export default function SetupProfile() {
                 {/* Box de recompensas */}
                 <div className="mt-4 p-4 bg-gradient-to-r from-pink-100 to-blue-100 rounded-lg border border-pink-200">
                   <p className="text-sm text-gray-700">
-                    🎁 <strong>Ganhe tokens ₿ØX:</strong><br/>
-                    +{BASE_TOKENS} ₿ØX por completar o perfil<br/>
-                    +{PHOTO_BONUS_TOKENS} ₿ØX por adicionar foto
+                    🎁 <strong>Ganhe tokens $BØX:</strong><br/>
+                    +{TOKEN_ACTIONS.completar_perfil} $BØX por completar o perfil<br/>
+                    +{PHOTO_BONUS_TOKENS} $BØX por adicionar foto
                   </p>
                 </div>
               </div>
@@ -355,9 +382,55 @@ export default function SetupProfile() {
 
                   {photoFile && (
                     <p className="mt-2 text-sm" style={{ color: 'rgb(251, 5, 228)' }}>
-                      ✅ +{PHOTO_BONUS_TOKENS} ₿ØX garantidos pela foto!
+                      ✅ +{PHOTO_BONUS_TOKENS} $BØX garantidos pela foto!
                     </p>
                   )}
+                </div>
+
+                {/* Seleção de Avatar */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-4">
+                    🎭 Ou escolha um avatar
+                  </label>
+                  
+                  <div className="grid grid-cols-5 gap-3">
+                    {AVATAR_OPTIONS.map((avatar) => (
+                      <button
+                        key={avatar.id}
+                        type="button"
+                        onClick={() => {
+                          setSelectedAvatar(avatar.id);
+                          setPhotoFile(null);
+                          setPhotoPreview(null);
+                        }}
+                        className={`
+                          relative p-2 rounded-lg border-2 transition-all duration-200
+                          ${selectedAvatar === avatar.id 
+                            ? 'border-pink-500 bg-pink-50' 
+                            : 'border-gray-200 hover:border-gray-300'
+                          }
+                        `}
+                      >
+                        <img
+                          src={avatar.image}
+                          alt={avatar.name}
+                          className="w-12 h-12 rounded-full object-cover mx-auto"
+                        />
+                        <div className="mt-1 text-xs text-center">
+                          <div className="font-medium text-gray-700">{avatar.name}</div>
+                        </div>
+                        {selectedAvatar === avatar.id && (
+                          <div className="absolute -top-1 -right-1 w-5 h-5 bg-pink-500 rounded-full flex items-center justify-center">
+                            <span className="text-white text-xs">✓</span>
+                          </div>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                  
+                  <p className="mt-2 text-sm text-gray-600">
+                    💡 Escolha seu avatar inicial. Mais opções serão adicionadas em breve!
+                  </p>
                 </div>
 
                 {/* Campos do formulário */}
@@ -501,7 +574,7 @@ export default function SetupProfile() {
                     disabled={loading}
                     className="px-6 py-2 bg-gradient-to-r from-pink-600 to-blue-600 text-white rounded-md hover:from-pink-700 hover:to-blue-700 disabled:bg-gray-400 transition-all duration-300 font-medium"
                   >
-                    {loading ? 'Configurando...' : 'Configurar Perfil'}
+                    {loading ? 'Salvando...' : 'Salvar'}
                   </button>
                 </div>
               </form>

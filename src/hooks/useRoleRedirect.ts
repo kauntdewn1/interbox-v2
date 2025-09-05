@@ -17,34 +17,15 @@ export default function useRoleRedirect() {
       return;
     }
 
-    // 🔒 VERIFICAÇÃO DE SEGURANÇA: Se não tem categoria definida → Redireciona para inscrições externas
-    if (!user?.publicMetadata?.role || user?.publicMetadata?.role === 'publico') {
-      // Redireciona para página de inscrições externas
-      window.location.href = 'https://interbox-captacao.netlify.app/';
+    // 🔄 NOVO FLUXO: Se não tem role definido → Vai para seleção de tipo
+    if (!user?.publicMetadata?.role) {
+      navigate('/selecao-tipo-cadastro', { replace: true });
       return;
     }
 
-    // 🔒 VERIFICAÇÃO DE SEGURANÇA: Se tem categoria mas perfil incompleto → Redireciona para inscrições externas
+    // 🔄 NOVO FLUXO: Se tem role mas perfil incompleto → Vai para setup
     if (!user?.publicMetadata?.profileComplete) {
-      // Redireciona para página de inscrições externas baseada no role
-      switch (user?.publicMetadata?.role) {
-        case 'atleta':
-          window.location.href = 'https://interbox-captacao.netlify.app/';
-          break;
-        case 'judge':
-        case 'staff':
-          window.location.href = 'https://interbox-captacao.netlify.app/captacao/judge-staff';
-          break;
-        case 'midia':
-          window.location.href = 'https://interbox-captacao.netlify.app/audiovisual';
-          break;
-        case 'espectador':
-          window.location.href = 'https://interbox-captacao.netlify.app/';
-          break;
-        default:
-          window.location.href = 'https://interbox-captacao.netlify.app/';
-          break;
-      }
+      navigate('/setup', { replace: true });
       return;
     }
 
