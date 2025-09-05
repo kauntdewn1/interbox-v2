@@ -6,6 +6,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../lib/supabase';
 import { useClerkSupabase } from '../hooks/useClerkSupabase';
+import { useLevelSystem } from '../hooks/useLevelSystem';
 import type { User, UserGamification } from '../types/supabase';
 
 // ============================================================================
@@ -25,24 +26,9 @@ interface LeaderboardEntry {
   isCurrentUser: boolean;
 }
 
-interface LevelInfo {
-  name: string;
-  icon: string;
-  color: string;
-}
-
 // ============================================================================
 // CONSTANTES
 // ============================================================================
-
-const LEVEL_INFO: Record<string, LevelInfo> = {
-  'cindy': { name: 'Cindy', icon: '🏃‍♀️', color: '#10B981' },
-  'helen': { name: 'Helen', icon: '💪', color: '#3B82F6' },
-  'fran': { name: 'Fran', icon: '🔥', color: '#8B5CF6' },
-  'annie': { name: 'Annie', icon: '⭐', color: '#F59E0B' },
-  'murph': { name: 'Murph', icon: '👑', color: '#EF4444' },
-  'matt': { name: 'Matt', icon: '🏆', color: '#EC4899' }
-};
 
 const POSITION_ICONS = {
   1: '🥇',
@@ -203,11 +189,41 @@ export default function TempoReal({
         </button>
       </div>
 
+      {/* Seção do usuário atual */}
+      {currentUser && leaderboard.length > 0 && (
+        <div className="mb-6 p-4 bg-gradient-to-r from-pink-500/10 to-purple-500/10 rounded-lg border border-pink-500/20">
+          <div className="flex items-center space-x-4">
+            <div className="relative">
+              <img
+                src={currentUser.image || '/images/default-avatar.png'}
+                alt={currentUser.name}
+                className="w-12 h-12 rounded-full object-cover border-2 border-pink-500"
+              />
+              <div className="absolute -bottom-1 -right-1 bg-pink-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                {leaderboard.find(entry => entry.isCurrentUser)?.position || '?'}
+              </div>
+            </div>
+            <div className="flex-1">
+              <h3 className="text-lg font-bold text-pink-400">{currentUser.name}</h3>
+              <p className="text-sm text-gray-300">
+                {leaderboard.find(entry => entry.isCurrentUser)?.gamification.box_tokens || 0} $BØX
+              </p>
+            </div>
+            <div className="text-right">
+              <div className="text-2xl font-bold text-pink-400">
+                {leaderboard.find(entry => entry.isCurrentUser)?.gamification.box_tokens || 0}
+              </div>
+              <div className="text-xs text-gray-400">$BØX</div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Leaderboard */}
       <div className="space-y-3">
         <AnimatePresence>
           {leaderboard.map((entry, index) => {
-            const levelInfo = LEVEL_INFO[entry.gamification.level] || LEVEL_INFO.cindy;
+            const { currentLevel, nextLevel, progressToNext, tokensToNext } = useLevelSystem(entry.gamification.box_tokens);
             const positionIcon = POSITION_ICONS[entry.position as keyof typeof POSITION_ICONS];
             
             return (
@@ -265,9 +281,16 @@ export default function TempoReal({
                       )}
                     </div>
                     <div className="flex items-center space-x-2 mt-1">
-                      <span className="text-sm" style={{ color: levelInfo.color }}>
-                        {levelInfo.icon} {levelInfo.name}
-                      </span>
+                      <div className="flex items-center space-x-1">
+                        <img
+                          src={currentLevel.image}
+                          alt={currentLevel.name}
+                          className="w-4 h-4 rounded-full object-cover"
+                        />
+                        <span className="text-sm text-pink-400 font-medium">
+                          {currentLevel.name}
+                        </span>
+                      </div>
                       <span className="text-xs text-gray-400">
                         {entry.gamification.achievements.length} conquistas
                       </span>
@@ -279,7 +302,7 @@ export default function TempoReal({
                     <div className={`text-lg font-bold ${
                       entry.isCurrentUser ? 'text-pink-400' : 'text-white'
                     }`}>
-                      {formatTokens(entry.gamification.box_tokens)} $BOX
+                      {formatTokens(entry.gamification.box_tokens)} $BØX
                     </div>
                     <div className="text-xs text-gray-400">
                       {formatTokens(entry.gamification.total_earned)} total
@@ -288,16 +311,16 @@ export default function TempoReal({
                 </div>
 
                 {/* Barra de progresso para o próximo nível */}
-                {entry.position <= 3 && (
+                {nextLevel && (
                   <div className="mt-3">
                     <div className="flex justify-between text-xs text-gray-400 mb-1">
-                      <span>Progresso</span>
-                      <span>{entry.gamification.achievements.length} conquistas</span>
+                      <span>Progresso para {nextLevel.name}</span>
+                      <span>{tokensToNext} $BØX restantes</span>
                     </div>
                     <div className="w-full bg-gray-700 rounded-full h-2">
                       <motion.div
                         initial={{ width: 0 }}
-                        animate={{ width: `${Math.min(100, (entry.gamification.box_tokens / 1000) * 100)}%` }}
+                        animate={{ width: `${progressToNext}%` }}
                         transition={{ duration: 1, delay: index * 0.1 }}
                         className="h-2 rounded-full bg-gradient-to-r from-pink-500 to-purple-500"
                       />
