@@ -123,7 +123,7 @@ export const clerkSecurityConfig = {
 
 interface ClerkPublicMetadata {
   role?: string;
-  profile_complete?: boolean;
+  profileComplete?: boolean;
   isActive?: boolean;
   testUser?: boolean;
   permissions?: Record<string, boolean>;
@@ -171,7 +171,7 @@ export const clerkHelpers = {
 
   hasCompleteProfile: (user: UserResource | null | undefined): boolean => {
     const metadata = user?.publicMetadata as ClerkPublicMetadata | undefined;
-    return metadata?.profile_complete === true;
+    return metadata?.profileComplete === true;
   },
 
   isActive: (user: UserResource | null | undefined): boolean => {

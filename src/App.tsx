@@ -12,7 +12,6 @@ import UpdateNotification from './components/UpdateNotification';
 // Lazy imports para todas as páginas
 const SetupProfile = lazy(() => import('./pages/SetupProfile'));
 const Login = lazy(() => import('./pages/Login'));
-const Links = lazy(() => import('./pages/Links'));
 const Patrocinadores = lazy(() => import('./pages/patrocinadores'));
 const Sobre = lazy(() => import('./pages/sobre'));
 const SelecaoTipoCadastro = lazy(() => import('./pages/SelecaoTipoCadastro'));
@@ -50,7 +49,6 @@ function AppContent() {
         <Routes>
           {/* Rota pública */}
           <Route path="/" element={<Home />} />
-          <Route path="/links" element={<Links />} />
 
           {/* Rota protegida para Setup de perfil */}
           <Route

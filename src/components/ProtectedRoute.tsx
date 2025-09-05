@@ -91,8 +91,8 @@ function AccessControl({
 }: AccessControlProps) {
   const { user } = useAuth();
 
-  const userRole = user?.publicMetadata?.role as string | undefined;
-  const permissions = (user?.publicMetadata?.permissions || {}) as Record<string, boolean>;
+  const userRole = user?.unsafeMetadata?.role as string | undefined;
+  const permissions = (user?.unsafeMetadata?.permissions || {}) as Record<string, boolean>;
 
   if (requiredRole && userRole !== requiredRole) {
     return (
@@ -185,7 +185,7 @@ export const StaffRoute = (props: ProtectedRouteProps) => (
 
 export const ProfileCompleteRoute = ({ children, }: { children: React.ReactNode; fallback?: React.ReactNode }) => {
   const { user } = useAuth();
-  const isComplete = user?.publicMetadata?.profile_complete;
+  const isComplete = user?.unsafeMetadata?.profileComplete;
 
   if (!isComplete) {
     return (
@@ -220,8 +220,8 @@ export const ProfileCompleteRoute = ({ children, }: { children: React.ReactNode;
 export function useRouteAccess(requiredRole?: string, requiredPermission?: string) {
     const { isSignedIn, loading, user } = useAuth();
   
-    const role = user?.publicMetadata?.role as string | undefined;
-    const permissions = (user?.publicMetadata?.permissions || {}) as Record<string, boolean>;
+    const role = user?.unsafeMetadata?.role as string | undefined;
+    const permissions = (user?.unsafeMetadata?.permissions || {}) as Record<string, boolean>;
   
     const hasAccess = React.useMemo(() => {
       if (loading || !isSignedIn) return false;

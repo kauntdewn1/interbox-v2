@@ -18,19 +18,19 @@ export default function useRoleRedirect() {
     }
 
     // 🔄 NOVO FLUXO: Se não tem role definido → Vai para seleção de tipo
-    if (!user?.publicMetadata?.role) {
+    if (!user?.unsafeMetadata?.role) {
       navigate('/selecao-tipo-cadastro', { replace: true });
       return;
     }
 
     // 🔄 NOVO FLUXO: Se tem role mas perfil incompleto → Vai para setup
-    if (!user?.publicMetadata?.profileComplete) {
+    if (!user?.unsafeMetadata?.profileComplete) {
       navigate('/setup', { replace: true });
       return;
     }
 
     // ✅ Se chegou aqui, usuário tem perfil completo → Redireciona baseado no role
-    switch (user?.publicMetadata?.role) {
+    switch (user?.unsafeMetadata?.role) {
       case 'atleta':
         navigate('/perfil/atleta', { replace: true });
         break;
