@@ -16,7 +16,6 @@ import { GamificationAction, GamificationLevel } from '../config/gamification';
 export function useClerkSupabase() {
   const { user: clerkUser, isLoaded: clerkLoaded } = useUser();
   const { getToken } = useAuth();
-  const { getSupabaseClient } = useSupabaseWithClerk();
   const [_supabaseUser, setSupabaseUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -307,7 +306,7 @@ export function usePermissions() {
 // ============================================================================
 
 export function useIntegratedGamification() {
-  const { gamification, addTokens, userRole, user } = useClerkSupabase();
+  const { gamification, userRole, user } = useClerkSupabase();
   const [loading, setLoading] = useState(false);
 
   const awardTokens = useCallback(async (

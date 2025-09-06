@@ -50,13 +50,13 @@ export const RLS_POLICIES: RLSPolicy[] = [
     table: 'users',
     policy: 'Staff can view all users',
     command: 'SELECT',
-    definition: 'auth.is_staff()'
+    definition: 'public.is_staff()'
   },
   {
     table: 'users',
     policy: 'Staff can update all users',
     command: 'UPDATE',
-    definition: 'auth.is_staff()'
+    definition: 'public.is_staff()'
   },
   {
     table: 'users',
@@ -88,13 +88,13 @@ export const RLS_POLICIES: RLSPolicy[] = [
     table: 'user_gamification',
     policy: 'Staff can view all gamification',
     command: 'SELECT',
-    definition: 'auth.is_staff()'
+    definition: 'public.is_staff()'
   },
   {
     table: 'user_gamification',
     policy: 'Staff can update all gamification',
     command: 'UPDATE',
-    definition: 'auth.is_staff()'
+    definition: 'public.is_staff()'
   },
   {
     table: 'user_gamification',
@@ -120,13 +120,13 @@ export const RLS_POLICIES: RLSPolicy[] = [
     table: 'transactions',
     policy: 'Staff can view all transactions',
     command: 'SELECT',
-    definition: 'auth.is_staff()'
+    definition: 'public.is_staff()'
   },
   {
     table: 'transactions',
     policy: 'Staff can insert all transactions',
     command: 'INSERT',
-    definition: 'auth.is_staff()'
+    definition: 'public.is_staff()'
   },
 
   // Teams policies
@@ -152,13 +152,13 @@ export const RLS_POLICIES: RLSPolicy[] = [
     table: 'teams',
     policy: 'Staff can view all teams',
     command: 'SELECT',
-    definition: 'auth.is_staff()'
+    definition: 'public.is_staff()'
   },
   {
     table: 'teams',
     policy: 'Staff can update all teams',
     command: 'UPDATE',
-    definition: 'auth.is_staff()'
+    definition: 'public.is_staff()'
   },
 
   // Team Invites policies
@@ -190,13 +190,13 @@ export const RLS_POLICIES: RLSPolicy[] = [
     table: 'team_invites',
     policy: 'Staff can view all invites',
     command: 'SELECT',
-    definition: 'auth.is_staff()'
+    definition: 'public.is_staff()'
   },
   {
     table: 'team_invites',
     policy: 'Staff can update all invites',
     command: 'UPDATE',
-    definition: 'auth.is_staff()'
+    definition: 'public.is_staff()'
   },
 
   // Patrocinadores policies
@@ -204,25 +204,25 @@ export const RLS_POLICIES: RLSPolicy[] = [
     table: 'patrocinadores',
     policy: 'Staff can view all sponsors',
     command: 'SELECT',
-    definition: 'auth.is_staff()'
+    definition: 'public.is_staff()'
   },
   {
     table: 'patrocinadores',
     policy: 'Staff can insert sponsors',
     command: 'INSERT',
-    definition: 'auth.is_staff()'
+    definition: 'public.is_staff()'
   },
   {
     table: 'patrocinadores',
     policy: 'Staff can update sponsors',
     command: 'UPDATE',
-    definition: 'auth.is_staff()'
+    definition: 'public.is_staff()'
   },
   {
     table: 'patrocinadores',
     policy: 'Staff can delete sponsors',
     command: 'DELETE',
-    definition: 'auth.is_staff()'
+    definition: 'public.is_staff()'
   },
 
   // Analytics Events policies
@@ -236,7 +236,7 @@ export const RLS_POLICIES: RLSPolicy[] = [
     table: 'analytics_events',
     policy: 'Staff can view all analytics',
     command: 'SELECT',
-    definition: 'auth.is_staff()'
+    definition: 'public.is_staff()'
   },
 
   // Notifications policies
@@ -256,13 +256,13 @@ export const RLS_POLICIES: RLSPolicy[] = [
     table: 'notifications',
     policy: 'Staff can insert notifications',
     command: 'INSERT',
-    definition: 'auth.is_staff()'
+    definition: 'public.is_staff()'
   },
   {
     table: 'notifications',
     policy: 'Staff can view all notifications',
     command: 'SELECT',
-    definition: 'auth.is_staff()'
+    definition: 'public.is_staff()'
   }
 ];
 
@@ -318,7 +318,7 @@ export async function isRLSEnabled(tableName: string): Promise<boolean> {
  */
 export async function checkRLSFunctions(): Promise<boolean> {
   try {
-    const functions = ['auth.user_id', 'auth.is_admin', 'auth.is_staff'];
+    const functions = ['auth.user_id', 'public.is_admin', 'public.is_staff'];
     
     for (const func of functions) {
       const { data, error } = await supabase

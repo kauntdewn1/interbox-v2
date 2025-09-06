@@ -6,7 +6,7 @@ import { supabase } from '../lib/supabase'
 interface ConsolidatedUser {
   id: string
   displayName: string
-  role: 'atleta' | 'judge' | 'staff' | 'espectador' | 'desconhecido'
+  role: 'atleta' | 'judge' | 'staff' | 'espectador' | 'midia' | 'dev' | 'admin' | 'marketing' | 'publico'
   boxTokens: number
 }
 
@@ -119,6 +119,6 @@ function isGamificationRow(obj: unknown): obj is GamificationRow {
 }
 
 function validateRole(role: string | undefined): ConsolidatedUser['role'] {
-  const roles = ['atleta', 'judge', 'staff', 'espectador']
-  return role && roles.includes(role) ? role as ConsolidatedUser['role'] : 'desconhecido'
+  const roles = ['atleta', 'judge', 'staff', 'espectador', 'midia', 'dev', 'admin', 'marketing', 'publico']
+  return role && roles.includes(role) ? role as ConsolidatedUser['role'] : 'publico'
 }
