@@ -107,8 +107,8 @@ const ACHIEVEMENTS = {
 // ============================================================================
 
 export default function UserGamificationCards({ className = '' }: GamificationCardProps) {
-  const { user, gamification, loading } = useClerkSupabase();
-  const { notifications, unreadCount } = useNotifications(user?.id || '');
+  const { user, gamification, loading, supabaseUser } = useClerkSupabase();
+  const { notifications, unreadCount } = useNotifications(supabaseUser?.id || '');
   const { getLevelInfo } = useIntegratedGamification();
   
   const [selectedTab, setSelectedTab] = useState<'overview' | 'achievements' | 'transactions'>('overview');

@@ -57,8 +57,8 @@ export default function UserHeader({
   showGamification = true,
   showRole = true
 }: UserHeaderProps) {
-  const { user, gamification, loading } = useClerkSupabase();
-  const { notifications, unreadCount } = useNotifications(user?.id || '');
+  const { user, gamification, loading, supabaseUser } = useClerkSupabase();
+  const { notifications, unreadCount } = useNotifications(supabaseUser?.id || '');
   const { userRole } = usePermissions();
   
   const [showDropdown, setShowDropdown] = useState(false);
