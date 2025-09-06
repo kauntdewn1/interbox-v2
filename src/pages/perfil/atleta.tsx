@@ -509,27 +509,6 @@ function PerfilTab({ userData, gamification }: { userData: UserData; gamificatio
         </div>
         
         <div className="space-y-4">
-          <div className="group bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/20 transition-all duration-300 hover:bg-white/15 hover:scale-[1.02] hover:shadow-xl">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-pink-400 to-purple-500 rounded-2xl flex items-center justify-center shadow-lg">
-                  <span className="text-2xl">👤</span>
-                </div>
-                <div>
-                  <p className="font-bold text-lg">Avatar Personalizado</p>
-                  <p className="text-blue-100 text-sm">Escolha seu avatar personalizado</p>
-                </div>
-              </div>
-              <div className="text-right">
-                <div className="text-2xl font-bold text-yellow-300">25</div>
-                <div className="text-blue-100 text-sm">$BØX</div>
-                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-blue-500/20 text-blue-300 border border-blue-400/30 mt-2 backdrop-blur-sm">
-                  <span className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></span>
-                  Disponível
-                </span>
-              </div>
-            </div>
-          </div>
 
           <div className="group bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/20 transition-all duration-300 hover:bg-white/15 hover:scale-[1.02] hover:shadow-xl">
             <div className="flex items-center justify-between">
