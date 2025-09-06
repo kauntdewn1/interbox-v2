@@ -1,30 +1,14 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { useUser } from '@clerk/clerk-react';
-import { supabase } from '../../lib/supabase';
+import { useUser as useClerkUser } from '@clerk/clerk-react';
+import { useClerkSupabase } from '../../hooks/useClerkSupabase';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+import UserHeader from '../../components/UserHeader';
 
 // Tipos
-interface UserData {
-  id: string;
-  email: string;
-  display_name: string | null;
-  role: string;
-  photo_url?: string;
-  whatsapp?: string;
-  box?: string;
-  cidade?: string;
-  mensagem?: string;
-  gamification?: {
-    level?: string;
-    tokens?: {
-      box?: {
-        balance?: number;
-      };
-    };
-  };
-}
+import type { User, UserGamification } from '../../types/supabase';
+import { UserData } from '@/types/user';
 
 interface Team {
   id: string;
@@ -43,37 +27,22 @@ const JUDGE_TABS = [
 ];
 
 export default function PerfilJudge() {
-  const { user } = useUser();
-  const [userData, setUserData] = useState<UserData | null>(null);
+  const { user } = useClerkUser();
+  const { user: userData, gamification, loading: userLoading } = useClerkSupabase();
+  
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('profile');
   
   // Estados dos dados
   const [leaderboardProvas, setLeaderboardProvas] = useState<Team[]>([]);
-  const [userBoxes, setUserBoxes] = useState<number>(0);
 
   // Carregar dados do usuário
   const loadUserData = useCallback(async (userId: string) => {
     try {
       console.log('🔄 Carregando dados do usuário:', userId);
-      const { data: userData, error } = await supabase
-        .from('users')
-        .select('*')
-        .eq('id', userId)
-        .single();
 
-      if (error) {
-        console.error('Erro ao carregar usuário:', error);
-        return;
-      }
-
-      console.log('📖 Dados carregados do Supabase:', userData);
-      setUserData(userData);
-
-      // Carregar dados de gamificação
-      if (userData.gamification?.tokens?.box?.balance) {
-        setUserBoxes(userData.gamification.tokens.box.balance);
-      }
+      // Carregar eventos do usuário (simulado por enquanto)
+      // TODO: Implementar quando tivermos tabela de eventos
 
     } catch (error) {
       console.error('❌ Erro ao carregar dados do usuário:', error);
@@ -83,15 +52,8 @@ export default function PerfilJudge() {
   // Carregar leaderboard das provas
   const loadLeaderboardProvas = useCallback(async () => {
     try {
-      const { data: teamsData } = await supabase
-        .from('teams')
-        .select('*')
-        .order('created_at', { ascending: false })
-        .limit(50);
-      
-      if (teamsData) {
-        setLeaderboardProvas(teamsData);
-      }
+      // TODO: Implementar quando tivermos tabela de teams
+      setLeaderboardProvas([]);
     } catch (error) {
       console.error('Erro ao carregar leaderboard de provas:', error);
     }
@@ -99,15 +61,15 @@ export default function PerfilJudge() {
 
   // Effects
   useEffect(() => {
-    if (user) {
+    if (user && userData) {
       loadUserData(user.id);
       loadLeaderboardProvas();
       setLoading(false);
     }
-  }, [user, loadUserData, loadLeaderboardProvas]);
+  }, [user, userData, loadUserData, loadLeaderboardProvas]);
 
   // Loading state
-  if (loading) {
+  if (loading || userLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-black via-[#0a0a1a] to-[#0038d0] flex items-center justify-center">
         <div className="text-center">
@@ -142,21 +104,11 @@ export default function PerfilJudge() {
       
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         {/* Header do Perfil */}
-        <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 mb-6">
-          <div className="flex items-center space-x-4">
-            <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-600 rounded-full flex items-center justify-center">
-              <span className="text-2xl">⚖️</span>
-            </div>
-            <div className="flex-1">
-              <h1 className="text-2xl font-bold text-white">{userData.display_name}</h1>
-              <p className="text-gray-300">Judge • {userData.cidade || 'Cidade não informada'}</p>
-            </div>
-            <div className="text-right">
-              <div className="text-3xl font-bold text-pink-400">{userBoxes}</div>
-              <div className="text-gray-300 text-sm">$BØX</div>
-            </div>
-          </div>
-        </div>
+        <UserHeader 
+          showGamification={true}
+          showRole={true}
+          className="mb-6"
+        />
 
         {/* Tabs */}
         <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-4 border border-white/10 mb-6">
@@ -187,9 +139,9 @@ export default function PerfilJudge() {
         >
           <TabContent 
             activeTab={activeTab} 
-            userData={userData} 
+            userData={mapToUserData(userData)} 
             leaderboardProvas={leaderboardProvas}
-            userBoxes={userBoxes}
+            gamification={gamification}
           />
         </motion.div>
       </div>
@@ -199,17 +151,42 @@ export default function PerfilJudge() {
   );
 }
 
+// Interface para dados do usuário do Clerk + Supabase
+function mapToUserData(user: any): UserData {
+  return {
+    id: user.id,
+    clerkUserId: user.clerkId || "",
+    clerk_id: user.clerkId || "", // adapte conforme a origem
+    email: user.email,
+    display_name: user.name || "",
+    lastName: user.lastName || "",
+    fullName: user.fullName || "",
+    avatarUrl: user.image,
+    role: user.role,
+    photo_url: user.image,
+    is_active: user.isActive,
+    test_user: user.testUser,
+    profile_complete: user.profileComplete,
+    boxTokens: user.tokens || 0,
+    level: user.level || "cindy",
+    achievements: user.achievements,
+    badges: user.badges,
+    updated_at: new Date().toISOString(),
+    created_at: new Date().toISOString(),
+  };
+}
+
 interface TabContentProps {
   activeTab: string;
   userData: UserData;
   leaderboardProvas: Team[];
-  userBoxes: number;
+  gamification: UserGamification;
 }
 
-function TabContent({ activeTab, userData, leaderboardProvas, userBoxes }: TabContentProps) {
+function TabContent({ activeTab, userData, leaderboardProvas, gamification }: TabContentProps) {
   switch (activeTab) {
     case 'profile':
-      return <ProfileTab userData={userData} userBoxes={userBoxes} />;
+      return <ProfileTab userData={userData} gamification={gamification} />;
     case 'leaderboard':
       return <LeaderboardTab leaderboardProvas={leaderboardProvas} />;
     case 'convites':
@@ -217,12 +194,12 @@ function TabContent({ activeTab, userData, leaderboardProvas, userBoxes }: TabCo
     case 'julgamento':
       return <JulgamentoTab userData={userData} />;
     default:
-      return <ProfileTab userData={userData} userBoxes={userBoxes} />;
+      return <ProfileTab userData={userData} gamification={gamification} />;
   }
 }
 
 // Profile Tab
-function ProfileTab({ userData, userBoxes }: { userData: UserData; userBoxes: number }) {
+function ProfileTab({ userData, gamification }: { userData: UserData; gamification: UserGamification }) {
   return (
     <div className="space-y-6">
       {/* Header do Perfil - iOS Style */}
@@ -238,7 +215,7 @@ function ProfileTab({ userData, userBoxes }: { userData: UserData; userBoxes: nu
             </div>
           </div>
           <div className="text-right">
-            <div className="text-3xl font-bold">{userBoxes}</div>
+            <div className="text-3xl font-bold">{gamification?.box_tokens || 0}</div>
             <div className="text-indigo-100 text-sm">$BØX</div>
           </div>
         </div>
@@ -271,7 +248,7 @@ function ProfileTab({ userData, userBoxes }: { userData: UserData; userBoxes: nu
         
         <div className="grid grid-cols-2 gap-4">
           <div className="bg-indigo-500/20 rounded-xl p-4 text-center">
-            <div className="text-2xl font-bold text-indigo-300">{userBoxes}</div>
+            <div className="text-2xl font-bold text-indigo-300">{gamification?.box_tokens || 0}</div>
             <div className="text-sm text-indigo-200">$BØX Total</div>
           </div>
           <div className="bg-purple-500/20 rounded-xl p-4 text-center">

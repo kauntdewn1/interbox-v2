@@ -24,46 +24,13 @@ export default function Home() {
         <Hero />
 
         {/* 🏆 ARENA DOS CONSAGRADOS - Gamificação Unificada */}
-        {user ? (
+        {user && (
           <section className="bg-gradient-to-br from-black via-[#0a0a1a] to-[#0038d0] relative overflow-hidden">
             {/* Background Pattern da INTERBØX */}
             <div className="absolute inset-0 bg-[url('/images/bg_main.png')] bg-cover bg-center opacity-20"></div>
             
             <div className="container mx-auto px-4 py-16 relative z-10">
               <GamifiedLeaderboard />
-            </div>
-          </section>
-        ) : (
-          <section className="bg-gradient-to-br from-black via-[#0a0a1a] to-[#0038d0] relative overflow-hidden">
-            {/* Background Pattern da INTERBØX */}
-            <div className="absolute inset-0 bg-[url('/images/bg_main.png')] bg-cover bg-center opacity-20"></div>
-            
-            <div className="container mx-auto px-4 py-16 relative z-10">
-              <div className="text-center">
-                <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 max-w-2xl mx-auto">
-                  <div className="text-6xl mb-4">🏆</div>
-                  <h2 className="text-3xl font-bold text-white mb-4">
-                    Arena dos Consagrados
-                  </h2>
-                  <p className="text-gray-300 mb-6">
-                    Faça login para participar da competição e ver o ranking em tempo real!
-                  </p>
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button 
-                      onClick={() => window.location.href = '/login'}
-                      className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white px-8 py-3 rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl"
-                    >
-                      Fazer Login
-                    </button>
-                    <button 
-                      onClick={() => window.location.href = '/cadastro'}
-                      className="bg-white/10 hover:bg-white/20 text-white px-8 py-3 rounded-xl font-semibold transition-all duration-200 border border-white/20"
-                    >
-                      Criar Conta
-                    </button>
-                  </div>
-                </div>
-              </div>
             </div>
           </section>
         )}
