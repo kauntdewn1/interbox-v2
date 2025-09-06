@@ -296,5 +296,49 @@
 }
 
 /* ============================================================================
+   LEAFLET CUSTOM STYLES - iOS GLASSMORPHISM
+   ============================================================================ */
+
+/* Atribuição discreta */
+.leaflet-control-attribution {
+  background: rgba(0, 0, 0, 0.3) !important;
+  backdrop-filter: blur(10px) !important;
+  color: rgba(255, 255, 255, 0.6) !important;
+  font-size: 10px !important;
+  padding: 4px 8px !important;
+  border-radius: 8px !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.leaflet-control-attribution a {
+  color: rgba(255, 255, 255, 0.8) !important;
+  text-decoration: none !important;
+}
+
+/* Popup customizado (se necessário no futuro) */
+.leaflet-popup-content-wrapper {
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+}
+
+.leaflet-popup-content {
+  color: white !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif !important;
+}
+
+.leaflet-popup-tip {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Mapa container */
+.leaflet-container {
+  background: #1a1a1a !important;
+}
+
+/* ============================================================================
    BOTTOM TAB BAR - iOS STYLE
    ============================================================================ */

@@ -116,26 +116,19 @@ export default function InteractiveMap({
         shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
       });
 
-      map = L.map(mapRef.current!).setView([eventData.location.lat, eventData.location.lng], 8);
+      map = L.map(mapRef.current!, {
+        zoomControl: false,
+        attributionControl: false
+      }).setView([eventData.location.lat, eventData.location.lng], 8);
 
       // Adicionar camada de tiles
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors'
+        attribution: ''
       }).addTo(map);
 
-      // Marcador do evento
+      // Marcador do evento (minimalista, sem popup)
       const eventMarker = L.marker([eventData.location.lat, eventData.location.lng])
-        .addTo(map)
-        .bindPopup(`
-          <div style="text-align: center;">
-            <h3 style="color: #ec4899; margin: 0 0 10px 0;">${eventData.name}</h3>
-            <p style="margin: 5px 0;"><strong>Data:</strong> ${eventData.dates.join(', ')}</p>
-            <p style="margin: 5px 0;"><strong>Local:</strong> ${eventData.city} - ${eventData.state}</p>
-            <p style="margin: 5px 0;"><strong>Alcance:</strong> ${eventData.radius_m / 1000}km</p>
-            <a href="${eventData.url}" target="_blank" style="color: #ec4899; text-decoration: none;">Saiba mais</a>
-          </div>
-        `)
-        .openPopup();
+        .addTo(map);
 
       markers.push(eventMarker);
 
@@ -160,9 +153,16 @@ export default function InteractiveMap({
             iconSize: [20, 20],
             iconAnchor: [10, 10]
           })
-        }).addTo(map).bindPopup('Sua localização');
+        }).addTo(map);
         markers.push(userMarker);
       }
+
+      // Adicionar atribuição discreta
+      const attribution = L.control.attribution({
+        position: 'bottomright'
+      });
+      attribution.addAttribution('© OpenStreetMap contributors');
+      attribution.addTo(map);
 
       setIsLoading(false);
     };
@@ -189,30 +189,47 @@ export default function InteractiveMap({
   }
 
   return (
-    <div className={`space-y-4 ${className}`}>
-      {/* Informações do evento */}
-      <div className="bg-black/30 backdrop-blur-sm rounded-lg p-4 border border-white/20">
-        <h3 className="text-xl font-bold text-white mb-2">{eventData.name}</h3>
-        <p className="text-gray-300 mb-2">{eventData.description}</p>
-        <div className="flex flex-wrap gap-2 text-sm">
-          <span className="bg-pink-500/20 text-pink-300 px-2 py-1 rounded">📍 {eventData.city} - {eventData.state}</span>
-          <span className="bg-blue-500/20 text-blue-300 px-2 py-1 rounded">📅 {eventData.dates.join(', ')}</span>
-          <span className="bg-green-500/20 text-green-300 px-2 py-1 rounded">🎯 {eventData.radius_m / 1000}km de alcance</span>
+    <div className={`space-y-6 ${className}`}>
+      {/* Card de informações do evento - iOS style */}
+      <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20 shadow-2xl">
+        <h3 className="text-2xl font-bold text-white mb-3">{eventData.name}</h3>
+        <p className="text-gray-300 mb-4 text-lg">{eventData.description}</p>
+        <div className="flex flex-wrap gap-3 text-sm">
+          <span className="bg-pink-500/20 text-pink-300 px-4 py-2 rounded-full font-medium">📍 {eventData.city} - {eventData.state}</span>
+          <span className="bg-blue-500/20 text-blue-300 px-4 py-2 rounded-full font-medium">📅 {eventData.dates.join(', ')}</span>
+          <span className="bg-green-500/20 text-green-300 px-4 py-2 rounded-full font-medium">🎯 {eventData.radius_m / 1000}km de alcance</span>
         </div>
       </div>
 
-      {/* Gamificação por distância */}
+      {/* Mapa minimalista */}
+      <div className="relative">
+        <div 
+          ref={mapRef} 
+          className="w-full h-80 rounded-2xl border border-white/20 shadow-2xl overflow-hidden"
+          style={{ minHeight: '320px' }}
+        />
+        {isLoading && (
+          <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-2xl">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-pink-500 mx-auto mb-4"></div>
+              <p className="text-white font-medium">Carregando mapa...</p>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Card de gamificação - iOS style */}
       {distance !== null && (
-        <div className="bg-gradient-to-r from-pink-500/20 to-purple-500/20 backdrop-blur-sm rounded-lg p-4 border border-pink-500/30">
+        <div className="bg-gradient-to-r from-pink-500/20 to-purple-500/20 backdrop-blur-xl rounded-2xl p-6 border border-pink-500/30 shadow-2xl">
           {distance < (eventData.radius_m / 1000) ? (
             <div className="text-center">
-              <p className="text-pink-300 font-semibold mb-2">⚡️ Você está dentro do raio do CERRADO INTERBØX!</p>
-              <p className="text-sm text-gray-300">Prepare-se para o maior evento de times da América Latina!</p>
+              <p className="text-pink-300 font-bold text-xl mb-2">⚡️ Você está dentro do raio!</p>
+              <p className="text-gray-300 text-lg">Prepare-se para o maior evento de times da América Latina!</p>
             </div>
           ) : (
             <div className="text-center">
-              <p className="text-blue-300 font-semibold mb-2">🚗 Você está a {distance}km do evento</p>
-              <p className="text-sm text-gray-300">Partiu caravana? Organize sua equipe e venha participar!</p>
+              <p className="text-blue-300 font-bold text-xl mb-2">🚗 Você está a {distance}km do evento</p>
+              <p className="text-gray-300 text-lg">Partiu caravana? Organize sua equipe e venha participar!</p>
             </div>
           )}
         </div>
@@ -220,65 +237,48 @@ export default function InteractiveMap({
 
       {/* Mensagem quando geolocalização falha */}
       {!userLocation && enableGeolocation && (
-        <div className="bg-yellow-500/10 backdrop-blur-sm rounded-lg p-4 border border-yellow-500/30">
-          <p className="text-yellow-300 text-center text-sm">
+        <div className="bg-yellow-500/10 backdrop-blur-xl rounded-2xl p-6 border border-yellow-500/30 shadow-2xl">
+          <p className="text-yellow-300 text-center text-lg font-medium">
             📍 Não foi possível obter sua localização. Habilite o GPS para calcular distância.
           </p>
         </div>
       )}
 
-      {/* Mapa */}
-      <div className="relative">
-        <div 
-          ref={mapRef} 
-          className="w-full h-96 rounded-lg border border-white/20"
-          style={{ minHeight: '384px' }}
-        />
-        {isLoading && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-lg">
-            <div className="text-center">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-pink-500 mx-auto mb-4"></div>
-              <p className="text-white">Carregando mapa...</p>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Botões de navegação */}
+      {/* Botões de navegação - iOS style */}
       {showNavigation && (
         <div className="space-y-4">
-          {/* Link para o Google My Maps */}
+          {/* Botão principal - My Maps */}
           <div className="text-center">
             <a
               href="https://www.google.com/maps/d/view?mid=1KorHCp0Tgj_WcZ4cOCCHRqu7frhKUrk&usp=sharing"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white px-6 py-3 rounded-lg transition-all duration-300 font-semibold"
+              className="inline-flex items-center gap-3 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white px-8 py-4 rounded-2xl transition-all duration-300 font-bold text-lg shadow-2xl hover:shadow-pink-500/25 hover:scale-105"
             >
-              <span>📍</span>
-              <span>Ver Mapa Completo no Google My Maps</span>
+              <span className="text-2xl">📍</span>
+              <span>Ver Mapa Completo</span>
             </a>
           </div>
 
-          {/* Botões de navegação */}
-          <div className="flex flex-col sm:flex-row gap-3">
+          {/* Botões secundários */}
+          <div className="flex flex-col sm:flex-row gap-4">
             <a
               href={`https://www.google.com/maps/dir/?api=1&destination=${eventData.location.lat},${eventData.location.lng}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-lg transition-colors"
+              className="flex items-center justify-center gap-3 bg-blue-500/20 backdrop-blur-xl hover:bg-blue-500/30 text-blue-300 hover:text-blue-200 px-6 py-4 rounded-2xl transition-all duration-300 font-semibold text-lg border border-blue-500/30 hover:border-blue-400/50 shadow-xl hover:shadow-blue-500/20 hover:scale-105"
             >
-              <span>🗺️</span>
-              <span>Como chegar (Google Maps)</span>
+              <span className="text-xl">🗺️</span>
+              <span>Google Maps</span>
             </a>
             <a
               href={`https://waze.com/ul?ll=${eventData.location.lat},${eventData.location.lng}&navigate=yes`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-3 rounded-lg transition-colors"
+              className="flex items-center justify-center gap-3 bg-purple-500/20 backdrop-blur-xl hover:bg-purple-500/30 text-purple-300 hover:text-purple-200 px-6 py-4 rounded-2xl transition-all duration-300 font-semibold text-lg border border-purple-500/30 hover:border-purple-400/50 shadow-xl hover:shadow-purple-500/20 hover:scale-105"
             >
-              <span>🚗</span>
-              <span>Navegar com Waze</span>
+              <span className="text-xl">🚗</span>
+              <span>Waze</span>
             </a>
           </div>
         </div>
