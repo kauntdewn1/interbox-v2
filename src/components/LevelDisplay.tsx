@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLevelSystem, LevelInfo } from '../hooks/useLevelSystem';
 import { useGamificationPreload } from '../hooks/useGamificationPreload';
+import { calculateLevelProgress, getLevelConfig } from '../config/gamification';
 
 interface LevelDisplayProps {
   boxTokens: number;

@@ -58,34 +58,11 @@ export const LEVEL_SYSTEM = [
   },
 ];
 
-// Sistema de tokens por ação
-export const TOKEN_ACTIONS = {
-  cadastro: 10,
-  completar_perfil: 25,
-  login_diario: 5,
-  compra_ingresso: 100,
-  envio_conteudo: 75,
-  participacao_enquete: 15,
-  compartilhamento: 10,
-  qr_scan_evento: 25,
-  prova_extra: 50,
-  acesso_spoiler: 20,
-  checkin_evento: 30,
-  indicacao_confirmada: 50,
-  
-  // ✅ Novas ações gamificadas
-  assistiu_spoiler_video: 20,        // Conteúdo desbloqueável
-  respondeu_quiz: 15,                // Quiz interativo
-  completou_missao_diaria: 30,       // Check de objetivos diários
-  convidou_amigo: 10,                // Convite via link/WhatsApp
-  feedback_evento: 25,               // Pesquisa de opinião pré-evento
-  rede_social_tag: 20,               // Post nas redes com marcação
-  desafio_semana_concluido: 50,      // Missão semanal completa
-  bonus_7dias_ativos: 40,            // Atividade por 7 dias seguidos
-  bonus_14dias_ativos: 100,          // Atividade por 14 dias seguidos
-  chegou_nivel_fran: 25,             // Atingiu o nível Fran
-  compra_avatar_premium: 50         // Cashback promocional na loja
-};
+// Sistema de tokens por ação - DEPRECATED: Use GAMIFICATION_CONFIG.TOKENS
+// Mantido para compatibilidade, mas deve ser migrado para src/config/gamification.ts
+import { GAMIFICATION_CONFIG } from '../config/gamification';
+
+export const TOKEN_ACTIONS = GAMIFICATION_CONFIG.TOKENS;
 
 export interface LevelInfo {
   id: string;

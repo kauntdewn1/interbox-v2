@@ -7,6 +7,7 @@ import { useAuth, useUser } from '@clerk/clerk-react';
 import { useSupabaseWithClerk, supabase } from '../lib/supabase-clerk';
 import { useUser as useSupabaseUser, useGamification, useCreateUserWithGamification } from './useSupabase';
 import type { User, UserRole } from '../types/supabase';
+import { GamificationAction, GamificationLevel } from '../config/gamification';
 
 // ============================================================================
 // HOOK PRINCIPAL DE INTEGRAÇÃO
@@ -306,7 +307,7 @@ export function usePermissions() {
 // ============================================================================
 
 export function useIntegratedGamification() {
-  const { gamification, addTokens, userRole } = useClerkSupabase();
+  const { gamification, addTokens, userRole, user } = useClerkSupabase();
   const [loading, setLoading] = useState(false);
 
   const awardTokens = useCallback(async (
@@ -316,25 +317,42 @@ export function useIntegratedGamification() {
   ) => {
     try {
       setLoading(true);
-      await addTokens(amount, 'earn', description || `Ação: ${action}`);
-    } catch (err) {
-      console.error('Erro ao conceder tokens:', err);
+      
+      if (!user?.id) {
+        throw new Error('Usuário não autenticado');
+      }
+      
+      // Usar função reforçada de gamificação
+      const { awardTokens: awardTokensCore } = await import('../lib/gamification-core');
+      const result = await awardTokensCore(
+        user.id,
+        action as GamificationAction,
+        amount,
+        description || `Ação: ${action}`
+      );
+      
+      if (!result.success) {
+        throw new Error(result.message);
+      }
+      
+      return result;
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error('Erro ao conceder tokens:', err.message);
+        throw err;
+      } else {
+        console.error('Erro desconhecido ao conceder tokens:', err);
+        throw new Error('Erro desconhecido');
+      }
     } finally {
       setLoading(false);
     }
-  }, [addTokens]);
+  }, [user?.id]);
 
   const getLevelInfo = useCallback((level: string) => {
-    const levels = {
-      'cindy': { name: 'Cindy', description: 'Base', minTokens: 0, color: '#10B981' },
-      'helen': { name: 'Helen', description: 'Avançado', minTokens: 100, color: '#3B82F6' },
-      'fran': { name: 'Fran', description: 'Intermediário', minTokens: 300, color: '#8B5CF6' },
-      'annie': { name: 'Annie', description: 'Iniciante', minTokens: 600, color: '#F59E0B' },
-      'murph': { name: 'Murph', description: 'Expert', minTokens: 1000, color: '#EF4444' },
-      'matt': { name: 'Matt', description: 'Master', minTokens: 2000, color: '#EC4899' }
-    };
-    
-    return levels[level as keyof typeof levels] || levels.cindy;
+    // Usar configuração centralizada
+    const { getLevelConfig } = require('../config/gamification');
+    return getLevelConfig(level as GamificationLevel) || getLevelConfig('cindy');
   }, []);
 
   return {

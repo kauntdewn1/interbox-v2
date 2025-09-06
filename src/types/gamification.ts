@@ -98,21 +98,11 @@ export const calculateGamificationLevel = (tokens: number): GamificationLevel =>
   return 'cindy';                            // A Base
 };
 
-// Tokens por ação
-export const GAMIFICATION_TOKENS: Record<GamificationAction, number> = {
-  cadastro: 10,              // +10 $BOX - Começa a jornada
-  indicacao_confirmada: 50,  // +50 $BOX - Constrói comunidade
-  compra_ingresso: 100,      // +100 $BOX - Compromisso com o evento
-  envio_conteudo: 75,        // +75 $BOX - Contribui para o box
-  qr_scan_evento: 25,        // +25 $BOX - Presença confirmada
-  prova_extra: 50,           // +50 $BOX - Desafio aceito
-  participacao_enquete: 15,  // +15 $BOX - Engajamento ativo
-  acesso_spoiler: 20,        // +20 $BOX - Conhecimento exclusivo
-  checkin_evento: 30,        // +30 $BOX - Chegou para treinar
-  compartilhamento: 10,      // +10 $BOX - Espalha a cultura
-  login_diario: 5,           // +5 $BOX - Consistência diária
-  completar_perfil: 25,      // +25 $BOX - Perfil completo
-};
+// Tokens por ação - DEPRECATED: Use GAMIFICATION_CONFIG.TOKENS
+// Mantido para compatibilidade, mas deve ser migrado para src/config/gamification.ts
+import { GAMIFICATION_CONFIG } from '../config/gamification';
+
+export const GAMIFICATION_TOKENS: Record<GamificationAction, number> = GAMIFICATION_CONFIG.TOKENS;
 
 // Funções utilitárias
 export const calculateTokensForAction = (action: GamificationAction, metadata?: Record<string, unknown>): number => {

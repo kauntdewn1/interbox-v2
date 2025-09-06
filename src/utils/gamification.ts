@@ -75,22 +75,9 @@ export function calculateLevelProgress(tokens: number) {
  * @returns Quantidade de tokens ganhos
  */
 export function getTokensForAction(action: string): number {
-  const TOKENS_MAP: Record<string, number> = {
-    cadastro: 10,
-    indicacao_confirmada: 50,
-    compra_ingresso: 100,
-    envio_conteudo: 75,
-    qr_scan_evento: 25,
-    prova_extra: 50,
-    participacao_enquete: 15,
-    acesso_spoiler: 20,
-    checkin_evento: 30,
-    compartilhamento: 10,
-    login_diario: 5,
-    completar_perfil: 25
-  };
-
-  return TOKENS_MAP[action] || 0;
+  // Usar configuração centralizada
+  const { getTokensForAction: getTokens } = require('../config/gamification');
+  return getTokens(action as any) || 0;
 }
 
 /**
@@ -100,26 +87,9 @@ export function getTokensForAction(action: string): number {
  * @returns Se a ação pode ser executada
  */
 export function canExecuteAction(lastActionTime: string | null, action: string): boolean {
-  if (!lastActionTime) return true;
-
-  const now = new Date();
-  const lastAction = new Date(lastActionTime);
-  const timeDiff = now.getTime() - lastAction.getTime();
-
-  // Rate limiting por ação
-  const rateLimits: Record<string, number> = {
-    login_diario: 24 * 60 * 60 * 1000, // 24 horas
-    checkin_evento: 60 * 60 * 1000, // 1 hora
-    compartilhamento: 30 * 60 * 1000, // 30 minutos
-    qr_scan_evento: 5 * 60 * 1000, // 5 minutos
-    participacao_enquete: 60 * 60 * 1000, // 1 hora
-    acesso_spoiler: 12 * 60 * 60 * 1000, // 12 horas
-  };
-
-  const limit = rateLimits[action];
-  if (!limit) return true; // Ações sem rate limit
-
-  return timeDiff >= limit;
+  // Usar configuração centralizada
+  const { canExecuteAction: canExecute } = require('../config/gamification');
+  return canExecute(lastActionTime, action as any);
 }
 
 /**
