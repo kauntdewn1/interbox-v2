@@ -6,7 +6,10 @@ import Liner from '../components/Liner';
 import Footer from '../components/Footer';
 import EcommerceSimulation from '../components/EcommerceSimulation';
 import useAuth from '../hooks/useAuth';
-import Parceiros from '../components/Parceiros'; 
+import Parceiros from '../components/Parceiros';
+import { RiCalendarView } from "react-icons/ri";
+import { FaMapMarkerAlt } from "react-icons/fa";
+import { LuMap } from "react-icons/lu"; 
 
 export default function Home() {
   const { user } = useAuth();
@@ -43,7 +46,7 @@ export default function Home() {
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
                 Onde Acontece o <span className="text-pink-500">CERRADO INTERBØX</span>
               </h2>
-              <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              <p className="text-md text-gray-300 max-w-2xl mx-auto">
                 Descubra a localização do maior evento de times da América Latina e veja se você está no raio de alcance!
               </p>
             </div>
@@ -52,15 +55,9 @@ export default function Home() {
               <div className="bg-black/30 backdrop-blur-sm rounded-lg p-6 border border-white/20">
                 <div className="grid md:grid-cols-2 gap-8 items-center">
                   <div>
-                    <h3 className="text-2xl font-bold text-white mb-4">📍 Goiânia - GO</h3>
-                    <p className="text-gray-300 mb-4">
-                      O evento acontece em Goiânia, capital de Goiás, com alcance de 200km 
-                      cobrindo Goiás, Distrito Federal, Minas Gerais, Tocantins e Bahia.
-                    </p>
                     <div className="space-y-2 text-sm text-gray-400">
-                      <p>📅 <strong>Data:</strong> 24, 25 e 26 de outubro de 2025</p>
-                      <p>🎯 <strong>Alcance:</strong> 200km de raio</p>
-                      <p>🏆 <strong>Evento:</strong> Maior competição de times da América Latina</p>
+                      <p className="flex items-center gap-2"><RiCalendarView className="text-pink-500" /> <strong>Data:</strong> 24, 25 e 26 de outubro de 2025</p>
+                      <p className="flex items-center gap-2"><FaMapMarkerAlt className="text-pink-500" /> <strong>Local:</strong> Goiânia Arena - Goiânia/GO</p>
                     </div>
                   </div>
                   <div className="text-center">
@@ -68,7 +65,7 @@ export default function Home() {
                       href="/mapa"
                       className="inline-flex items-center gap-2 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white px-6 py-3 rounded-lg transition-all duration-300 font-semibold"
                     >
-                      <span>🗺️</span>
+                      <LuMap className="text-xl" />
                       <span>Ver Mapa Interativo</span>
                     </a>
                   </div>
