@@ -182,6 +182,11 @@ export default function TempoReal({
   const [error, setError] = useState<string | null>(null);
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
   
+  // Se não há usuário logado, não renderizar nada
+  if (!currentUser) {
+    return null;
+  }
+  
   // Preload imagens de gamificação quando o componente é renderizado
   useGamificationPreload(true);
 

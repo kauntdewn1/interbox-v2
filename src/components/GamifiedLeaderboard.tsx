@@ -48,6 +48,11 @@ export default function GamifiedLeaderboard({ showAnimations = true, maxUsers = 
   const { leaderboard: allUsers, loading, error } = useGamificationContext()
   const { user: clerkUser } = useUser()
 
+  // Se não há usuário logado, não renderizar nada
+  if (!clerkUser) {
+    return null;
+  }
+
   const usersWithTokens = allUsers
     .filter((user) => (user.boxTokens || 0) > 0)
     .sort((a, b) => (b.boxTokens || 0) - (a.boxTokens || 0))
