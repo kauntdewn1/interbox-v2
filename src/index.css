@@ -1,4 +1,5 @@
 @import './styles/bottom-tab-bar.css';
+@import 'leaflet/dist/leaflet.css';
 
 @tailwind base;
 @tailwind components;

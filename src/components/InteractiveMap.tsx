@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import type { Map as LeafletMap, Marker, Circle } from "leaflet";
 
 interface EventData {
   slug: string;
@@ -34,7 +35,7 @@ export default function InteractiveMap({
   const [eventData, setEventData] = useState<EventData | null>(null);
   const [userLocation, setUserLocation] = useState<{lat: number, lng: number} | null>(null);
   const [distance, setDistance] = useState<number | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Carregar dados do evento
   useEffect(() => {
@@ -85,6 +86,7 @@ export default function InteractiveMap({
         },
         (error) => {
           console.log('Erro ao obter localização:', error);
+          setUserLocation(null);
         }
       );
     }
@@ -94,27 +96,17 @@ export default function InteractiveMap({
   useEffect(() => {
     if (!mapRef.current || !eventData) return;
 
-    let map: any = null;
-    let markers: any[] = [];
+    let map: LeafletMap | null = null;
+    let markers: (Marker | Circle)[] = [];
 
     // Carregar Leaflet dinamicamente
     const loadLeaflet = async () => {
+      setIsLoading(true);
       const L = await import('leaflet');
       
       // Limpar mapa existente se houver
-      if (mapRef.current) {
-        // Verificar se já existe um mapa no container
-        const container = mapRef.current as any;
-        if (container._leaflet_id) {
-          // Remover o mapa existente
-          const existingMap = container._leaflet;
-          if (existingMap) {
-            existingMap.remove();
-          }
-          container._leaflet_id = null;
-        }
-        // Limpar o conteúdo do container
-        mapRef.current.innerHTML = '';
+      if (mapRef.current && (mapRef.current as any)._leaflet_id) {
+        map?.remove();
       }
       
       // Configurar ícones do Leaflet
@@ -139,7 +131,7 @@ export default function InteractiveMap({
             <h3 style="color: #ec4899; margin: 0 0 10px 0;">${eventData.name}</h3>
             <p style="margin: 5px 0;"><strong>Data:</strong> ${eventData.dates.join(', ')}</p>
             <p style="margin: 5px 0;"><strong>Local:</strong> ${eventData.city} - ${eventData.state}</p>
-            <p style="margin: 5px 0;"><strong>Alcance:</strong> 200km</p>
+            <p style="margin: 5px 0;"><strong>Alcance:</strong> ${eventData.radius_m / 1000}km</p>
             <a href="${eventData.url}" target="_blank" style="color: #ec4899; text-decoration: none;">Saiba mais</a>
           </div>
         `)
@@ -205,14 +197,14 @@ export default function InteractiveMap({
         <div className="flex flex-wrap gap-2 text-sm">
           <span className="bg-pink-500/20 text-pink-300 px-2 py-1 rounded">📍 {eventData.city} - {eventData.state}</span>
           <span className="bg-blue-500/20 text-blue-300 px-2 py-1 rounded">📅 {eventData.dates.join(', ')}</span>
-          <span className="bg-green-500/20 text-green-300 px-2 py-1 rounded">🎯 200km de alcance</span>
+          <span className="bg-green-500/20 text-green-300 px-2 py-1 rounded">🎯 {eventData.radius_m / 1000}km de alcance</span>
         </div>
       </div>
 
       {/* Gamificação por distância */}
       {distance !== null && (
         <div className="bg-gradient-to-r from-pink-500/20 to-purple-500/20 backdrop-blur-sm rounded-lg p-4 border border-pink-500/30">
-          {distance < 200 ? (
+          {distance < (eventData.radius_m / 1000) ? (
             <div className="text-center">
               <p className="text-pink-300 font-semibold mb-2">⚡️ Você está dentro do raio do CERRADO INTERBØX!</p>
               <p className="text-sm text-gray-300">Prepare-se para o maior evento de times da América Latina!</p>
@@ -223,6 +215,15 @@ export default function InteractiveMap({
               <p className="text-sm text-gray-300">Partiu caravana? Organize sua equipe e venha participar!</p>
             </div>
           )}
+        </div>
+      )}
+
+      {/* Mensagem quando geolocalização falha */}
+      {!userLocation && enableGeolocation && (
+        <div className="bg-yellow-500/10 backdrop-blur-sm rounded-lg p-4 border border-yellow-500/30">
+          <p className="text-yellow-300 text-center text-sm">
+            📍 Não foi possível obter sua localização. Habilite o GPS para calcular distância.
+          </p>
         </div>
       )}
 
@@ -249,7 +250,7 @@ export default function InteractiveMap({
           {/* Link para o Google My Maps */}
           <div className="text-center">
             <a
-              href="https://www.google.com/maps/d/edit?mid=1KorHCp0Tgj_WcZ4cOCCHRqu7frhKUrk&usp=sharing"
+              href="https://www.google.com/maps/d/view?mid=1KorHCp0Tgj_WcZ4cOCCHRqu7frhKUrk&usp=sharing"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white px-6 py-3 rounded-lg transition-all duration-300 font-semibold"
