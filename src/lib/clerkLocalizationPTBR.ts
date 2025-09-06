@@ -3,7 +3,7 @@ export const clerkLocalizationPTBR = {
   signIn: {
     start: {
       title: "Entrar no Cerrado INTERBØX",
-      subtitle: "Seja bem-vindo se é novo por aqui Cadastra-se",
+      subtitle: "Seja bem-vindo antes cadastre-se",
       actionText: "Entrar",
       actionLink: "Cadastre-se"
     },
@@ -34,7 +34,7 @@ export const clerkLocalizationPTBR = {
   signUp: {
     start: {
       title: "Criar conta no Cerrado INTERBØX",
-      subtitle: "Seja bem-vindo se é novo por aqui Cadastra-se",
+      subtitle: "Cadastre-se e pegue sua missão",
       actionText: "Criar conta",
       actionLink: "Já tem conta? Entrar"
     },

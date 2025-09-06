@@ -5,8 +5,9 @@ import { useClerkSupabase } from '../../hooks/useClerkSupabase';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import UserHeader from '../../components/UserHeader';
-import CategoriasCompeticao from '../../components/CategoriasCompeticao';
+// CategoriasCompeticao removido - não é mais usado
 import AvatarSelector from '../../components/AvatarSelector';
+import { TEAMS_LIST, getTeamsByCategory, getOpenTeams } from '../../data/teams';
 
 // Tipos
 import type { User, UserGamification } from '../../types/supabase';
@@ -32,9 +33,8 @@ interface Event {
 
 const ATLETA_TABS = [
   { id: 'perfil', label: '▮ Meu Perfil', icon: '▮' },
-  { id: 'competicao', label: '◘ Dados de Competição', icon: '◘' },
   { id: 'time', label: '▞ Meu Time', icon: '▞' },
-  { id: 'eventos', label: '▟ Histórico de Eventos', icon: '▟' },
+  { id: 'eventos', label: '▟ Gamificação Digital', icon: '▟' },
   { id: 'convites', label: '▚ Sistema de Convites', icon: '▚' }
 ];
 
@@ -194,8 +194,6 @@ interface TabContentProps {
 
 function TabContent({ activeTab, userData, userTeam, userEvents, isCaptain, gamification }: TabContentProps) {
   switch (activeTab) {
-    case 'competicao':
-      return <CompeticaoTab userTeam={userTeam} />;
     case 'time':
       return <TimeTab userTeam={userTeam} isCaptain={isCaptain} />;
     case 'eventos':
@@ -205,70 +203,11 @@ function TabContent({ activeTab, userData, userTeam, userEvents, isCaptain, gami
     case 'perfil':
       return <PerfilTab userData={userData} gamification={gamification} />;
     default:
-      return <CompeticaoTab userTeam={userTeam} />;
+      return <PerfilTab userData={userData} gamification={gamification} />;
   }
 }
 
-// Competicao Tab
-function CompeticaoTab({ userTeam }: { userTeam: Team | null }) {
-  return (
-    <div className="space-y-6">
-      <div className="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl p-6 text-white shadow-xl">
-        <div className="flex items-center space-x-3 mb-4">
-          <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
-            <span className="text-2xl">🏆</span>
-          </div>
-          <div>
-            <h2 className="text-xl font-bold">Dados de Competição</h2>
-            <p className="text-blue-100 text-sm">Suas estatísticas e resultados</p>
-          </div>
-        </div>
-        
-        <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-blue-100 mb-1">Status</p>
-              <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-white/20 text-white">
-                🚀 Ativo
-              </span>
-            </div>
-            <div className="text-right">
-              <p className="text-sm text-blue-100 mb-1">Categoria</p>
-              <p className="text-lg font-bold">{userTeam?.categoria || 'N/A'}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Componente de Categorias */}
-      <CategoriasCompeticao 
-        onCategoriaSelect={(categoria) => {
-          console.log('Categoria selecionada:', categoria);
-        }}
-        showStats={true}
-        className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10"
-      />
-
-      <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-        <h3 className="text-lg font-semibold text-white mb-6 flex items-center">
-          <span className="text-blue-400 mr-3">📊</span>
-          Estatísticas da Competição
-        </h3>
-        
-        <div className="grid grid-cols-2 gap-6">
-          <div className="bg-blue-500/20 rounded-xl p-4 text-center">
-            <div className="text-3xl font-bold text-blue-300 mb-2">0</div>
-            <div className="text-sm text-blue-200">Provas Completas</div>
-          </div>
-          <div className="bg-indigo-500/20 rounded-xl p-4 text-center">
-            <div className="text-3xl font-bold text-indigo-300 mb-2">0</div>
-            <div className="text-sm text-indigo-200">Pontos Totais</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
+// Competicao Tab removido - não é mais usado
 
 // Time Tab
 function TimeTab({ userTeam, isCaptain }: { userTeam: Team | null; isCaptain: boolean }) {
@@ -324,11 +263,42 @@ function TimeTab({ userTeam, isCaptain }: { userTeam: Team | null; isCaptain: bo
           </div>
         </div>
       ) : (
-        <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-          <div className="text-center py-12 text-gray-400">
-            <div className="text-6xl mb-4">👥</div>
-            <p className="text-lg font-medium mb-2">Nenhum Time</p>
-            <p className="text-sm">Você ainda não está em um time</p>
+        <div className="space-y-6">
+          <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
+            <h3 className="text-lg font-semibold text-white mb-6 flex items-center">
+              <span className="text-green-400 mr-3">👥</span>
+              Times Disponíveis
+            </h3>
+            
+            <div className="grid gap-4">
+              {getOpenTeams().map((team) => (
+                <div key={team.id} className="bg-white/5 rounded-xl p-4 border border-white/10 hover:bg-white/10 transition-all duration-200">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <div 
+                        className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold"
+                        style={{ backgroundColor: team.color }}
+                      >
+                        {team.icon}
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-white">{team.name}</h4>
+                        <p className="text-sm text-gray-400">{team.description}</p>
+                        <div className="flex items-center space-x-4 mt-1">
+                          <span className="text-xs text-gray-500 capitalize">{team.category}</span>
+                          <span className="text-xs text-gray-500">
+                            {team.currentMembers}/{team.maxMembers} membros
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <button className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200">
+                      Entrar
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       )}
@@ -346,8 +316,8 @@ function EventosTab({ userEvents }: { userEvents: Event[] }) {
             <span className="text-2xl">📅</span>
           </div>
           <div>
-            <h2 className="text-xl font-bold">Histórico de Eventos</h2>
-            <p className="text-purple-100 text-sm">Todos os eventos que você participou</p>
+            <h2 className="text-xl font-bold">Gamificação Digital</h2>
+            <p className="text-purple-100 text-sm">Sistema de gamificação e missões digitais</p>
           </div>
         </div>
         
@@ -487,7 +457,7 @@ function PerfilTab({ userData, gamification }: { userData: UserData; gamificatio
           </div>
           <div className="flex items-center justify-between py-3 border-b border-white/10">
             <span className="text-gray-300">E-mail</span>
-            <span className="font-medium text-white">{userData?.clerkUserId || ''}</span>
+            <span className="font-medium text-white">{userData?.email || ''}</span>
           </div>
           <div className="flex items-center justify-between py-3">
             <span className="text-gray-300">Participando como</span>

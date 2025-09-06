@@ -24,15 +24,15 @@ interface UserHeaderProps {
 // ============================================================================
 
 const ROLE_ICONS: Record<UserRole, string> = {
-  'publico': '👥',
-  'atleta': '🏃‍♀️',
-  'judge': '⚖️',
-  'midia': '📸',
-  'espectador': '🎉',
-  'admin': '👑',
-  'dev': '💻',
-  'marketing': '📊',
-  'staff': '🎯'
+  'publico': 'ᚨ',
+  'atleta': '⧖',
+  'judge': '⨷',
+  'midia': ' ⍤',
+  'espectador': 'ᚨ',
+  'admin': '⟠',
+  'dev': '⟠',
+  'marketing': '⟠',
+  'staff': '⨷'
 };
 
 const ROLE_COLORS: Record<UserRole, string> = {
@@ -114,7 +114,7 @@ export default function UserHeader({
           {/* Logo/Title */}
           <div className="flex items-center space-x-4">
             <div className="text-2xl font-bold text-white">
-              INTERBØX 2025
+              {user?.name?.toUpperCase() || 'INTERBØX 2025'}
             </div>
             {showRole && (
               <div className={`flex items-center space-x-2 px-3 py-1 rounded-full bg-gray-800 ${ROLE_COLORS[userRole]}`}>
@@ -131,15 +131,9 @@ export default function UserHeader({
               <div className="hidden md:flex items-center space-x-4">
                 {/* Nível */}
                 <div className="flex items-center space-x-2">
-                  <div 
-                    className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold text-white"
-                    style={{ backgroundColor: levelInfo?.color }}
-                  >
-                    {levelInfo?.name.charAt(0)}
-                  </div>
                   <div>
                     <div className="text-sm font-semibold text-white">{levelInfo?.name}</div>
-                    <div className="text-xs text-gray-400">Nível</div>
+                    <div className="text-xs text-gray-400">Seu nível na Gamificação</div>
                   </div>
                 </div>
 
