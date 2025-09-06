@@ -14,6 +14,7 @@ const SetupProfile = lazy(() => import('./pages/SetupProfile'));
 const Login = lazy(() => import('./pages/Login'));
 const Patrocinadores = lazy(() => import('./pages/patrocinadores'));
 const Sobre = lazy(() => import('./pages/sobre'));
+const Mapa = lazy(() => import('./pages/Mapa'));
 const SelecaoTipoCadastro = lazy(() => import('./pages/SelecaoTipoCadastro'));
 const AuthCallback = lazy(() => import('./pages/AuthCallback'));
 const PerfilRedirect = lazy(() => import('./components/PerfilRedirect.tsx'));
@@ -72,6 +73,9 @@ function AppContent() {
 
           {/* Página de Patrocinadores */}
           <Route path="/patrocinadores" element={<Patrocinadores />} />
+
+          {/* Página do Mapa */}
+          <Route path="/mapa" element={<Mapa />} />
 
           {/* Seleção de Tipo de Cadastro */}
           <Route

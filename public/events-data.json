@@ -1,0 +1,20 @@
+{
+  "events": [
+    {
+      "slug": "cerrado-interbox-2025",
+      "name": "CERRADO INTERBØX 2025",
+      "city": "Goiânia",
+      "state": "GO",
+      "location": {
+        "lat": -16.69771,
+        "lng": -49.23239
+      },
+      "dates": ["2025-10-24", "2025-10-25", "2025-10-26"],
+      "url": "https://cerradointerbox.com.br",
+      "radius_m": 200000,
+      "regions": ["GO", "DF", "MG", "TO", "BA"],
+      "description": "O Maior Evento de Times da América Latina",
+      "tags": ["CrossFit", "Competition", "Fitness", "Goiânia", "Brasil"]
+    }
+  ]
+}

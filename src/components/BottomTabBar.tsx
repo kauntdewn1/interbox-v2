@@ -4,7 +4,8 @@ import {
   InformationCircleIcon, 
   CurrencyDollarIcon, 
   VideoCameraIcon, 
-  UsersIcon
+  UsersIcon,
+  MapPinIcon
 } from '@heroicons/react/24/outline';
 
 const BottomTabBar = () => {
@@ -24,6 +25,13 @@ const BottomTabBar = () => {
       icon: <InformationCircleIcon className="w-6 h-6" />,
       path: '/sobre',
       description: 'Evento'
+    },
+    {
+      id: 'mapa',
+      label: 'Localização',
+      icon: <MapPinIcon className="w-6 h-6" />,
+      path: '/mapa',
+      description: 'Mapa'
     },
     {
       id: 'patrocinadores',

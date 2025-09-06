@@ -102,40 +102,44 @@ export default function Sobre() {
 
             <div className="group bg-black/30 backdrop-blur-sm rounded-lg p-4 border border-white/20 hover:bg-white/10 transition duration-300">
               <img
-                src="/images/rafael.webp"
-                alt="Rafael Bittencourt"
+                src="/images/guilherme.webp"
+                alt="Guilherme Souza"
                 className="rounded-full shadow-md w-48 h-48 object-cover mx-auto mb-4 transition-transform duration-300 group-hover:scale-105"
               />
-              <h4 className="text-xl font-semibold text-center mb-2">Rafael Bittencourt</h4>
+              <h4 className="text-xl font-semibold text-center mb-2">Guilherme Souza</h4>
               <p className="text-sm text-center leading-relaxed opacity-80">
-                🎓 <strong>Formação e Especializações:</strong><br />
-                • Head Coach da Avanti <br />
-                • Level 1 Trainer – Fitness 🇦🇷🇺🇸 <br />
-                • Especialista em Treinamento Funcional <br />
-                • Coach de Atletas de Elite <br />
-                • Especialista em Biomecânica <br />
-                • Especialista em Nutrição Esportiva <br />
-                • Especialista em Psicologia do Esporte
+                🎓 <strong>Formação Acadêmica:</strong><br />
+                • Graduação em Educação Física – UFG <br />
+                • Pós-graduação em Fisiologia do Exercício – Universidade Gama Filho (UGF) <br />
+                • Pós-graduação em Treinamento Desportivo – Universidade Gama Filho (UGF) <br /><br />
+                🏋️‍♂️ <strong>Certificações e Cursos:</strong><br />
+                • Power Monkey (Curso internacional de ginástica aplicada ao CrossFit) <br />
+                • Curso de Weightlifting – IWF (Federação Internacional de Levantamento de Peso Olímpico) <br />
+                • Congresso Internacional da Strength & Conditioning Society <br />
+                • Realizado no NAR (Núcleo de Alto Rendimento – São Paulo)
               </p>
             </div>
 
             <div className="group bg-black/30 backdrop-blur-sm rounded-lg p-4 border border-white/20 hover:bg-white/10 transition duration-300">
               <img
-                src="/images/thiago.webp"
-                alt="Thiago Bittencourt"
+                src="/images/mello.webp"
+                alt="MELLØ"
                 className="rounded-full shadow-md w-48 h-48 object-cover mx-auto mb-4 transition-transform duration-300 group-hover:scale-105"
               />
-              <h4 className="text-xl font-semibold text-center mb-2">Thiago Bittencourt</h4>
+              <h4 className="text-xl font-semibold text-center mb-2">MΞLLØ/NΞØ</h4>
               <p className="text-sm text-center leading-relaxed opacity-80">
-                🎓 <strong>Formação e Especializações:</strong><br />
-                • Head Coach da Avanti <br />
-                • Level 1 Trainer – Fitness 🇦🇷🇺🇸 <br />
-                • Especialista em Treinamento Funcional <br />
-                • Coach de Atletas de Elite <br />
-                • Especialista em Biomecânica <br />
-                • Especialista em Nutrição Esportiva <br />
-                • Especialista em Psicologia do Esporte
+
+                🧠 <strong>Formação e Experiência:</strong><br />
+                • Agente IPFS na WEB3; <br />
+                • Gestor de dados e engenharia de prompts; <br />
+                • Expert em Marketing Digital, branding e design. <br />
+
+                💡 <strong>Criações e Projetos:</strong><br />
+                • Agencia FlowOFF® — Agencia de soluções digitais, sistemas, Sites/WebApps, e comunidades; <br />
+                • FLOWPay® — Gateway de pagamentos para Pix ou Cripto. Soluções para checkout; <br />
+                • Protocolo NΞØ — Soluções e desenvolvimento na Blockchain via WEB3.<br />
               </p>
+
             </div>
           </div>
         </div>

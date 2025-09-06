@@ -51,7 +51,6 @@ export function setupLazyLoading() {
 export function preloadCriticalImages() {
   const criticalImages = [
     '/logos/oficial_logo.png',
-    '/images/default-avatar.png',
   ];
 
   criticalImages.forEach((src) => {

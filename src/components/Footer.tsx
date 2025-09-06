@@ -13,17 +13,6 @@ export default function Footer() {
           <p className="mt-2">
             Plataforma oficial de captação, inscrições e credenciamento do maior campeonato de times de CrossFit da América Latina.
           </p>
-          <p className="mt-4 text-xs text-white/40">
-            ↳ Desenvolvido sob o{' '}
-            <a 
-              href="https://wa.me/+5562983231110" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-pink-400 hover:text-pink-300 transition-colors font-medium"
-            >
-              NΞØ Protocol
-            </a>
-          </p>
         </div>
 
         {/* Links úteis */}
@@ -56,6 +45,17 @@ export default function Footer() {
             <span className="font-medium">Regulamento</span>
           </a>
         </div>
+        <p className="mt-4 text-xs text-white/40">
+            ↳ Desenvolvido sob o{' '}
+            <a 
+              href="https://wa.me/+5562983231110" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-pink-400 hover:text-pink-300 transition-colors font-medium"
+            >
+              NΞØ Protocol
+            </a>
+          </p>
 
         {/* Espaçamento extra para mobile */}
         <div className="h-16 md:hidden"></div>
