@@ -78,14 +78,24 @@ export default function GamifiedLeaderboard({ showAnimations = true, maxUsers = 
 
   return (
     <div className="bg-transparent">
-      <motion.div className="text-center mb-8" {...safeOpacityAnimation(showAnimations, -20)}>
-        <h2 className="text-3xl font-black text-white mb-3">🏆 Ranking $BØX</h2>
-        <p className="text-lg text-gray-200 font-medium">
-          ARENA DOS CONSAGRADOS • {usersWithTokens.length} Atletas com $BOX
+      {/* Header iOS-like */}
+      <motion.div 
+        className="text-center mb-6" 
+        {...safeOpacityAnimation(showAnimations, -20)}
+      >
+        <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-pink-500 to-purple-600 rounded-3xl mb-4 shadow-2xl">
+          <span className="text-3xl">🏆</span>
+        </div>
+        <h2 className="text-2xl font-bold text-white mb-2 tracking-tight">
+          Arena dos Consagrados
+        </h2>
+        <p className="text-gray-400 text-sm">
+          {usersWithTokens.length} atletas competindo
         </p>
       </motion.div>
 
-      <div className="space-y-6">
+      {/* Cards iOS-like mobile-first */}
+      <div className="space-y-3">
         <AnimatePresence>
           {entries.map((entry, index: number) => {
             const levelInfo = getLevelInfo(entry.boxTokens || 0)
@@ -94,96 +104,135 @@ export default function GamifiedLeaderboard({ showAnimations = true, maxUsers = 
             return (
               <motion.div
                 key={entry.id}
-                {...safeSlideAnimation(showAnimations, -20)}
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: -20 }}
                 transition={{
-                  duration: 0.4,
-                  delay: showAnimations ? index * 0.2 : 0,
+                  duration: 0.3,
+                  delay: showAnimations ? index * 0.05 : 0,
+                  type: "spring",
+                  stiffness: 100,
+                  damping: 15
                 }}
-                className={`relative overflow-hidden rounded-2xl backdrop-blur-lg ${
+                className={`relative overflow-hidden rounded-3xl backdrop-blur-xl border shadow-2xl active:scale-98 transition-all duration-200 ${
                   isCurrentUser
-                    ? 'bg-gradient-to-br from-pink-500/20 to-purple-600/20 border-2 border-pink-500/50 shadow-xl'
-                    : 'bg-white/10 border border-white/20'
+                    ? 'bg-gradient-to-br from-pink-500/15 to-purple-600/15 border-pink-500/30'
+                    : 'bg-white/8 border-white/15'
                 }`}
+                style={{
+                  boxShadow: isCurrentUser 
+                    ? '0 8px 32px rgba(236, 72, 153, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+                    : '0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+                }}
               >
+                {/* Current User Badge iOS-like */}
                 {isCurrentUser && (
                   <motion.div
-                    animate={{ scale: [1, 1.05, 1], opacity: [1, 0.95, 1] }}
-                    transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-                    className="absolute -top-3 -left-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white text-sm px-4 py-2 rounded-full font-bold shadow-lg border border-white/20"
+                    animate={{ scale: [1, 1.05, 1], opacity: [1, 0.9, 1] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                    className="absolute -top-2 -left-2 bg-gradient-to-r from-pink-500 to-purple-600 text-white text-xs px-3 py-1 rounded-full font-bold shadow-lg border border-white/20"
                   >
                     VOCÊ
                   </motion.div>
                 )}
 
-                <div className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center space-x-4">
-                      <span className="text-4xl font-black">{getRankIcon(index + 1)}</span>
+                <div className="p-4">
+                  <div className="flex items-center justify-between">
+                    {/* Left side - Rank + Avatar + Info */}
+                    <div className="flex items-center space-x-3 flex-1">
+                      {/* Rank Badge iOS-like */}
                       <div className="relative">
-                        <img
-                          src={getUserAvatar(entry.role)}
-                          alt={sanitizeText(entry.displayName || 'Usuário')}
-                          width={56}
-                          height={56}
-                          className="rounded-full border-4 shadow-xl"
-                        />
-                        <div className="absolute -top-2 -right-2">
+                        <div 
+                          className={`w-12 h-12 rounded-2xl flex items-center justify-center text-lg font-bold text-white shadow-lg ${
+                            index === 0 ? 'bg-gradient-to-br from-yellow-400 to-yellow-500' :
+                            index === 1 ? 'bg-gradient-to-br from-gray-300 to-gray-400' :
+                            index === 2 ? 'bg-gradient-to-br from-amber-600 to-amber-700' :
+                            'bg-gradient-to-br from-gray-600 to-gray-700'
+                          }`}
+                          style={{
+                            boxShadow: index < 3 ? '0 4px 20px rgba(255, 215, 0, 0.3)' : '0 4px 15px rgba(0, 0, 0, 0.2)'
+                          }}
+                        >
+                          {index < 3 ? getRankIcon(index + 1) : `#${index + 1}`}
+                        </div>
+                      </div>
+                      
+                      {/* Avatar + Info */}
+                      <div className="flex items-center space-x-3 flex-1">
+                        {/* Avatar iOS-like */}
+                        <div className="relative">
                           <img
-                            src={levelInfo.metadata.icon as string}
-                            alt={`Nível ${levelInfo.metadata.name}`}
-                            className="w-8 h-8 object-cover rounded-full"
+                            src={getUserAvatar(entry.role)}
+                            alt={sanitizeText(entry.displayName || 'Usuário')}
+                            className="w-14 h-14 rounded-2xl border-2 border-white/20 shadow-lg"
                           />
+                          {/* Online indicator */}
+                          <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-black"></div>
+                          {/* Level badge */}
+                          <div className="absolute -top-1 -right-1">
+                            <img
+                              src={levelInfo.metadata.icon as string}
+                              alt={`Nível ${levelInfo.metadata.name}`}
+                              className="w-6 h-6 rounded-full"
+                            />
+                          </div>
+                        </div>
+                        
+                        {/* User Info */}
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-lg font-semibold text-white truncate">
+                            {sanitizeText(entry.displayName || 'Usuário')}
+                          </h3>
+                          <p className="text-gray-400 text-sm truncate">
+                            {entry.role || 'Geral'}
+                          </p>
+                          <div className="flex items-center space-x-2 mt-1">
+                            <div className="w-1.5 h-1.5 bg-pink-400 rounded-full animate-pulse"></div>
+                            <span className="text-pink-400 font-medium text-sm">
+                              {entry.boxTokens || 0} $BØX
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>
 
-                    <motion.div
-                      animate={{ scale: [1, 1.08, 1] }}
-                      transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-                      className="text-right"
-                    >
-                      <div className="font-black text-2xl mb-1 text-pink-400">
+                    {/* Right side - Score iOS-like */}
+                    <div className="text-right">
+                      <div className="text-2xl font-bold text-pink-400 mb-1">
                         {(entry.boxTokens || 0).toLocaleString()}
                       </div>
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-pink-500 to-purple-600 flex items-center justify-center shadow-lg">
-                        <img
-                          src="/logos/BOX.png"
-                          alt="$BOX Token"
-                          className="w-8 h-8 object-cover rounded-full"
-                        />
-                      </div>
-                    </motion.div>
+                      <div className="text-xs text-gray-400 font-medium">$BØX</div>
+                    </div>
                   </div>
 
-                  <div className="space-y-4">
-                    <h3 className="text-2xl font-bold text-white">{sanitizeText(entry.displayName || 'Usuário')}</h3>
-                    <p className="text-gray-300 text-base font-medium">
-                      Está participando como: {entry.role || 'Geral'}
-                    </p>
-
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <div />
-                        <div className="text-right">
-                          <div className="text-gray-300 text-sm font-medium">Ranking</div>
-                          <div className="text-white font-bold text-lg">#{index + 1}</div>
-                        </div>
-                      </div>
-
-                      <div className="w-full h-3 bg-white/10 rounded-full overflow-hidden shadow-inner">
-                        <motion.div
-                          initial={{ width: 0 }}
-                          animate={{ width: `${levelInfo.progress}%` }}
-                          transition={{ duration: 1.2, ease: 'easeOut' }}
-                          className="h-full rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500"
-                        />
-                      </div>
-                      {!levelInfo.isMaxLevel && (
-                        <p className="text-xs text-gray-400 mt-1">
-                          {entry.boxTokens}/{levelInfo.nextLevelTokens} $BOX para próximo nível
-                        </p>
-                      )}
+                  {/* Progress Bar iOS-like */}
+                  <div className="mt-4">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-xs text-gray-400 font-medium">Progresso</span>
+                      <span className="text-xs text-gray-400 font-medium">
+                        {entry.boxTokens || 0}/{levelInfo.nextLevelTokens}
+                      </span>
                     </div>
+                    <div className="w-full bg-gray-700/50 rounded-full h-1.5 overflow-hidden">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ width: `${levelInfo.progress}%` }}
+                        transition={{ 
+                          delay: showAnimations ? index * 0.05 + 0.3 : 0.3, 
+                          duration: 0.6,
+                          ease: "easeOut"
+                        }}
+                        className="h-full rounded-full bg-gradient-to-r from-pink-500 to-purple-600"
+                        style={{
+                          boxShadow: '0 0 10px rgba(236, 72, 153, 0.5)'
+                        }}
+                      />
+                    </div>
+                    {!levelInfo.isMaxLevel && (
+                      <p className="text-xs text-gray-400 mt-1">
+                        {levelInfo.nextLevelTokens - (entry.boxTokens || 0)} $BØX para próximo nível
+                      </p>
+                    )}
                   </div>
                 </div>
               </motion.div>
@@ -191,6 +240,33 @@ export default function GamifiedLeaderboard({ showAnimations = true, maxUsers = 
           })}
         </AnimatePresence>
       </div>
+
+      {/* Empty State iOS-like */}
+      {entries.length === 0 && (
+        <div className="text-center py-16">
+          <div className="w-20 h-20 bg-gradient-to-br from-pink-500/20 to-purple-600/20 rounded-3xl flex items-center justify-center mx-auto mb-6">
+            <span className="text-4xl">🏃‍♀️</span>
+          </div>
+          <h3 className="text-xl font-semibold text-white mb-2">
+            Nenhum atleta ainda
+          </h3>
+          <p className="text-gray-400 text-sm">
+            Seja o primeiro a participar!
+          </p>
+        </div>
+      )}
+
+      {/* Footer iOS-like */}
+      {entries.length > 0 && (
+        <div className="mt-6 text-center">
+          <div className="inline-flex items-center space-x-2 bg-white/5 rounded-full px-4 py-2">
+            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+            <span className="text-xs text-gray-400 font-medium">
+              Atualizado agora
+            </span>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
