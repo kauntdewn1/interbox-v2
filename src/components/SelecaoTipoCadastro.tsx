@@ -98,8 +98,8 @@ const TIPOS_CADASTRO: TipoCadastro[] = [
 
 export default function SelecaoTipoCadastro({ className = '' }: SelecaoTipoCadastroProps) {
   const navigate = useNavigate();
-  const { user, completeProfile, loading } = useClerkSupabase();
-  const { addNotification } = useNotifications(user?.id || '');
+  const { user, completeProfile, loading, supabaseUser } = useClerkSupabase();
+  const { addNotification } = useNotifications(supabaseUser?.id || '');
   
   const [selectedType, setSelectedType] = useState<UserRole | null>(null);
   const [showForm, setShowForm] = useState(false);

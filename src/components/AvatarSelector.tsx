@@ -147,8 +147,8 @@ export default function AvatarSelector({
   selectedAvatar,
   showPremium = true
 }: AvatarSelectorProps) {
-  const { user, gamification, addTokens } = useClerkSupabase();
-  const { addNotification } = useNotifications(user?.id || '');
+  const { user, gamification, supabaseUser } = useClerkSupabase();
+  const { addNotification } = useNotifications(supabaseUser?.id || '');
   
   const [avatars, setAvatars] = useState<Avatar[]>([]);
   const [loading, setLoading] = useState(true);

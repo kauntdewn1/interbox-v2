@@ -44,6 +44,11 @@ createRoot(document.getElementById('root')!).render(
             border: '1px solid #374151',
             boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.3)',
           },
+          form: {
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1rem',
+          },
           headerTitle: {
             color: '#ec4899',
             fontSize: '1.5rem',
@@ -76,6 +81,11 @@ createRoot(document.getElementById('root')!).render(
               borderColor: '#ec4899',
               boxShadow: '0 0 0 2px rgba(236, 72, 153, 0.2)',
             },
+          },
+          formField: {
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '0.5rem',
           },
           formButtonPrimary: {
             backgroundColor: '#ec4899',
