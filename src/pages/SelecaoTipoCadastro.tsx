@@ -35,12 +35,7 @@ export default function SelecaoTipoCadastro() {
         },
       });
 
-      confetti({
-        particleCount: 30,
-        spread: 45,
-        origin: { y: 0.6 },
-        colors: ['#ec4899', '#8b5cf6', '#06b6d4'],
-      });
+      // Confetti removido - será exibido apenas no final do cadastro
 
       setTimeout(() => {
         // Redirecionar para setup para completar o perfil

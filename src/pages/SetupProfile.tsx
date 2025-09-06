@@ -85,14 +85,7 @@ export default function SetupProfile() {
     mensagem: '',
   });
 
-  // Efeito de confetti na montagem do componente
-  React.useEffect(() => {
-    confetti({
-      particleCount: 100,
-      spread: 70,
-      origin: { y: 0.6 },
-    });
-  }, []);
+  // Confetti removido - será exibido apenas quando salvar o perfil
 
   // Handlers
   const handleInputChange = useCallback((
