@@ -27,13 +27,6 @@ const BottomTabBar = () => {
       description: 'Evento'
     },
     {
-      id: 'mapa',
-      label: 'Localização',
-      icon: <MapPinIcon className="w-6 h-6" />,
-      path: '/mapa',
-      description: 'Mapa'
-    },
-    {
       id: 'patrocinadores',
       label: 'Patrocinadores',
       icon: <CurrencyDollarIcon className="w-6 h-6" />,
