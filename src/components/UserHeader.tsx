@@ -223,22 +223,8 @@ export default function UserHeader({
               </div>
             )}
 
-            {/* Avatar do Usuário */}
+            {/* Info do Usuário */}
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center overflow-hidden">
-                {user.image ? (
-                  <img
-                    src={user.image}
-                    alt={user.name || 'Usuário'}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <span className="text-lg font-semibold text-gray-300">
-                    {user.name?.charAt(0).toUpperCase() || 'U'}
-                  </span>
-                )}
-              </div>
-              
               <div className="hidden md:block">
                 <div className="text-sm font-semibold text-white">
                   {user.name || 'Usuário'}
@@ -256,15 +242,9 @@ export default function UserHeader({
           <div className="md:hidden mt-4 pt-4 border-t border-gray-700">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
-                <div 
-                  className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold text-white"
-                  style={{ backgroundColor: levelInfo?.color }}
-                >
-                  {levelInfo?.name.charAt(0)}
-                </div>
                 <div>
                   <div className="text-sm font-semibold text-white">{levelInfo?.name}</div>
-                  <div className="text-xs text-gray-400">Nível {userRole}</div>
+                  <div className="text-xs text-gray-400">Nível de Gamificação</div>
                 </div>
               </div>
               
