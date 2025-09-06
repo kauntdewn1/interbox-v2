@@ -94,9 +94,28 @@ export default function InteractiveMap({
   useEffect(() => {
     if (!mapRef.current || !eventData) return;
 
+    let map: any = null;
+    let markers: any[] = [];
+
     // Carregar Leaflet dinamicamente
     const loadLeaflet = async () => {
       const L = await import('leaflet');
+      
+      // Limpar mapa existente se houver
+      if (mapRef.current) {
+        // Verificar se já existe um mapa no container
+        const container = mapRef.current as any;
+        if (container._leaflet_id) {
+          // Remover o mapa existente
+          const existingMap = container._leaflet;
+          if (existingMap) {
+            existingMap.remove();
+          }
+          container._leaflet_id = null;
+        }
+        // Limpar o conteúdo do container
+        mapRef.current.innerHTML = '';
+      }
       
       // Configurar ícones do Leaflet
       L.Icon.Default.mergeOptions({
@@ -105,7 +124,7 @@ export default function InteractiveMap({
         shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
       });
 
-      const map = L.map(mapRef.current!).setView([eventData.location.lat, eventData.location.lng], 8);
+      map = L.map(mapRef.current!).setView([eventData.location.lat, eventData.location.lng], 8);
 
       // Adicionar camada de tiles
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -126,20 +145,23 @@ export default function InteractiveMap({
         `)
         .openPopup();
 
+      markers.push(eventMarker);
+
       // Círculo de alcance
       if (showRadius) {
-        L.circle([eventData.location.lat, eventData.location.lng], {
+        const circle = L.circle([eventData.location.lat, eventData.location.lng], {
           radius: eventData.radius_m,
           color: '#ec4899',
           fillColor: '#ec4899',
           fillOpacity: 0.2,
           weight: 2
         }).addTo(map);
+        markers.push(circle);
       }
 
       // Marcador do usuário se disponível
       if (userLocation) {
-        L.marker([userLocation.lat, userLocation.lng], {
+        const userMarker = L.marker([userLocation.lat, userLocation.lng], {
           icon: L.divIcon({
             className: 'user-location-marker',
             html: '<div style="background: #10b981; width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"></div>',
@@ -147,12 +169,20 @@ export default function InteractiveMap({
             iconAnchor: [10, 10]
           })
         }).addTo(map).bindPopup('Sua localização');
+        markers.push(userMarker);
       }
 
       setIsLoading(false);
     };
 
     loadLeaflet();
+
+    // Cleanup function
+    return () => {
+      if (map) {
+        map.remove();
+      }
+    };
   }, [eventData, userLocation, showRadius]);
 
   if (!eventData) {
