@@ -23,6 +23,9 @@ supabase/simple-fix.sql
 
 -- 2. Execute o setup completo corrigido
 supabase/complete-setup-fixed.sql
+
+-- 3. Execute o setup de segurança e auditoria
+supabase/security-audit-setup.sql
 ```
 
 ### **OPÇÃO ALTERNATIVA: Limpeza Completa**

@@ -280,7 +280,17 @@ export class GamificationEventBus {
    */
   private async processEvent(event: GamificationEvent): Promise<EventEmissionResult> {
     try {
-      // 1. Adicionar tokens ao usuário
+      // 1. Obter estado atual do usuário
+      const { data: currentGamification } = await supabase
+        .from('user_gamification')
+        .select('box_tokens, level')
+        .eq('user_id', event.userId)
+        .single();
+
+      const currentBalance = currentGamification?.box_tokens || 0;
+      const currentLevel = currentGamification?.level || 'cindy';
+
+      // 2. Adicionar tokens ao usuário
       const { data, error } = await supabase.rpc('add_tokens', {
         p_user_id: event.userId,
         p_amount: event.tokens,
@@ -292,7 +302,7 @@ export class GamificationEventBus {
         throw new Error(`Erro ao adicionar tokens: ${error.message}`);
       }
 
-      // 2. Obter novo nível do usuário
+      // 3. Obter novo estado do usuário
       const { data: gamification } = await supabase
         .from('user_gamification')
         .select('box_tokens, level')
@@ -316,7 +326,30 @@ export class GamificationEventBus {
         // 5. Marcar evento como sucesso
         event.success = true;
 
-        // 6. Log do evento
+        // 6. Registrar log de auditoria
+        try {
+          await supabase.rpc('log_gamification_action', {
+            p_user_id: event.userId,
+            p_action: event.action,
+            p_tokens_before: currentBalance,
+            p_tokens_after: gamification.box_tokens,
+            p_level_before: currentLevel,
+            p_level_after: newLevel,
+            p_source: 'user_action',
+            p_origin: event.metadata?.origin || 'api',
+            p_metadata: {
+              event_id: event.id,
+              description: event.description,
+              ...event.metadata
+            },
+            p_status: 'success'
+          });
+        } catch (logError) {
+          console.warn('Erro ao registrar log de auditoria:', logError);
+          // Não falhar a operação por causa do log
+        }
+
+        // 7. Log do evento
         await this.logEvent(event);
 
         return {

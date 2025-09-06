@@ -340,7 +340,8 @@ SELECT
   u.email as inviter_email,
   u.photo_url as inviter_avatar
 FROM invites i
-JOIN users u ON i.inviter_id = u.id;
+JOIN users u ON i.inviter_id = u.id
+WHERE u.clerk_id = auth.uid()::text OR public.is_staff();
 
 -- View para estatísticas de convites por usuário
 CREATE OR REPLACE VIEW user_invite_stats AS
@@ -354,7 +355,8 @@ SELECT
   COALESCE(stats.total_expired, 0) as total_expired,
   COALESCE(stats.total_tokens_earned, 0) as total_tokens_earned
 FROM users u
-LEFT JOIN LATERAL get_invite_stats(u.id) stats ON true;
+LEFT JOIN LATERAL get_invite_stats(u.id) stats ON true
+WHERE u.clerk_id = auth.uid()::text OR public.is_staff();
 
 -- ============================================================================
 -- 6. COMENTÁRIOS
