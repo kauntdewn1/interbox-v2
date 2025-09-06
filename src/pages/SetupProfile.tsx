@@ -38,13 +38,13 @@ interface UserInsertData {
 
 // Interface para dados de gamificação
 interface UserGamificationData {
-  user_id: string;
+  user_id: string; // UUID da tabela users
   level?: string; // gamification_level
   box_tokens?: number;
   total_earned?: number;
   achievements?: string[];
   badges?: string[];
-  last_action?: string | null;
+  last_action?: string; // Será convertido para timestamp
 }
 
 // Constantes
@@ -125,10 +125,24 @@ export default function SetupProfile() {
 
   const saveUserGamification = async (gamificationData: UserGamificationData) => {
     const supabase = await getAuthedSupabase();
+    
+    // Primeiro, buscar o UUID do usuário na tabela users
+    const { data: userData } = await supabase
+      .from('users')
+      .select('id')
+      .eq('clerk_id', gamificationData.user_id)
+      .single();
+    
+    if (!userData) {
+      throw new Error('Usuário não encontrado na tabela users');
+    }
+    
+    const userId = userData.id;
+    
     const { data: existingGamification } = await supabase
       .from('user_gamification')
       .select('*')
-      .eq('user_id', gamificationData.user_id)
+      .eq('user_id', userId)
       .maybeSingle();
 
     if (existingGamification) {
@@ -139,16 +153,20 @@ export default function SetupProfile() {
           box_tokens: (existingGamification.box_tokens || 0) + (gamificationData.box_tokens || 0),
           total_earned: (existingGamification.total_earned || 0) + (gamificationData.total_earned || 0),
           achievements: [...(existingGamification.achievements || []), ...(gamificationData.achievements || [])],
-          last_action: gamificationData.last_action,
+          last_action: new Date().toISOString(), // Usar timestamp atual
         })
-        .eq('user_id', gamificationData.user_id);
+        .eq('user_id', userId);
       
       if (error) throw error;
     } else {
       // Criar novos dados de gamificação
       const { error } = await supabase
         .from('user_gamification')
-        .insert(gamificationData);
+        .insert({
+          ...gamificationData,
+          user_id: userId,
+          last_action: new Date().toISOString(), // Usar timestamp atual
+        });
       
       if (error) throw error;
     }
@@ -193,13 +211,13 @@ export default function SetupProfile() {
 
       // Dados de gamificação para a tabela user_gamification
       const gamificationData: UserGamificationData = {
-        user_id: user.id,
+        user_id: user.id, // Clerk ID - será convertido para UUID
         level: 'cindy', // Nível inicial
         box_tokens: tokensEarned,
         total_earned: tokensEarned,
         achievements: achievements,
         badges: [], // Array vazio inicialmente
-        last_action: 'profile_setup',
+        // last_action será definido automaticamente como timestamp atual
       };
 
       // Salvar no banco
@@ -351,7 +369,7 @@ export default function SetupProfile() {
 
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                      Email *
+                      Email * <span className="text-xs text-gray-500">(não editável)</span>
                     </label>
                     <input
                       id="email"
@@ -361,7 +379,8 @@ export default function SetupProfile() {
                       onChange={handleInputChange}
                       required
                       autoComplete="email"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-colors text-gray-900"
+                      disabled
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100 text-gray-600 cursor-not-allowed"
                     />
                   </div>
 
