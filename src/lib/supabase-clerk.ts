@@ -17,12 +17,18 @@ if (!supabaseUrl || !supabaseAnonKey) {
 }
 
 // Cliente Supabase configurado para usar Clerk
+// Usar instância global para evitar múltiplas instâncias
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     // Usar tokens do Clerk em vez da autenticação nativa do Supabase
     autoRefreshToken: false,
     persistSession: false,
     detectSessionInUrl: false
+  },
+  global: {
+    headers: {
+      'X-Client-Info': 'interbox-v2-clerk'
+    }
   }
 });
 
