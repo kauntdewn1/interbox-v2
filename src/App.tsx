@@ -30,6 +30,7 @@ const Marketing = lazy(() => import('./pages/marketing'));
 const Admin = lazy(() => import('./pages/admin'));
 const Dev = lazy(() => import('./pages/dev'));
 
+
 // Componente interno para gerenciar o BottomTabBar
 function AppContent() {
   const location = useLocation();
@@ -156,6 +157,7 @@ function AppContent() {
               </ProtectedRoute>
             }
           />
+
 
           {/* Fallback para qualquer rota desconhecida */}
           <Route path="*" element={<Navigate to="/" replace />} />

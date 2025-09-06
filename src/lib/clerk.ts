@@ -53,10 +53,14 @@ export const clerkConfig = {
       colorSuccess: '#10b981',
       colorDanger: '#ef4444',
       colorWarning: '#f59e0b',
+      borderRadius: '0.75rem',
+      fontFamily: 'Inter, system-ui, sans-serif'
     },
     elements: {
       formButtonPrimary: {
         backgroundColor: '#ec4899',
+        borderRadius: '0.75rem',
+        fontWeight: '600',
         '&:hover': {
           backgroundColor: '#db2777',
         },
@@ -64,10 +68,28 @@ export const clerkConfig = {
       card: {
         backgroundColor: '#111827',
         border: '1px solid #374151',
+        borderRadius: '1rem',
+        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
       },
       headerTitle: {
         color: '#ec4899',
+        fontSize: '1.5rem',
+        fontWeight: '700'
       },
+      socialButtonsBlockButton: {
+        backgroundColor: '#1f2937',
+        border: '1px solid #374151',
+        borderRadius: '0.75rem',
+        color: '#ffffff',
+        fontWeight: '500',
+        '&:hover': {
+          backgroundColor: '#374151'
+        }
+      },
+      socialButtonsBlockButtonText: {
+        fontSize: '0.875rem',
+        fontWeight: '500'
+      }
     },
   },
   // Configurações de produção

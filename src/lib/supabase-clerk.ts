@@ -16,8 +16,15 @@ if (!supabaseUrl || !supabaseAnonKey) {
   throw new Error('Variáveis de ambiente do Supabase não configuradas');
 }
 
-// Cliente Supabase padrão
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// Cliente Supabase configurado para usar Clerk
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    // Usar tokens do Clerk em vez da autenticação nativa do Supabase
+    autoRefreshToken: false,
+    persistSession: false,
+    detectSessionInUrl: false
+  }
+});
 
 // ============================================================================
 // FUNÇÕES DE CONFIGURAÇÃO
@@ -90,27 +97,31 @@ export async function testClerkSupabaseConnection(token: string) {
 export function useSupabaseWithClerk() {
   const { getToken, isSignedIn } = useAuth();
 
+  // Cliente Supabase configurado com token do Clerk
   const getSupabaseClient = async () => {
-    if (!isSignedIn) {
-      throw new Error('Usuário não está autenticado');
+    let headers: Record<string, string> = {};
+    
+    if (isSignedIn) {
+      try {
+        const token = await getToken();
+        if (token) {
+          headers.Authorization = `Bearer ${token}`;
+        }
+      } catch (error) {
+        console.error('Erro ao obter token do Clerk:', error);
+      }
     }
     
-    try {
-      // Obter token do Clerk
-      const token = await getToken({ template: 'supabase' });
-      
-      if (!token) {
-        throw new Error('Token do Clerk não disponível');
+    return createClient(supabaseUrl, supabaseAnonKey, {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false,
+        detectSessionInUrl: false
+      },
+      global: {
+        headers
       }
-      
-      // Configurar autenticação no Supabase
-      await configureClerkAuth(token);
-      
-      return supabase;
-    } catch (error) {
-      console.error('Erro ao obter cliente Supabase:', error);
-      throw error;
-    }
+    });
   };
 
   return { getSupabaseClient };

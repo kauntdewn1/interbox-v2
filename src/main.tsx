@@ -4,6 +4,7 @@ import './index.css'
 import App from './App.tsx'
 import { ClerkProvider } from '@clerk/clerk-react'
 import { CLERK_LOCAL_CONFIG } from './lib/clerk'
+import { clerkLocalizationPTBR } from './lib/clerkLocalizationPTBR'
 import { initPerformanceOptimizations } from './utils/performance'
 
 // Import your Publishable Key
@@ -20,10 +21,6 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ClerkProvider 
       publishableKey={PUBLISHABLE_KEY}
-      // Configuração de localização em português brasileiro
-      localization={{
-        locale: 'pt-BR',
-      }}
       // Força modo production e desabilita development mode
       appearance={{
         baseTheme: undefined,
@@ -111,6 +108,7 @@ createRoot(document.getElementById('root')!).render(
       signUpUrl={CLERK_LOCAL_CONFIG.signUpUrl}
       signInFallbackRedirectUrl={CLERK_LOCAL_CONFIG.signInFallbackRedirectUrl}
       signUpFallbackRedirectUrl={CLERK_LOCAL_CONFIG.signUpFallbackRedirectUrl}
+      localization={clerkLocalizationPTBR}
     >
       <App />
     </ClerkProvider>

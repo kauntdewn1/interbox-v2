@@ -4,7 +4,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useAuth, useUser } from '@clerk/clerk-react';
-import { supabase } from '../lib/supabase';
+import { useSupabaseWithClerk, supabase } from '../lib/supabase-clerk';
 import { useUser as useSupabaseUser, useGamification, useCreateUserWithGamification } from './useSupabase';
 import type { User, UserRole } from '../types/supabase';
 
@@ -15,6 +15,7 @@ import type { User, UserRole } from '../types/supabase';
 export function useClerkSupabase() {
   const { user: clerkUser, isLoaded: clerkLoaded } = useUser();
   const { getToken } = useAuth();
+  const { getSupabaseClient } = useSupabaseWithClerk();
   const [_supabaseUser, setSupabaseUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
