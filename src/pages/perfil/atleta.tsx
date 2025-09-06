@@ -211,6 +211,16 @@ function TabContent({ activeTab, userData, userTeam, userEvents, isCaptain, gami
 
 // Time Tab
 function TimeTab({ userTeam, isCaptain }: { userTeam: Team | null; isCaptain: boolean }) {
+  // ============================================================================
+  // 🚧 BETA FEATURES - SISTEMA DE TIMES
+  // ============================================================================
+  // Status: Estrutura pronta, aguardando lista atualizada de times
+  // Prioridade: Alta
+  // Estimativa: 1 sprint
+  // Dependências: Lista atualizada de times, integração com Supabase
+  // Nota: Aguardando lista atualizada do usuário
+  // ============================================================================
+
   return (
     <div className="space-y-6">
       <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl p-6 text-white shadow-xl">
@@ -268,6 +278,10 @@ function TimeTab({ userTeam, isCaptain }: { userTeam: Team | null; isCaptain: bo
             <h3 className="text-lg font-semibold text-white mb-6 flex items-center">
               <span className="text-green-400 mr-3">👥</span>
               Times Disponíveis
+              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-500/20 text-yellow-300 border border-yellow-400/30 ml-2">
+                <span className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse mr-1"></span>
+                BETA
+              </span>
             </h3>
             
             <div className="grid gap-4">
@@ -308,6 +322,46 @@ function TimeTab({ userTeam, isCaptain }: { userTeam: Team | null; isCaptain: bo
 
 // Eventos Tab
 function EventosTab({ userEvents }: { userEvents: Event[] }) {
+  // ============================================================================
+  // 🚧 BETA FEATURES - GAMIFICAÇÃO DIGITAL
+  // ============================================================================
+  // Status: Estrutura pronta, aguardando integração com eventos reais
+  // Prioridade: Alta
+  // Estimativa: 1-2 sprints
+  // Dependências: Tabela 'events' no Supabase, sistema de check-in
+  // ============================================================================
+
+  // Próximos eventos cadastrados (dados mockados para MVP)
+  const proximosEventos = [
+    {
+      id: '1',
+      nome: 'Cerrado InterBØX 2025',
+      data: '2025-10-24',
+      categoria: 'Principal',
+      descricao: 'O maior evento de times da América Latina',
+      status: 'confirmado',
+      local: 'Goiânia Arena - GO'
+    },
+    {
+      id: '2', 
+      nome: 'Workshop de Preparação',
+      data: '2025-09-15',
+      categoria: 'Treinamento',
+      descricao: 'Workshop preparatório para o evento principal',
+      status: 'confirmado',
+      local: 'Online'
+    },
+    {
+      id: '3',
+      nome: 'Meet & Greet',
+      data: '2025-10-23',
+      categoria: 'Networking',
+      descricao: 'Encontro com outros participantes',
+      status: 'confirmado', 
+      local: 'Goiânia Arena - GO'
+    }
+  ];
+
   return (
     <div className="space-y-6">
       <div className="bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl p-6 text-white shadow-xl">
@@ -324,19 +378,52 @@ function EventosTab({ userEvents }: { userEvents: Event[] }) {
         <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-purple-100 mb-1">Total de Eventos</p>
+              <p className="text-sm text-purple-100 mb-1">Eventos Participados</p>
               <p className="text-2xl font-bold">{userEvents.length}</p>
             </div>
             <div className="text-right">
-              <p className="text-sm text-purple-100 mb-1">Último Evento</p>
-              <p className="text-lg font-bold">
-                {userEvents.length > 0 ? 'Recente' : 'Nenhum'}
-              </p>
+              <p className="text-sm text-purple-100 mb-1">Próximos Eventos</p>
+              <p className="text-lg font-bold">{proximosEventos.length}</p>
             </div>
           </div>
         </div>
       </div>
 
+      {/* Próximos Eventos */}
+      <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
+        <h3 className="text-lg font-semibold text-white mb-6 flex items-center">
+          <span className="text-purple-400 mr-3">📅</span>
+          Próximos Eventos
+          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-500/20 text-yellow-300 border border-yellow-400/30 ml-2">
+            <span className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse mr-1"></span>
+            BETA
+          </span>
+        </h3>
+        
+        <div className="space-y-4">
+          {proximosEventos.map((event) => (
+            <div key={event.id} className="bg-white/10 rounded-xl p-4 hover:bg-white/15 transition-colors">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <span className="text-2xl">🎯</span>
+                  <div>
+                    <p className="font-semibold text-white">{event.nome}</p>
+                    <p className="text-sm text-gray-300">{new Date(event.data).toLocaleDateString('pt-BR')}</p>
+                    <p className="text-xs text-gray-400">{event.local}</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-500/20 text-green-300">
+                    {event.status === 'confirmado' ? '✅ Confirmado' : '⏳ Pendente'}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Eventos Participados */}
       {userEvents.length > 0 ? (
         <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
           <h3 className="text-lg font-semibold text-white mb-6 flex items-center">
@@ -367,9 +454,9 @@ function EventosTab({ userEvents }: { userEvents: Event[] }) {
         </div>
       ) : (
         <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-          <div className="text-center py-12 text-gray-400">
-            <div className="text-6xl mb-4">📅</div>
-            <p className="text-lg font-medium mb-2">Nenhum Evento</p>
+          <div className="text-center py-8 text-gray-400">
+            <div className="text-4xl mb-4">📅</div>
+            <p className="text-lg font-medium mb-2">Nenhum Evento Participado</p>
             <p className="text-sm">Você ainda não participou de eventos</p>
           </div>
         </div>
@@ -380,6 +467,56 @@ function EventosTab({ userEvents }: { userEvents: Event[] }) {
 
 // Convites Tab
 function ConvitesTab() {
+  // ============================================================================
+  // 🚧 BETA FEATURES - SISTEMA DE CONVITES
+  // ============================================================================
+  // Status: Estrutura pronta, aguardando integração com backend
+  // Prioridade: Alta
+  // Estimativa: 1 sprint
+  // Dependências: Tabela 'invites' no Supabase, sistema de recompensas
+  // Problema: Sistema não está funcionando - precisa investigar integração
+  // ============================================================================
+
+  const [email, setEmail] = useState('');
+  const [mensagem, setMensagem] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [convitesEnviados, setConvitesEnviados] = useState(0);
+  const [convitesAceitos, setConvitesAceitos] = useState(0);
+
+  const handleEnviarConvite = async () => {
+    if (!email) {
+      alert('Por favor, insira um email válido');
+      return;
+    }
+
+    setLoading(true);
+    
+    try {
+      // TODO: Implementar integração real com Supabase
+      // TODO: Criar registro na tabela 'invites'
+      // TODO: Enviar email de convite
+      // TODO: Implementar sistema de recompensa (25 BOX por convite aceito)
+      
+      console.log('🚧 BETA: Enviando convite para:', email);
+      console.log('🚧 BETA: Mensagem:', mensagem);
+      
+      // Simulação de envio
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      setConvitesEnviados(prev => prev + 1);
+      setEmail('');
+      setMensagem('');
+      
+      alert('Convite enviado com sucesso! (Funcionalidade Beta)');
+      
+    } catch (error) {
+      console.error('Erro ao enviar convite:', error);
+      alert('Erro ao enviar convite. Tente novamente.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div className="bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl p-6 text-white shadow-xl">
@@ -389,20 +526,38 @@ function ConvitesTab() {
           </div>
           <div>
             <h2 className="text-xl font-bold">Sistema de Convites</h2>
-            <p className="text-orange-100 text-sm">Gerencie convites para eventos e times</p>
+            <p className="text-orange-100 text-sm">Convide amigos e ganhe $BØX!</p>
           </div>
         </div>
         
         <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-orange-100 mb-1">Convites Pendentes</p>
-              <p className="text-2xl font-bold">0</p>
+              <p className="text-sm text-orange-100 mb-1">Convites Enviados</p>
+              <p className="text-2xl font-bold">{convitesEnviados}</p>
             </div>
             <div className="text-right">
               <p className="text-sm text-orange-100 mb-1">Convites Aceitos</p>
-              <p className="text-lg font-bold">0</p>
+              <p className="text-lg font-bold">{convitesAceitos}</p>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Recompensas */}
+      <div className="bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl p-6 text-white shadow-xl">
+        <h3 className="text-lg font-bold mb-4 flex items-center">
+          <span className="mr-2">🎁</span>
+          Recompensas por Convite
+        </h3>
+        <div className="grid grid-cols-2 gap-4">
+          <div className="bg-white/10 rounded-xl p-4 text-center">
+            <div className="text-2xl font-bold text-green-300">25</div>
+            <div className="text-green-200 text-sm">$BØX por convite aceito</div>
+          </div>
+          <div className="bg-white/10 rounded-xl p-4 text-center">
+            <div className="text-2xl font-bold text-green-300">100</div>
+            <div className="text-green-200 text-sm">$BØX por 5 convites aceitos</div>
           </div>
         </div>
       </div>
@@ -411,6 +566,10 @@ function ConvitesTab() {
         <h3 className="text-lg font-semibold text-white mb-6 flex items-center">
           <span className="text-orange-400 mr-3">📧</span>
           Enviar Convite
+          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-500/20 text-yellow-300 border border-yellow-400/30 ml-2">
+            <span className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse mr-1"></span>
+            BETA
+          </span>
         </h3>
         
         <div className="space-y-4">
@@ -419,6 +578,8 @@ function ConvitesTab() {
             <input
               type="email"
               placeholder="convidado@email.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 text-white placeholder-gray-400"
             />
           </div>
@@ -427,12 +588,26 @@ function ConvitesTab() {
             <textarea
               placeholder="Convide alguém para participar!"
               rows={3}
+              value={mensagem}
+              onChange={(e) => setMensagem(e.target.value)}
               className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 text-white placeholder-gray-400"
             />
           </div>
-          <button className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white px-6 py-3 rounded-xl font-medium transition-all duration-200 shadow-lg hover:shadow-xl">
-            📧 Enviar Convite
+          <button 
+            onClick={handleEnviarConvite}
+            disabled={loading}
+            className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 disabled:opacity-50 disabled:cursor-not-allowed text-white px-6 py-3 rounded-xl font-medium transition-all duration-200 shadow-lg hover:shadow-xl"
+          >
+            {loading ? '⏳ Enviando...' : '📧 Enviar Convite'}
           </button>
+        </div>
+
+        {/* Aviso Beta */}
+        <div className="mt-4 p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
+          <p className="text-yellow-300 text-sm">
+            <span className="font-semibold">⚠️ Funcionalidade Beta:</span> O sistema de convites está em desenvolvimento. 
+            Os convites são simulados e não geram emails reais ainda.
+          </p>
         </div>
       </div>
     </div>
@@ -466,33 +641,84 @@ function PerfilTab({ userData, gamification }: { userData: UserData; gamificatio
         </div>
       </div>
 
-      {/* Avatar Selector */}
+      {/* Avatar Atual - Exibição do Avatar Escolhido no Setup */}
       <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
         <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
           <span className="text-purple-400 mr-2">👤</span>
-          Avatar Personalizado
+          Meu Avatar
         </h3>
-        <AvatarSelector 
-          selectedAvatar={userData?.avatarUrl || ''}
-          onAvatarSelect={(avatar) => {
-            console.log('Avatar selecionado:', avatar);
-          }}
-          showPremium={true}
-        />
+        
+        <div className="flex items-center space-x-4">
+          <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-purple-400">
+            {userData?.avatarUrl ? (
+              <img 
+                src={userData.avatarUrl} 
+                alt="Avatar" 
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-2xl">
+                👤
+              </div>
+            )}
+          </div>
+          <div>
+            <p className="text-white font-medium">Avatar Atual</p>
+            <p className="text-gray-400 text-sm">Escolhido durante o cadastro</p>
+            <button 
+              onClick={() => window.location.href = '/setup'}
+              className="text-purple-400 hover:text-purple-300 text-sm font-medium mt-1"
+            >
+              Alterar Avatar →
+            </button>
+          </div>
+        </div>
       </div>
 
-      {/* Conquistas */}
+      {/* Conquistas Conquistadas */}
       <div className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl p-6 text-white shadow-xl">
         <h3 className="text-lg font-bold mb-4 flex items-center">
           <span className="mr-2">🏆</span>
           Minhas Conquistas
         </h3>
-        <p className="text-purple-100 text-sm mb-6">$BØX já conquistados</p>
+        <p className="text-purple-100 text-sm mb-6">$BØX já conquistados: {gamification?.box_tokens || 0}</p>
         
-        <div className="text-center py-8">
-          <div className="text-4xl mb-2">🎯</div>
-          <p className="text-purple-100">Complete missões para ganhar $BØX!</p>
-          <p className="text-purple-200 text-sm">Sistema de gamificação em desenvolvimento</p>
+        {/* Primeira Conquista - Cadastro */}
+        <div className="bg-white/10 rounded-xl p-4 mb-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center">
+                <span className="text-xl">✅</span>
+              </div>
+              <div>
+                <p className="font-semibold text-white">Primeiro Cadastro</p>
+                <p className="text-purple-200 text-sm">Você se cadastrou na plataforma!</p>
+              </div>
+            </div>
+            <div className="text-right">
+              <div className="text-xl font-bold text-green-300">+25</div>
+              <div className="text-purple-200 text-sm">$BØX</div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Conquista do Avatar */}
+        <div className="bg-white/10 rounded-xl p-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-cyan-500 rounded-full flex items-center justify-center">
+                <span className="text-xl">👤</span>
+              </div>
+              <div>
+                <p className="font-semibold text-white">Avatar Personalizado</p>
+                <p className="text-purple-200 text-sm">Você escolheu seu avatar!</p>
+              </div>
+            </div>
+            <div className="text-right">
+              <div className="text-xl font-bold text-blue-300">+10</div>
+              <div className="text-purple-200 text-sm">$BØX</div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -509,24 +735,70 @@ function PerfilTab({ userData, gamification }: { userData: UserData; gamificatio
         </div>
         
         <div className="space-y-4">
-
+          {/* Missão: Primeira Participação em Evento */}
           <div className="group bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/20 transition-all duration-300 hover:bg-white/15 hover:scale-[1.02] hover:shadow-xl">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-2xl flex items-center justify-center shadow-lg">
-                  <span className="text-2xl">📝</span>
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-400 to-pink-500 rounded-2xl flex items-center justify-center shadow-lg">
+                  <span className="text-2xl">🎯</span>
                 </div>
                 <div>
-                  <p className="font-bold text-lg">Perfil Completo</p>
-                  <p className="text-blue-100 text-sm">Preencha todas as informações</p>
+                  <p className="font-bold text-lg">Primeira Participação</p>
+                  <p className="text-blue-100 text-sm">Participe do seu primeiro evento</p>
                 </div>
               </div>
               <div className="text-right">
-                <div className="text-2xl font-bold text-yellow-300">15</div>
+                <div className="text-2xl font-bold text-purple-300">50</div>
                 <div className="text-blue-100 text-sm">$BØX</div>
-                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-yellow-500/20 text-yellow-300 border border-yellow-400/30 mt-2 backdrop-blur-sm">
-                  <span className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></span>
-                  Em Progresso
+                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-purple-500/20 text-purple-300 border border-purple-400/30 mt-2 backdrop-blur-sm">
+                  <span className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></span>
+                  Disponível
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Missão: Convidar Amigos */}
+          <div className="group bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/20 transition-all duration-300 hover:bg-white/15 hover:scale-[1.02] hover:shadow-xl">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-red-500 rounded-2xl flex items-center justify-center shadow-lg">
+                  <span className="text-2xl">👥</span>
+                </div>
+                <div>
+                  <p className="font-bold text-lg">Convide Amigos</p>
+                  <p className="text-blue-100 text-sm">Convide 3 amigos para a plataforma</p>
+                </div>
+              </div>
+              <div className="text-right">
+                <div className="text-2xl font-bold text-orange-300">100</div>
+                <div className="text-blue-100 text-sm">$BØX</div>
+                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-orange-500/20 text-orange-300 border border-orange-400/30 mt-2 backdrop-blur-sm">
+                  <span className="w-2 h-2 bg-orange-400 rounded-full animate-pulse"></span>
+                  Disponível
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Missão: Time Completo */}
+          <div className="group bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/20 transition-all duration-300 hover:bg-white/15 hover:scale-[1.02] hover:shadow-xl">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-green-400 to-emerald-500 rounded-2xl flex items-center justify-center shadow-lg">
+                  <span className="text-2xl">🏆</span>
+                </div>
+                <div>
+                  <p className="font-bold text-lg">Entre em um Time</p>
+                  <p className="text-blue-100 text-sm">Faça parte de uma equipe</p>
+                </div>
+              </div>
+              <div className="text-right">
+                <div className="text-2xl font-bold text-green-300">75</div>
+                <div className="text-blue-100 text-sm">$BØX</div>
+                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-green-500/20 text-green-300 border border-green-400/30 mt-2 backdrop-blur-sm">
+                  <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                  Disponível
                 </span>
               </div>
             </div>
