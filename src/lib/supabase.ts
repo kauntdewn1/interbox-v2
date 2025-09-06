@@ -64,12 +64,23 @@ export function validateData<T>(data: T | null, context: string): T {
 export async function getAuthedSupabase(): Promise<SupabaseClient> {
   try {
     const clerk: any = (window as any).Clerk;
-    const token = await clerk?.session?.getToken({ template: 'supabase' });
+    const token = await clerk?.session?.getToken();
     if (token) {
-      await supabase.auth.setSession({ access_token: token, refresh_token: '' });
+      // Usar a nova integração Third-Party Auth
+      return createClient(supabaseUrl, supabaseAnonKey, {
+        auth: {
+          autoRefreshToken: false,
+          persistSession: false,
+          detectSessionInUrl: false
+        },
+        global: {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      });
     }
   } catch (err) {
-    // Se não conseguir token, segue com anon (RLS deve bloquear operações sensíveis)
     console.warn('JWT do Clerk não aplicado ao Supabase (seguindo como anon):', err);
   }
   return supabase;

@@ -120,7 +120,7 @@ export const clerkRedirectUrls = {
   signIn: 'https://accounts.cerradointerbox.com.br/sign-in',
   signUp: 'https://accounts.cerradointerbox.com.br/sign-up',
   signInFallbackRedirectUrl: '/',
-  signUpFallbackRedirectUrl: '/setup',
+  signUpFallbackRedirectUrl: '/selecao-tipo-cadastro',
   userProfile: '/perfil',
 };
 
