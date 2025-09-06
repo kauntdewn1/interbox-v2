@@ -350,12 +350,17 @@
 .cl-userButton-popoverActions,
 .cl-popoverCard,
 .cl-userButton-popoverTrigger,
-[data-testid="user-button-popover"] {
+[data-testid="user-button-popover"],
+.cl-userButton-root,
+.cl-userButton-box {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
   pointer-events: none !important;
   z-index: -1 !important;
+  position: absolute !important;
+  left: -9999px !important;
+  top: -9999px !important;
 }
 
 /* Garantir que nossa header tenha prioridade visual */

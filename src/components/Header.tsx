@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { UserButton, SignInButton, SignedIn, SignedOut, useUser } from '@clerk/clerk-react'
+import { UserButton, SignInButton, SignedIn, SignedOut, useUser, useClerk } from '@clerk/clerk-react'
 import { Link, useLocation } from 'react-router-dom'
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const { user: authUser } = useUser()
+  const { signOut } = useClerk()
   const location = useLocation()
 
   useEffect(() => {
@@ -156,19 +157,18 @@ export default function Header() {
                       </div>
                       <span>Meu Perfil</span>
                     </a>
-                    <div className="user-button-container">
-                      <UserButton 
-                        afterSignOutUrl="/" 
-                        appearance={{
-                          elements: {
-                            userButtonPopoverCard: "hidden",
-                            userButtonPopoverRootBox: "hidden",
-                            userButtonPopoverActionButton: "hidden",
-                            userButtonPopoverActions: "hidden"
-                          }
-                        }}
-                      />
-                    </div>
+                    
+                    {/* Botão de Logout personalizado */}
+                    <button
+                      onClick={async () => {
+                        await signOut();
+                        window.location.href = '/';
+                      }}
+                      className="flex items-center space-x-2 text-gray-400 hover:text-red-400 font-medium text-sm py-2 px-3 rounded-lg border border-gray-700 hover:border-red-500/40 transition-all duration-300"
+                    >
+                      <span>🚪</span>
+                      <span>Sair</span>
+                    </button>
                   </>
                 ) : (
                   <SignInButton mode="modal">
