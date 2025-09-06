@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import type { Map as LeafletMap, Marker, Circle } from "leaflet";
+import { IoCarOutline } from "react-icons/io5";
+import { IoMdMap } from "react-icons/io";
 
 interface EventData {
   slug: string;
@@ -260,24 +262,24 @@ export default function InteractiveMap({
             </a>
           </div>
 
-          {/* Botões secundários */}
-          <div className="flex flex-col sm:flex-row gap-4">
+          {/* Botões secundários - iOS style */}
+          <div className="flex flex-row gap-3 max-w-md mx-auto">
             <a
               href={`https://www.google.com/maps/dir/?api=1&destination=${eventData.location.lat},${eventData.location.lng}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-3 bg-blue-500/20 backdrop-blur-xl hover:bg-blue-500/30 text-blue-300 hover:text-blue-200 px-6 py-4 rounded-2xl transition-all duration-300 font-semibold text-lg border border-blue-500/30 hover:border-blue-400/50 shadow-xl hover:shadow-blue-500/20 hover:scale-105"
+              className="flex-1 flex items-center justify-center gap-2 bg-blue-500/15 backdrop-blur-xl hover:bg-blue-500/25 text-blue-300 hover:text-blue-100 px-4 py-3 rounded-xl transition-all duration-300 font-medium text-base border border-blue-500/20 hover:border-blue-400/40 shadow-lg hover:shadow-blue-500/15 hover:scale-[1.02] active:scale-[0.98]"
             >
-              <span className="text-xl">🗺️</span>
+              <IoMdMap className="text-lg" />
               <span>Google Maps</span>
             </a>
             <a
               href={`https://waze.com/ul?ll=${eventData.location.lat},${eventData.location.lng}&navigate=yes`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-3 bg-purple-500/20 backdrop-blur-xl hover:bg-purple-500/30 text-purple-300 hover:text-purple-200 px-6 py-4 rounded-2xl transition-all duration-300 font-semibold text-lg border border-purple-500/30 hover:border-purple-400/50 shadow-xl hover:shadow-purple-500/20 hover:scale-105"
+              className="flex-1 flex items-center justify-center gap-2 bg-purple-500/15 backdrop-blur-xl hover:bg-purple-500/25 text-purple-300 hover:text-purple-100 px-4 py-3 rounded-xl transition-all duration-300 font-medium text-base border border-purple-500/20 hover:border-purple-400/40 shadow-lg hover:shadow-purple-500/15 hover:scale-[1.02] active:scale-[0.98]"
             >
-              <span className="text-xl">🚗</span>
+              <IoCarOutline className="text-lg" />
               <span>Waze</span>
             </a>
           </div>
