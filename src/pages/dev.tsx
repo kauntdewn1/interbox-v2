@@ -82,6 +82,15 @@ export default function Dev() {
 
   // Carregar dados de desenvolvimento
   const loadDevData = useCallback(async () => {
+    // ============================================================================
+    // 🚧 BETA FEATURES - SISTEMA DE DESENVOLVIMENTO
+    // ============================================================================
+    // Status: Estrutura pronta, aguardando integração com sistema de logs real
+    // Prioridade: Média
+    // Estimativa: 1-2 sprints
+    // Dependências: Sistema de logging, monitoramento em tempo real
+    // ============================================================================
+
     try {
       // Carregar logs (simulado)
       const mockLogs: Log[] = [
@@ -271,6 +280,15 @@ interface DevStats {
 
 // Dashboard Tab
 function DashboardTab({ stats }: { stats: any }) {
+  // ============================================================================
+  // 🚧 BETA FEATURES - DASHBOARD DE DESENVOLVIMENTO
+  // ============================================================================
+  // Status: Estrutura pronta, aguardando integração com métricas reais
+  // Prioridade: Média
+  // Estimativa: 1 sprint
+  // Dependências: Sistema de monitoramento, métricas em tempo real
+  // ============================================================================
+
   return (
     <div className="space-y-6">
       {/* Cards de Estatísticas */}
@@ -363,7 +381,13 @@ function DashboardTab({ stats }: { stats: any }) {
 
       {/* Ações Rápidas */}
       <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-        <h3 className="text-lg font-semibold text-white mb-4">Ações Rápidas</h3>
+        <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
+          Ações Rápidas
+          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-500/20 text-yellow-300 border border-yellow-400/30 ml-2">
+            <span className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse mr-1"></span>
+            BETA
+          </span>
+        </h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <button className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white px-6 py-3 rounded-xl font-medium transition-all duration-200">
             📝 Ver Logs
@@ -432,6 +456,15 @@ function LogsTab({ logs }: { logs: Log[] }) {
 
 // Database Tab
 function DatabaseTab() {
+  // ============================================================================
+  // 🚧 BETA FEATURES - SISTEMA DE DATABASE
+  // ============================================================================
+  // Status: Estrutura pronta, aguardando integração com query builder real
+  // Prioridade: Média
+  // Estimativa: 2-3 sprints
+  // Dependências: Query builder, sistema de permissões, validação de SQL
+  // ============================================================================
+
   return (
     <div className="space-y-6">
       <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl p-6 text-white shadow-xl">
@@ -479,6 +512,15 @@ function DatabaseTab() {
 
 // Testing Tab
 function TestingTab() {
+  // ============================================================================
+  // 🚧 BETA FEATURES - SISTEMA DE TESTING
+  // ============================================================================
+  // Status: Estrutura pronta, aguardando integração com ferramentas de teste
+  // Prioridade: Média
+  // Estimativa: 2-3 sprints
+  // Dependências: Jest, Cypress, sistema de CI/CD
+  // ============================================================================
+
   return (
     <div className="space-y-6">
       <div className="bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl p-6 text-white shadow-xl">
@@ -515,6 +557,15 @@ function TestingTab() {
 
 // Deployment Tab
 function DeploymentTab() {
+  // ============================================================================
+  // 🚧 BETA FEATURES - SISTEMA DE DEPLOYMENT
+  // ============================================================================
+  // Status: Estrutura pronta, aguardando integração com CI/CD
+  // Prioridade: Alta
+  // Estimativa: 1-2 sprints
+  // Dependências: GitHub Actions, Vercel, sistema de rollback
+  // ============================================================================
+
   return (
     <div className="space-y-6">
       <div className="bg-gradient-to-br from-yellow-500 to-orange-600 rounded-2xl p-6 text-white shadow-xl">

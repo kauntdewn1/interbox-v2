@@ -83,6 +83,15 @@ export default function Admin() {
 
   // Carregar dados administrativos
   const loadAdminData = useCallback(async () => {
+    // ============================================================================
+    // 🚧 BETA FEATURES - SISTEMA ADMINISTRATIVO
+    // ============================================================================
+    // Status: Estrutura pronta, aguardando integração com métricas avançadas
+    // Prioridade: Alta
+    // Estimativa: 1-2 sprints
+    // Dependências: Sistema de analytics, relatórios, permissões avançadas
+    // ============================================================================
+
     try {
       // Carregar usuários
       const { data: usersData } = await supabase
@@ -264,6 +273,15 @@ interface DashboardStats {
 
 // Dashboard Tab
 function DashboardTab({ stats }: { stats: any }) {
+  // ============================================================================
+  // 🚧 BETA FEATURES - DASHBOARD ADMINISTRATIVO
+  // ============================================================================
+  // Status: Estrutura pronta, aguardando integração com métricas avançadas
+  // Prioridade: Alta
+  // Estimativa: 1-2 sprints
+  // Dependências: Sistema de analytics, relatórios em tempo real
+  // ============================================================================
+
   return (
     <div className="space-y-6">
       {/* Cards de Estatísticas */}
@@ -328,7 +346,13 @@ function DashboardTab({ stats }: { stats: any }) {
 
       {/* Ações Rápidas */}
       <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-        <h3 className="text-lg font-semibold text-white mb-4">Ações Rápidas</h3>
+        <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
+          Ações Rápidas
+          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-500/20 text-yellow-300 border border-yellow-400/30 ml-2">
+            <span className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse mr-1"></span>
+            BETA
+          </span>
+        </h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <button className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white px-6 py-3 rounded-xl font-medium transition-all duration-200">
             👥 Gerenciar Usuários
@@ -426,6 +450,15 @@ function UsersTab({ users }: { users: User[] }) {
 
 // Teams Tab
 function TeamsTab() {
+  // ============================================================================
+  // 🚧 BETA FEATURES - SISTEMA DE TIMES
+  // ============================================================================
+  // Status: Estrutura pronta, aguardando integração com sistema de times
+  // Prioridade: Alta
+  // Estimativa: 2-3 sprints
+  // Dependências: Sistema de times, gerenciamento de membros, permissões
+  // ============================================================================
+
   return (
     <div className="space-y-6">
       <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl p-6 text-white shadow-xl">
@@ -434,7 +467,13 @@ function TeamsTab() {
       </div>
 
       <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-        <h3 className="text-lg font-semibold text-white mb-4">Gerenciamento de Times</h3>
+        <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
+          Gerenciamento de Times
+          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-500/20 text-yellow-300 border border-yellow-400/30 ml-2">
+            <span className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse mr-1"></span>
+            BETA
+          </span>
+        </h3>
         <div className="text-center py-12 text-gray-400">
           <div className="text-6xl mb-4">🏆</div>
           <p className="text-lg font-medium mb-2">Sistema de Times</p>
@@ -447,6 +486,15 @@ function TeamsTab() {
 
 // Events Tab
 function EventsTab() {
+  // ============================================================================
+  // 🚧 BETA FEATURES - SISTEMA DE EVENTOS
+  // ============================================================================
+  // Status: Estrutura pronta, aguardando integração com sistema de eventos
+  // Prioridade: Alta
+  // Estimativa: 2-3 sprints
+  // Dependências: Sistema de eventos, calendário, gerenciamento de provas
+  // ============================================================================
+
   return (
     <div className="space-y-6">
       <div className="bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl p-6 text-white shadow-xl">
@@ -455,7 +503,13 @@ function EventsTab() {
       </div>
 
       <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-        <h3 className="text-lg font-semibold text-white mb-4">Gerenciamento de Eventos</h3>
+        <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
+          Gerenciamento de Eventos
+          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-500/20 text-yellow-300 border border-yellow-400/30 ml-2">
+            <span className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse mr-1"></span>
+            BETA
+          </span>
+        </h3>
         <div className="text-center py-12 text-gray-400">
           <div className="text-6xl mb-4">📅</div>
           <p className="text-lg font-medium mb-2">Sistema de Eventos</p>
@@ -468,6 +522,15 @@ function EventsTab() {
 
 // Settings Tab
 function SettingsTab() {
+  // ============================================================================
+  // 🚧 BETA FEATURES - SISTEMA DE CONFIGURAÇÕES
+  // ============================================================================
+  // Status: Estrutura pronta, aguardando integração com sistema de configurações
+  // Prioridade: Média
+  // Estimativa: 1-2 sprints
+  // Dependências: Sistema de configurações, permissões avançadas, backup
+  // ============================================================================
+
   return (
     <div className="space-y-6">
       <div className="bg-gradient-to-br from-yellow-500 to-orange-600 rounded-2xl p-6 text-white shadow-xl">
@@ -476,7 +539,13 @@ function SettingsTab() {
       </div>
 
       <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-        <h3 className="text-lg font-semibold text-white mb-4">Configurações do Sistema</h3>
+        <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
+          Configurações do Sistema
+          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-500/20 text-yellow-300 border border-yellow-400/30 ml-2">
+            <span className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse mr-1"></span>
+            BETA
+          </span>
+        </h3>
         <div className="space-y-4">
           <div className="flex items-center justify-between py-3 border-b border-white/10">
             <span className="text-gray-300">Manutenção</span>

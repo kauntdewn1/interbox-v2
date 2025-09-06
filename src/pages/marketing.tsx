@@ -84,6 +84,15 @@ export default function Marketing() {
 
   // Carregar dados de marketing
   const loadMarketingData = useCallback(async () => {
+    // ============================================================================
+    // 🚧 BETA FEATURES - SISTEMA DE MARKETING
+    // ============================================================================
+    // Status: Estrutura pronta, aguardando integração com analytics avançados
+    // Prioridade: Alta
+    // Estimativa: 1-2 sprints
+    // Dependências: Sistema de analytics, campanhas, relatórios de conversão
+    // ============================================================================
+
     try {
       // Carregar patrocinadores
       const { data: patrocinadoresData } = await supabase
@@ -258,6 +267,15 @@ interface MarketingStats {
 
 // Dashboard Tab
 function DashboardTab({ stats }: { stats: any }) {
+  // ============================================================================
+  // 🚧 BETA FEATURES - DASHBOARD DE MARKETING
+  // ============================================================================
+  // Status: Estrutura pronta, aguardando integração com analytics avançados
+  // Prioridade: Alta
+  // Estimativa: 1-2 sprints
+  // Dependências: Sistema de analytics, métricas de conversão, relatórios
+  // ============================================================================
+
   return (
     <div className="space-y-6">
       {/* Cards de Estatísticas */}
@@ -322,7 +340,13 @@ function DashboardTab({ stats }: { stats: any }) {
 
       {/* Ações Rápidas */}
       <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-        <h3 className="text-lg font-semibold text-white mb-4">Ações Rápidas</h3>
+        <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
+          Ações Rápidas
+          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-500/20 text-yellow-300 border border-yellow-400/30 ml-2">
+            <span className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse mr-1"></span>
+            BETA
+          </span>
+        </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <button className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white px-6 py-3 rounded-xl font-medium transition-all duration-200">
             📧 Enviar Newsletter
@@ -421,6 +445,15 @@ function PatrocinadoresTab({ patrocinadores }: { patrocinadores: Patrocinador[] 
 
 // Analytics Tab
 function AnalyticsTab({ stats }: { stats: any }) {
+  // ============================================================================
+  // 🚧 BETA FEATURES - SISTEMA DE ANALYTICS
+  // ============================================================================
+  // Status: Estrutura pronta, aguardando integração com analytics avançados
+  // Prioridade: Alta
+  // Estimativa: 2-3 sprints
+  // Dependências: Google Analytics, métricas de conversão, relatórios detalhados
+  // ============================================================================
+
   return (
     <div className="space-y-6">
       <div className="bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl p-6 text-white shadow-xl">
@@ -460,6 +493,15 @@ function AnalyticsTab({ stats }: { stats: any }) {
 
 // Campanhas Tab
 function CampanhasTab() {
+  // ============================================================================
+  // 🚧 BETA FEATURES - SISTEMA DE CAMPANHAS
+  // ============================================================================
+  // Status: Estrutura pronta, aguardando integração com sistema de campanhas
+  // Prioridade: Alta
+  // Estimativa: 2-3 sprints
+  // Dependências: Sistema de campanhas, email marketing, automação
+  // ============================================================================
+
   return (
     <div className="space-y-6">
       <div className="bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl p-6 text-white shadow-xl">
@@ -468,7 +510,13 @@ function CampanhasTab() {
       </div>
 
       <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-        <h3 className="text-lg font-semibold text-white mb-4">Nova Campanha</h3>
+        <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
+          Nova Campanha
+          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-500/20 text-yellow-300 border border-yellow-400/30 ml-2">
+            <span className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse mr-1"></span>
+            BETA
+          </span>
+        </h3>
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2">Nome da Campanha</label>
@@ -509,7 +557,13 @@ function CampanhasTab() {
       </div>
 
       <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-        <h3 className="text-lg font-semibold text-white mb-4">Campanhas Ativas</h3>
+        <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
+          Campanhas Ativas
+          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-500/20 text-yellow-300 border border-yellow-400/30 ml-2">
+            <span className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse mr-1"></span>
+            BETA
+          </span>
+        </h3>
         <div className="text-center py-12 text-gray-400">
           <div className="text-6xl mb-4">🎯</div>
           <p className="text-lg font-medium mb-2">Nenhuma Campanha Ativa</p>
