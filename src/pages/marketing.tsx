@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { useUser } from '@clerk/clerk-react';
 import { supabase } from '../lib/supabase';
+import { usePushNotifications } from '../hooks/usePushNotifications';
+import { usePushCampaigns } from '../hooks/usePushCampaigns';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
@@ -41,13 +43,18 @@ const MARKETING_TABS = [
   { id: 'dashboard', label: '📊 Dashboard', icon: '📊' },
   { id: 'patrocinadores', label: '🤝 Patrocinadores', icon: '🤝' },
   { id: 'analytics', label: '📈 Analytics', icon: '📈' },
-  { id: 'campanhas', label: '🎯 Campanhas', icon: '🎯' }
+  { id: 'campanhas', label: '🎯 Campanhas', icon: '🎯' },
+  { id: 'push-notifications', label: '📱 Push Notifications', icon: '📱' }
 ];
 
 export default function Marketing() {
   const { user } = useUser();
   const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
+  
+  // Push Notifications
+  const pushNotifications = usePushNotifications();
+  const pushCampaigns = usePushCampaigns();
   const [activeTab, setActiveTab] = useState('dashboard');
   
   // Estados dos dados
@@ -247,6 +254,8 @@ function TabContent({ activeTab, stats, patrocinadores }: TabContentProps) {
       return <AnalyticsTab stats={stats as any} />;
     case 'campanhas':
       return <CampanhasTab />;
+    case 'push-notifications':
+      return <PushNotificationsTab />;
     default:
       return <DashboardTab stats={stats as any} />;
   }
@@ -569,6 +578,325 @@ function CampanhasTab() {
           <p className="text-lg font-medium mb-2">Nenhuma Campanha Ativa</p>
           <p className="text-sm">Crie sua primeira campanha de marketing</p>
         </div>
+      </div>
+    </div>
+  );
+}
+
+// Push Notifications Tab
+function PushNotificationsTab() {
+  const pushNotifications = usePushNotifications();
+  const pushCampaigns = usePushCampaigns();
+  
+  const [newCampaign, setNewCampaign] = useState<{
+    title: string;
+    body: string;
+    target_type: 'all' | 'role' | 'specific' | 'segment';
+    target_role: string;
+    priority: 'low' | 'normal' | 'high' | 'urgent';
+    icon_url: string;
+    image_url: string;
+    action_url: string;
+  }>({
+    title: '',
+    body: '',
+    target_type: 'all',
+    target_role: '',
+    priority: 'normal',
+    icon_url: '',
+    image_url: '',
+    action_url: ''
+  });
+
+  const [showCreateForm, setShowCreateForm] = useState(false);
+
+  const handleCreateCampaign = async () => {
+    if (!newCampaign.title || !newCampaign.body) {
+      alert('Título e mensagem são obrigatórios');
+      return;
+    }
+
+    const campaignId = await pushCampaigns.createCampaign(newCampaign);
+    if (campaignId) {
+      setNewCampaign({
+        title: '',
+        body: '',
+        target_type: 'all',
+        target_role: '',
+        priority: 'normal',
+        icon_url: '',
+        image_url: '',
+        action_url: ''
+      });
+      setShowCreateForm(false);
+      alert('Campanha criada com sucesso!');
+    }
+  };
+
+  const handleSendTest = async () => {
+    if (!newCampaign.title || !newCampaign.body) {
+      alert('Título e mensagem são obrigatórios');
+      return;
+    }
+
+    const success = await pushNotifications.sendTestNotification({
+      title: newCampaign.title,
+      body: newCampaign.body,
+      icon: newCampaign.icon_url,
+      image: newCampaign.image_url,
+      action_url: newCampaign.action_url
+    });
+
+    if (success) {
+      alert('Notificação de teste enviada!');
+    } else {
+      alert('Erro ao enviar notificação de teste');
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl p-6 text-white shadow-xl">
+        <h2 className="text-2xl font-bold mb-2">Push Notifications</h2>
+        <p className="text-blue-100">Gerencie notificações push para engajamento</p>
+      </div>
+
+      {/* Status do Push */}
+      <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
+        <h3 className="text-lg font-semibold text-white mb-4">Status do Sistema</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="bg-white/10 rounded-xl p-4">
+            <div className="flex items-center justify-between">
+              <span className="text-gray-300">Suporte</span>
+              <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                pushNotifications.isSupported 
+                  ? 'bg-green-500/20 text-green-300 border border-green-400/30' 
+                  : 'bg-red-500/20 text-red-300 border border-red-400/30'
+              }`}>
+                {pushNotifications.isSupported ? 'Suportado' : 'Não Suportado'}
+              </span>
+            </div>
+          </div>
+          <div className="bg-white/10 rounded-xl p-4">
+            <div className="flex items-center justify-between">
+              <span className="text-gray-300">Permissão</span>
+              <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                pushNotifications.permission === 'granted' 
+                  ? 'bg-green-500/20 text-green-300 border border-green-400/30' 
+                  : pushNotifications.permission === 'denied'
+                  ? 'bg-red-500/20 text-red-300 border border-red-400/30'
+                  : 'bg-yellow-500/20 text-yellow-300 border border-yellow-400/30'
+              }`}>
+                {pushNotifications.permission === 'granted' ? 'Concedida' : 
+                 pushNotifications.permission === 'denied' ? 'Negada' : 'Pendente'}
+              </span>
+            </div>
+          </div>
+          <div className="bg-white/10 rounded-xl p-4">
+            <div className="flex items-center justify-between">
+              <span className="text-gray-300">Inscrito</span>
+              <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                pushNotifications.isSubscribed 
+                  ? 'bg-green-500/20 text-green-300 border border-green-400/30' 
+                  : 'bg-gray-500/20 text-gray-300 border border-gray-400/30'
+              }`}>
+                {pushNotifications.isSubscribed ? 'Sim' : 'Não'}
+              </span>
+            </div>
+          </div>
+        </div>
+        
+        {!pushNotifications.isSubscribed && pushNotifications.isSupported && (
+          <div className="mt-4">
+            <button
+              onClick={() => pushNotifications.subscribe()}
+              disabled={pushNotifications.isLoading}
+              className="bg-blue-500 hover:bg-blue-600 disabled:bg-gray-500 text-white px-4 py-2 rounded-lg transition-colors"
+            >
+              {pushNotifications.isLoading ? 'Inscrendo...' : 'Inscrever para Notificações'}
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Criar Nova Campanha */}
+      <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-semibold text-white">Nova Campanha</h3>
+          <button
+            onClick={() => setShowCreateForm(!showCreateForm)}
+            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors"
+          >
+            {showCreateForm ? 'Cancelar' : 'Criar Campanha'}
+          </button>
+        </div>
+
+        {showCreateForm && (
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Título</label>
+                <input
+                  type="text"
+                  value={newCampaign.title}
+                  onChange={(e) => setNewCampaign(prev => ({ ...prev, title: e.target.value }))}
+                  placeholder="Título da notificação"
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-white placeholder-gray-400"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Prioridade</label>
+                <select
+                  value={newCampaign.priority}
+                  onChange={(e) => setNewCampaign(prev => ({ ...prev, priority: e.target.value as any }))}
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-white"
+                >
+                  <option value="low">Baixa</option>
+                  <option value="normal">Normal</option>
+                  <option value="high">Alta</option>
+                  <option value="urgent">Urgente</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Mensagem</label>
+              <textarea
+                value={newCampaign.body}
+                onChange={(e) => setNewCampaign(prev => ({ ...prev, body: e.target.value }))}
+                placeholder="Mensagem da notificação"
+                rows={3}
+                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-white placeholder-gray-400"
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Público Alvo</label>
+                <select
+                  value={newCampaign.target_type}
+                  onChange={(e) => setNewCampaign(prev => ({ ...prev, target_type: e.target.value as any }))}
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-white"
+                >
+                  <option value="all">Todos os usuários</option>
+                  <option value="role">Por perfil</option>
+                  <option value="specific">Usuários específicos</option>
+                </select>
+              </div>
+              {newCampaign.target_type === 'role' && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">Perfil</label>
+                  <select
+                    value={newCampaign.target_role}
+                    onChange={(e) => setNewCampaign(prev => ({ ...prev, target_role: e.target.value }))}
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-white"
+                  >
+                    <option value="">Selecione um perfil</option>
+                    <option value="atleta">Atletas</option>
+                    <option value="espectador">Espectadores</option>
+                    <option value="judge">Juízes</option>
+                    <option value="midia">Mídia</option>
+                  </select>
+                </div>
+              )}
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">URL do Ícone</label>
+                <input
+                  type="url"
+                  value={newCampaign.icon_url}
+                  onChange={(e) => setNewCampaign(prev => ({ ...prev, icon_url: e.target.value }))}
+                  placeholder="https://exemplo.com/icon.png"
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-white placeholder-gray-400"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">URL da Imagem</label>
+                <input
+                  type="url"
+                  value={newCampaign.image_url}
+                  onChange={(e) => setNewCampaign(prev => ({ ...prev, image_url: e.target.value }))}
+                  placeholder="https://exemplo.com/image.jpg"
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-white placeholder-gray-400"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">URL de Ação</label>
+                <input
+                  type="url"
+                  value={newCampaign.action_url}
+                  onChange={(e) => setNewCampaign(prev => ({ ...prev, action_url: e.target.value }))}
+                  placeholder="https://interbox.com.br/evento"
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-white placeholder-gray-400"
+                />
+              </div>
+            </div>
+
+            <div className="flex gap-4">
+              <button
+                onClick={handleCreateCampaign}
+                disabled={pushCampaigns.isLoading}
+                className="bg-green-500 hover:bg-green-600 disabled:bg-gray-500 text-white px-6 py-3 rounded-lg transition-colors"
+              >
+                {pushCampaigns.isLoading ? 'Criando...' : 'Criar Campanha'}
+              </button>
+              <button
+                onClick={handleSendTest}
+                disabled={pushNotifications.isLoading}
+                className="bg-blue-500 hover:bg-blue-600 disabled:bg-gray-500 text-white px-6 py-3 rounded-lg transition-colors"
+              >
+                {pushNotifications.isLoading ? 'Enviando...' : 'Enviar Teste'}
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Lista de Campanhas */}
+      <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
+        <h3 className="text-lg font-semibold text-white mb-4">Campanhas Recentes</h3>
+        
+        {pushCampaigns.isLoading ? (
+          <div className="text-center py-8 text-gray-400">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto mb-4"></div>
+            <p>Carregando campanhas...</p>
+          </div>
+        ) : pushCampaigns.campaigns.length === 0 ? (
+          <div className="text-center py-12 text-gray-400">
+            <div className="text-6xl mb-4">📱</div>
+            <p className="text-lg font-medium mb-2">Nenhuma Campanha</p>
+            <p className="text-sm">Crie sua primeira campanha de push notification</p>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {pushCampaigns.campaigns.slice(0, 5).map((campaign) => (
+              <div key={campaign.id} className="bg-white/10 rounded-xl p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <h4 className="font-semibold text-white">{campaign.title}</h4>
+                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                    campaign.status === 'sent' ? 'bg-green-500/20 text-green-300 border border-green-400/30' :
+                    campaign.status === 'pending_approval' ? 'bg-yellow-500/20 text-yellow-300 border border-yellow-400/30' :
+                    campaign.status === 'draft' ? 'bg-gray-500/20 text-gray-300 border border-gray-400/30' :
+                    'bg-blue-500/20 text-blue-300 border border-blue-400/30'
+                  }`}>
+                    {campaign.status === 'sent' ? 'Enviada' :
+                     campaign.status === 'pending_approval' ? 'Pendente' :
+                     campaign.status === 'draft' ? 'Rascunho' :
+                     campaign.status}
+                  </span>
+                </div>
+                <p className="text-gray-300 text-sm mb-2">{campaign.body}</p>
+                <div className="flex items-center justify-between text-xs text-gray-400">
+                  <span>Enviada para {campaign.total_recipients} usuários</span>
+                  <span>{new Date(campaign.created_at).toLocaleDateString()}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { useUser } from '@clerk/clerk-react';
 import { supabase } from '../lib/supabase';
+import { usePushNotifications } from '../hooks/usePushNotifications';
+import { usePushCampaigns } from '../hooks/usePushCampaigns';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
@@ -39,7 +41,8 @@ const DEV_TABS = [
   { id: 'logs', label: '📝 Logs', icon: '📝' },
   { id: 'database', label: '🗄️ Database', icon: '🗄️' },
   { id: 'testing', label: '🧪 Testing', icon: '🧪' },
-  { id: 'deployment', label: '🚀 Deployment', icon: '🚀' }
+  { id: 'deployment', label: '🚀 Deployment', icon: '🚀' },
+  { id: 'push-notifications', label: '📱 Push Notifications', icon: '📱' }
 ];
 
 export default function Dev() {
@@ -47,6 +50,10 @@ export default function Dev() {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('dashboard');
+  
+  // Push Notifications
+  const pushNotifications = usePushNotifications();
+  const pushCampaigns = usePushCampaigns();
   
   // Estados dos dados
   const [logs, setLogs] = useState<Log[]>([]);
@@ -260,6 +267,8 @@ function TabContent({ activeTab, stats, logs }: TabContentProps) {
       return <TestingTab />;
     case 'deployment':
       return <DeploymentTab />;
+    case 'push-notifications':
+      return <PushNotificationsDevTab />;
     default:
       return <DashboardTab stats={stats as DevStats | any} />;
   }
@@ -602,6 +611,282 @@ function DeploymentTab() {
           <button className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white px-6 py-3 rounded-xl font-medium transition-all duration-200">
             🔄 Rollback
           </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Push Notifications Dev Tab
+function PushNotificationsDevTab() {
+  const pushNotifications = usePushNotifications();
+  const pushCampaigns = usePushCampaigns();
+  
+  const [systemStats, setSystemStats] = useState({
+    totalCampaigns: 0,
+    totalSent: 0,
+    totalDelivered: 0,
+    totalOpened: 0,
+    totalClicked: 0,
+    deliveryRate: 0,
+    openRate: 0,
+    clickRate: 0
+  });
+
+  const [recentLogs, setRecentLogs] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Carregar estatísticas do sistema
+  const loadSystemStats = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      // Buscar estatísticas das campanhas
+      const { data: campaigns, error: campaignsError } = await supabase
+        .from('push_campaigns')
+        .select('*');
+
+      if (campaignsError) throw campaignsError;
+
+      const totalCampaigns = campaigns?.length || 0;
+      const totalSent = campaigns?.reduce((sum, c) => sum + (c.total_recipients || 0), 0) || 0;
+      const totalDelivered = campaigns?.reduce((sum, c) => sum + (c.delivered_count || 0), 0) || 0;
+      const totalOpened = campaigns?.reduce((sum, c) => sum + (c.opened_count || 0), 0) || 0;
+      const totalClicked = campaigns?.reduce((sum, c) => sum + (c.clicked_count || 0), 0) || 0;
+
+      setSystemStats({
+        totalCampaigns,
+        totalSent,
+        totalDelivered,
+        totalOpened,
+        totalClicked,
+        deliveryRate: totalSent > 0 ? Math.round((totalDelivered / totalSent) * 100) : 0,
+        openRate: totalDelivered > 0 ? Math.round((totalOpened / totalDelivered) * 100) : 0,
+        clickRate: totalOpened > 0 ? Math.round((totalClicked / totalOpened) * 100) : 0
+      });
+
+      // Buscar logs recentes
+      const { data: logs, error: logsError } = await supabase
+        .from('push_logs')
+        .select('*')
+        .order('sent_at', { ascending: false })
+        .limit(10);
+
+      if (logsError) throw logsError;
+      setRecentLogs(logs || []);
+
+    } catch (error) {
+      console.error('Error loading system stats:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadSystemStats();
+  }, [loadSystemStats]);
+
+  const handleTestNotification = async () => {
+    const success = await pushNotifications.sendTestNotification({
+      title: 'Teste Dev - INTERBØX',
+      body: 'Esta é uma notificação de teste do sistema de desenvolvimento',
+      icon: '/favicon-192x192.png',
+      action_url: '/dev'
+    });
+
+    if (success) {
+      alert('Notificação de teste enviada!');
+      loadSystemStats(); // Recarregar stats
+    } else {
+      alert('Erro ao enviar notificação de teste');
+    }
+  };
+
+  const handleClearLogs = async () => {
+    if (!confirm('Tem certeza que deseja limpar todos os logs de push notifications?')) {
+      return;
+    }
+
+    try {
+      const { error } = await supabase
+        .from('push_logs')
+        .delete()
+        .neq('id', '00000000-0000-0000-0000-000000000000'); // Delete all
+
+      if (error) throw error;
+      
+      alert('Logs limpos com sucesso!');
+      loadSystemStats();
+    } catch (error) {
+      console.error('Error clearing logs:', error);
+      alert('Erro ao limpar logs');
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl p-6 text-white shadow-xl">
+        <h2 className="text-2xl font-bold mb-2">Push Notifications - Dev</h2>
+        <p className="text-purple-100">Monitoramento e debug do sistema de push notifications</p>
+      </div>
+
+      {/* Status do Sistema */}
+      <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
+        <h3 className="text-lg font-semibold text-white mb-4">Status do Sistema</h3>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="bg-white/10 rounded-xl p-4">
+            <div className="flex items-center justify-between">
+              <span className="text-gray-300">Suporte</span>
+              <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                pushNotifications.isSupported 
+                  ? 'bg-green-500/20 text-green-300 border border-green-400/30' 
+                  : 'bg-red-500/20 text-red-300 border border-red-400/30'
+              }`}>
+                {pushNotifications.isSupported ? 'OK' : 'NOK'}
+              </span>
+            </div>
+          </div>
+          <div className="bg-white/10 rounded-xl p-4">
+            <div className="flex items-center justify-between">
+              <span className="text-gray-300">Permissão</span>
+              <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                pushNotifications.permission === 'granted' 
+                  ? 'bg-green-500/20 text-green-300 border border-green-400/30' 
+                  : 'bg-red-500/20 text-red-300 border border-red-400/30'
+              }`}>
+                {pushNotifications.permission === 'granted' ? 'OK' : 'NOK'}
+              </span>
+            </div>
+          </div>
+          <div className="bg-white/10 rounded-xl p-4">
+            <div className="flex items-center justify-between">
+              <span className="text-gray-300">Inscrito</span>
+              <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                pushNotifications.isSubscribed 
+                  ? 'bg-green-500/20 text-green-300 border border-green-400/30' 
+                  : 'bg-red-500/20 text-red-300 border border-red-400/30'
+              }`}>
+                {pushNotifications.isSubscribed ? 'OK' : 'NOK'}
+              </span>
+            </div>
+          </div>
+          <div className="bg-white/10 rounded-xl p-4">
+            <div className="flex items-center justify-between">
+              <span className="text-gray-300">Carregando</span>
+              <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                !isLoading 
+                  ? 'bg-green-500/20 text-green-300 border border-green-400/30' 
+                  : 'bg-yellow-500/20 text-yellow-300 border border-yellow-400/30'
+              }`}>
+                {isLoading ? 'Sim' : 'Não'}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Estatísticas */}
+      <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
+        <h3 className="text-lg font-semibold text-white mb-4">Estatísticas do Sistema</h3>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="bg-white/10 rounded-xl p-4 text-center">
+            <div className="text-2xl font-bold text-white">{systemStats.totalCampaigns}</div>
+            <div className="text-sm text-gray-300">Campanhas</div>
+          </div>
+          <div className="bg-white/10 rounded-xl p-4 text-center">
+            <div className="text-2xl font-bold text-white">{systemStats.totalSent}</div>
+            <div className="text-sm text-gray-300">Enviadas</div>
+          </div>
+          <div className="bg-white/10 rounded-xl p-4 text-center">
+            <div className="text-2xl font-bold text-white">{systemStats.deliveryRate}%</div>
+            <div className="text-sm text-gray-300">Taxa Entrega</div>
+          </div>
+          <div className="bg-white/10 rounded-xl p-4 text-center">
+            <div className="text-2xl font-bold text-white">{systemStats.openRate}%</div>
+            <div className="text-sm text-gray-300">Taxa Abertura</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Ações de Teste */}
+      <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
+        <h3 className="text-lg font-semibold text-white mb-4">Ações de Teste</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <button
+            onClick={handleTestNotification}
+            disabled={pushNotifications.isLoading}
+            className="bg-blue-500 hover:bg-blue-600 disabled:bg-gray-500 text-white px-4 py-3 rounded-lg transition-colors"
+          >
+            {pushNotifications.isLoading ? 'Enviando...' : 'Enviar Teste'}
+          </button>
+          <button
+            onClick={() => pushNotifications.subscribe()}
+            disabled={pushNotifications.isLoading}
+            className="bg-green-500 hover:bg-green-600 disabled:bg-gray-500 text-white px-4 py-3 rounded-lg transition-colors"
+          >
+            {pushNotifications.isLoading ? 'Inscrendo...' : 'Inscrever'}
+          </button>
+          <button
+            onClick={handleClearLogs}
+            className="bg-red-500 hover:bg-red-600 text-white px-4 py-3 rounded-lg transition-colors"
+          >
+            Limpar Logs
+          </button>
+        </div>
+      </div>
+
+      {/* Logs Recentes */}
+      <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
+        <h3 className="text-lg font-semibold text-white mb-4">Logs Recentes</h3>
+        
+        {isLoading ? (
+          <div className="text-center py-8 text-gray-400">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500 mx-auto mb-4"></div>
+            <p>Carregando logs...</p>
+          </div>
+        ) : recentLogs.length === 0 ? (
+          <div className="text-center py-12 text-gray-400">
+            <div className="text-6xl mb-4">📱</div>
+            <p className="text-lg font-medium mb-2">Nenhum Log</p>
+            <p className="text-sm">Nenhuma notificação foi enviada ainda</p>
+          </div>
+        ) : (
+          <div className="space-y-2">
+            {recentLogs.map((log) => (
+              <div key={log.id} className="bg-white/10 rounded-lg p-3">
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-sm font-medium text-white">
+                    {log.status === 'sent' ? 'Enviada' :
+                     log.status === 'delivered' ? 'Entregue' :
+                     log.status === 'opened' ? 'Aberta' :
+                     log.status === 'clicked' ? 'Clicada' :
+                     log.status === 'failed' ? 'Falhou' : log.status}
+                  </span>
+                  <span className="text-xs text-gray-400">
+                    {new Date(log.sent_at).toLocaleString()}
+                  </span>
+                </div>
+                {log.error_message && (
+                  <div className="text-xs text-red-300 mt-1">
+                    Erro: {log.error_message}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Debug Info */}
+      <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
+        <h3 className="text-lg font-semibold text-white mb-4">Debug Info</h3>
+        <div className="bg-black/20 rounded-lg p-4 font-mono text-sm text-gray-300">
+          <div>User Agent: {navigator.userAgent}</div>
+          <div>Service Worker: {navigator.serviceWorker ? 'Suportado' : 'Não Suportado'}</div>
+          <div>Push Manager: {window.PushManager ? 'Suportado' : 'Não Suportado'}</div>
+          <div>Notification: {window.Notification ? 'Suportado' : 'Não Suportado'}</div>
+          <div>Permission: {pushNotifications.permission}</div>
+          <div>Subscribed: {pushNotifications.isSubscribed ? 'Sim' : 'Não'}</div>
         </div>
       </div>
     </div>

@@ -156,7 +156,19 @@ export default function Header() {
                       </div>
                       <span>Meu Perfil</span>
                     </a>
-                    <UserButton afterSignOutUrl="/" />
+                    <div className="user-button-container">
+                      <UserButton 
+                        afterSignOutUrl="/" 
+                        appearance={{
+                          elements: {
+                            userButtonPopoverCard: "hidden",
+                            userButtonPopoverRootBox: "hidden",
+                            userButtonPopoverActionButton: "hidden",
+                            userButtonPopoverActions: "hidden"
+                          }
+                        }}
+                      />
+                    </div>
                   </>
                 ) : (
                   <SignInButton mode="modal">

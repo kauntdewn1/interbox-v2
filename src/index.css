@@ -340,5 +340,84 @@
 }
 
 /* ============================================================================
+   CLERK UI OVERRIDES - OCULTAR ELEMENTOS CONFLITANTES
+   ============================================================================ */
+
+/* Ocultar overlay de perfil do Clerk que causa conflito visual */
+.cl-userButton-popoverCard,
+.cl-userButton-popoverRootBox,
+.cl-userButton-popoverActionButton,
+.cl-userButton-popoverActions,
+.cl-popoverCard,
+.cl-userButton-popoverTrigger,
+[data-testid="user-button-popover"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  z-index: -1 !important;
+}
+
+/* Garantir que nossa header tenha prioridade visual */
+header,
+.header-container,
+nav {
+  position: relative !important;
+  z-index: 9999 !important;
+}
+
+/* Ocultar elementos do Clerk que aparecem automaticamente */
+.cl-userButton-root {
+  position: relative !important;
+}
+
+/* Garantir que dropdowns do Clerk não apareçam */
+.cl-userButton-root .cl-userButton-popoverTrigger::after,
+.cl-userButton-root .cl-userButton-popoverTrigger::before {
+  display: none !important;
+}
+
+/* Prevenir que o Clerk interfira com nossa interface */
+.cl-userButton-root:hover .cl-userButton-popoverCard,
+.cl-userButton-root:focus .cl-userButton-popoverCard,
+.cl-userButton-root:active .cl-userButton-popoverCard {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* Garantir que nossa interface de perfil seja sempre visível */
+.profile-menu,
+.user-menu,
+.menu-overlay {
+  z-index: 10000 !important;
+  position: relative !important;
+}
+
+/* Container do UserButton customizado */
+.user-button-container {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+.user-button-container .cl-userButton-root {
+  position: relative !important;
+}
+
+/* Forçar ocultação de todos os elementos de popover do Clerk */
+body .cl-userButton-popoverCard,
+body .cl-userButton-popoverRootBox,
+body [data-portal] .cl-popoverCard,
+body [data-portal] .cl-userButton-popoverCard {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  z-index: -9999 !important;
+  position: absolute !important;
+  left: -9999px !important;
+  top: -9999px !important;
+}
+
+/* ============================================================================
    BOTTOM TAB BAR - iOS STYLE
    ============================================================================ */
